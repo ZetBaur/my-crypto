@@ -1,11 +1,10 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { MainLayout, Dashboard } from './components';
-import './index.css';
 
 function App() {
   return (
     <BrowserRouter>
-      <div className='app'>
+      <>
         <Routes>
           <Route path='/' element={<MainLayout />}>
             <Route index element={<Dashboard />} />
@@ -19,7 +18,7 @@ function App() {
             <Route path='newrequest' element={<NewRequest />} /> */}
           </Route>
         </Routes>
-      </div>
+      </>
     </BrowserRouter>
   );
 }

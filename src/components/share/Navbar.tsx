@@ -1,5 +1,5 @@
 const Navbar = () => {
-  return <div>Navbar</div>;
+  return <aside className=' w-64'>Navbar</aside>;
 };
 
 export default Navbar;

@@ -1,10 +1,8 @@
-import React from 'react';
-
 const Header = () => {
   return (
-    <div>
+    <header>
       <button>toggle</button>
-    </div>
+    </header>
   );
 };
 

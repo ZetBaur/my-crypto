@@ -26,18 +26,18 @@ const MainLayout = () => {
   };
 
   return (
-    <div className='flex'>
-      <button onClick={handleThemeToggle}>toggle Teme</button>
+    <div className='min-h-screen flex'>
+      {/* <button onClick={handleThemeToggle}>toggle Teme</button> */}
 
       <Navbar />
 
-      <main>
+      <div>
         <Header />
 
         <ScreenWrapper>
           <Outlet />
         </ScreenWrapper>
-      </main>
+      </div>
     </div>
   );
 };

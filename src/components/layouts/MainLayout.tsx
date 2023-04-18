@@ -26,7 +26,7 @@ const MainLayout = () => {
   };
 
   return (
-    <div className='flex bg-white dark:bg-primary dark:text-white'>
+    <div className='flex'>
       <button onClick={handleThemeToggle}>toggle Teme</button>
 
       <Navbar />

@@ -4,7 +4,7 @@ interface Props {
 }
 
 const Button = (props: Props) => {
-  return <button {...props}></button>;
+  return <button {...props} className='p-2 bg-buttonColor'></button>;
 };
 
 export default Button;

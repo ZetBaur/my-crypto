@@ -1,6 +1,7 @@
 import { useAppDispatch, useAppSelector } from '../../store/reduxHook';
 import { setTheme } from '../../store/features/theme.slice';
-import { Input, Button } from '..';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
 
 const Topbar = () => {
   const theme = useAppSelector((state) => state.themeSlice.theme);
@@ -11,10 +12,12 @@ const Topbar = () => {
   };
 
   return (
-    <header className='flex justify-between border border-[red]'>
-      <Input />
+    <header className='flex justify-between'>
+      <TextField fullWidth sx={{ mr: 16 }} />
 
-      <Button onClick={handleThemeToggle}>toggle</Button>
+      <Button variant='contained' onClick={handleThemeToggle}>
+        Contained
+      </Button>
     </header>
   );
 };

@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { MainLayout, Dashboard } from './components';
+import './index.css';
 
 function App() {
   return (

@@ -1,10 +1,10 @@
 import { Outlet } from 'react-router-dom';
-import { ScreenWrapper } from '../';
+import { ScreenWrapper, Navbar } from '../';
 
 const MainLayout = () => {
   return (
-    <>
-      {/* <Menu /> */}
+    <div className='flex bg-primary'>
+      <Navbar />
 
       <main>
         {/* <Header /> */}
@@ -13,7 +13,7 @@ const MainLayout = () => {
           <Outlet />
         </ScreenWrapper>
       </main>
-    </>
+    </div>
   );
 };
 

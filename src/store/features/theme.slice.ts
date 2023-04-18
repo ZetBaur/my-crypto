@@ -14,6 +14,7 @@ const themeSlice = createSlice({
   reducers: {
     setTheme(state, action: PayloadAction<string>) {
       if (window.matchMedia('(prefers-color-scheme:dark)').matches) {
+        localStorage.setItem('theme', 'dark');
         document.documentElement.classList.add('dark');
       } else {
         document.documentElement.classList.remove('dark');

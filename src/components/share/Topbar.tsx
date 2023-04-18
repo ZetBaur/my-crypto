@@ -1,9 +1,8 @@
 import { useAppDispatch, useAppSelector } from '../../store/reduxHook';
 import { setTheme } from '../../store/features/theme.slice';
-import { Input, Button } from '../';
-// import { useEffect } from 'react';
+import { Input, Button } from '..';
 
-const Header = () => {
+const Topbar = () => {
   const theme = useAppSelector((state) => state.themeSlice.theme);
   const dispatch = useAppDispatch();
 
@@ -12,7 +11,7 @@ const Header = () => {
   };
 
   return (
-    <header>
+    <header className='flex justify-between border border-[red]'>
       <Input />
 
       <Button onClick={handleThemeToggle}>toggle</Button>
@@ -20,4 +19,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default Topbar;

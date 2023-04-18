@@ -5,7 +5,7 @@ interface Props {
 }
 
 function ScreenWrapper({ children }: Props) {
-  return <main>{children}</main>;
+  return <div className=' m-4'>{children}</div>;
 }
 
 export default ScreenWrapper;

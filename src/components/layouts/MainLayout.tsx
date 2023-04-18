@@ -4,10 +4,10 @@ import { ScreenWrapper } from '../';
 const MainLayout = () => {
   return (
     <>
-      <Menu />
+      {/* <Menu /> */}
 
-      <main className={styles.main}>
-        <Header />
+      <main>
+        {/* <Header /> */}
 
         <ScreenWrapper>
           <Outlet />

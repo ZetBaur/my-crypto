@@ -8,9 +8,11 @@ export default {
     colors: {
       backgroundDark: '#141C2D',
       foregroundDark: '#202A40',
+      textColorDark: '#E5E6E7',
 
       backgroundLight: '#FCFCFC',
       foregroundLight: 'F2F0F0',
+      textColorLight: '#141525',
 
       buttonColor: '#3E4396',
       itemColor: '#4CCEAC',

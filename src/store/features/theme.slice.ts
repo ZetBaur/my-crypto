@@ -13,7 +13,19 @@ const themeSlice = createSlice({
   initialState,
   reducers: {
     setTheme(state, action: PayloadAction<string>) {
+      if (window.matchMedia('(prefers-color-scheme:dark)').matches) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+
       state.theme = action.payload;
+
+      if (state.theme === 'dark') {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
     },
   },
 });

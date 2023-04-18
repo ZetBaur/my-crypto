@@ -6,8 +6,15 @@ export default {
     extend: {},
 
     colors: {
-      primary: '#1F2A40',
-      primaryDark: '#141b2d',
+      backgroundDark: '#141C2D',
+      foregroundDark: '#202A40',
+
+      backgroundLight: '#FCFCFC',
+      foregroundLight: 'F2F0F0',
+
+      buttonColor: '#3E4396',
+      itemColor: '#4CCEAC',
+      activeLinkColor: '#3E4396',
     },
   },
   plugins: [],

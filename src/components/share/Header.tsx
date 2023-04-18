@@ -1,7 +1,9 @@
+import { Input } from '../';
+
 const Header = () => {
   return (
     <header>
-      <button>toggle</button>
+      <Input />
     </header>
   );
 };

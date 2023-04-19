@@ -12,16 +12,12 @@ const Topbar = () => {
     dispatch(setTheme(theme === 'dark' ? 'light' : 'dark'));
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value);
-  };
-
   return (
     <header className='flex gap-x-4 justify-between'>
       <Input
         placeholder='Search'
         type='text'
-        handleChange={handleChange}
+        setSearch={setSearch}
         value={search}
       />
 

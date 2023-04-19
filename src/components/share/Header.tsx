@@ -1,6 +1,7 @@
 import { useAppDispatch, useAppSelector } from '../../store/reduxHook';
 import { setTheme } from '../../store/features/theme.slice';
-import { Button, Input } from '..';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 import { useState } from 'react';
 
 const Header = () => {
@@ -14,14 +15,20 @@ const Header = () => {
 
   return (
     <header className='flex gap-x-4 justify-between'>
-      <Input
+      <TextField variant='outlined' fullWidth size='small' />
+
+      <Button variant='contained' size='small'>
+        Contained
+      </Button>
+
+      {/* <Input
         placeholder='Search'
         type='text'
         setSearch={setSearch}
         value={search}
       />
 
-      <Button onClick={handleThemeToggle}>Contained</Button>
+      <Button onClick={handleThemeToggle}>Contained</Button> */}
     </header>
   );
 };

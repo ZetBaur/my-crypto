@@ -1,16 +1,18 @@
 import { Outlet } from 'react-router-dom';
-import { Navbar, Topbar } from '../';
+import { Navbar, Header } from '../';
 
 const MainLayout = () => {
   return (
     <div className='min-h-screen flex bg-backgoundLight dark:bg-backgroundDark'>
       <Navbar />
 
-      <main className='grow p-4'>
-        <Topbar />
+      <div className='grow p-4'>
+        <Header />
 
-        <Outlet />
-      </main>
+        <main>
+          <Outlet />
+        </main>
+      </div>
     </div>
   );
 };

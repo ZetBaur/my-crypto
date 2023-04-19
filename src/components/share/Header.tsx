@@ -1,9 +1,9 @@
 import { useAppDispatch, useAppSelector } from '../../store/reduxHook';
 import { setTheme } from '../../store/features/theme.slice';
-import { Button, Input } from '../';
+import { Button, Input } from '..';
 import { useState } from 'react';
 
-const Topbar = () => {
+const Header = () => {
   const [search, setSearch] = useState('');
   const theme = useAppSelector((state) => state.themeSlice.theme);
   const dispatch = useAppDispatch();
@@ -26,4 +26,4 @@ const Topbar = () => {
   );
 };
 
-export default Topbar;
+export default Header;

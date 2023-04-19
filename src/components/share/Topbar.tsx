@@ -1,9 +1,10 @@
 import { useAppDispatch, useAppSelector } from '../../store/reduxHook';
 import { setTheme } from '../../store/features/theme.slice';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
+import { Button, Input } from '../';
+import { useState } from 'react';
 
 const Topbar = () => {
+  const [search, setSearch] = useState('');
   const theme = useAppSelector((state) => state.themeSlice.theme);
   const dispatch = useAppDispatch();
 
@@ -11,13 +12,20 @@ const Topbar = () => {
     dispatch(setTheme(theme === 'dark' ? 'light' : 'dark'));
   };
 
-  return (
-    <header className='flex justify-between'>
-      <TextField fullWidth sx={{ mr: 16 }} />
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
+  };
 
-      <Button variant='contained' onClick={handleThemeToggle}>
-        Contained
-      </Button>
+  return (
+    <header className='flex gap-x-4 justify-between'>
+      <Input
+        placeholder='Search'
+        type='text'
+        handleChange={handleChange}
+        value={search}
+      />
+
+      <Button onClick={handleThemeToggle}>Contained</Button>
     </header>
   );
 };

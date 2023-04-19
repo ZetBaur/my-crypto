@@ -12,7 +12,7 @@ export default {
       textColorDark: '#E5E6E7',
 
       backgroundLight: '#FCFCFC',
-      foregroundLight: 'F2F0F0',
+      foregroundLight: '#d9d9d9',
       textColorLight: '#141525',
 
       buttonColor: '#3E4396',

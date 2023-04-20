@@ -4,162 +4,173 @@ import { createTheme } from '@mui/material';
 export const tokens = (mode: string) => ({
   ...(mode === 'dark'
     ? {
-        primary: {
-          DEFAULT: '#000000',
-          100: '#000000',
-          200: '#000000',
-          300: '#000000',
-          400: '#000000',
-          500: '#0F0E0E',
-          600: '#232323',
-          700: '#3D3D3D',
-          800: '#525252',
-          900: '#5C5C5C',
+        blueAccent: {
+          100: '#d1ccf7',
+          200: '#a399ee',
+          300: '#7566e6',
+          400: '#4733dd',
+          500: '#1900d5',
+          600: '#1400aa',
+          700: '#0f0080',
+          800: '#0a0055',
+          900: '#05002b',
         },
-        secondary: {
-          DEFAULT: '#7C7C7C',
+
+        yellowAccent: {
+          100: '#f3fccc',
+          200: '#e6f999',
+          300: '#daf566',
+          400: '#cdf233',
+          500: '#c1ef00',
+          600: '#9abf00',
+          700: '#748f00',
+          800: '#4d6000',
+          900: '#273000',
         },
-        black: {
-          DEFAULT: '#000000',
-          100: '#000000',
-          200: '#000000',
-          300: '#000000',
-          400: '#000000',
-          500: '#0F0E0E',
-          600: '#292929',
-          700: '#3D3D3D',
-          800: '#525252',
-          900: '#5C5C5C',
+
+        redAccent: {
+          100: '#fadcd5',
+          200: '#f6b9ac',
+          300: '#f19682',
+          400: '#ed7359',
+          500: '#e8502f',
+          600: '#ba4026',
+          700: '#8b301c',
+          800: '#5d2013',
+          900: '#2e1009',
         },
-        white: {
-          DEFAULT: '#FFFFFF',
-          100: '#F7F7F7',
-        },
-        gray: {
-          DEFAULT: '#3C3C3C',
-        },
-        accentMain: '#0F0E0E',
-        borderColor: '#3C3C3C',
-        blue: '#1900D5',
-      }
-    : {
-        white: {
-          DEFAULT: '#FFFFFF',
-          100: '#F7F7F7',
-          200: '#D1D1D1',
-        },
-        primary: {
-          DEFAULT: '#FFFFFF',
-          500: '#F7F7F7',
-        },
-        secondary: {
-          DEFAULT: '#7C7C7C',
-        },
-        black: {
-          DEFAULT: '#000000',
-          100: '#525252',
-          200: '#3D3D3D',
-          300: '#292929',
-          400: '#141414',
+
+        blackAccent: {
+          100: '#cccccc',
+          200: '#999999',
+          300: '#666666',
+          400: '#333333',
           500: '#000000',
           600: '#000000',
           700: '#000000',
           800: '#000000',
           900: '#000000',
         },
-        gray: {
-          DEFAULT: '#3C3C3C',
+
+        grayAccent: {
+          100: '#d8d8d8',
+          200: '#b1b1b1',
+          300: '#8a8a8a',
+          400: '#636363',
+          500: '#3c3c3c',
+          600: '#303030',
+          700: '#242424',
+          800: '#181818',
+          900: '#0c0c0c',
         },
-        accentMain: '#F7F7F7',
-        borderColor: '#D1D1D1',
-        blue: '#1900D5',
+
+        lightGrayAccent: {
+          100: '#e5e5e5',
+          200: '#cbcbcb',
+          300: '#b0b0b0',
+          400: '#969696',
+          500: '#7c7c7c',
+          600: '#636363',
+          700: '#4a4a4a',
+          800: '#323232',
+          900: '#191919',
+        },
+
+        greenAccent: {
+          100: '#eeffed',
+          200: '#ddffdc',
+          300: '#cbffca',
+          400: '#baffb9',
+          500: '#a9ffa7',
+          600: '#87cc86',
+          700: '#659964',
+          800: '#446643',
+          900: '#223321',
+        },
+      }
+    : {
+        blueAccent: {
+          900: '#05002b',
+          800: '#0a0055',
+          700: '#0f0080',
+          600: '#1400aa',
+          500: '#1900d5',
+          400: '#4733dd',
+          300: '#7566e6',
+          200: '#a399ee',
+          100: '#d1ccf7',
+        },
+
+        yellowAccent: {
+          900: '#273000',
+          800: '#4d6000',
+          700: '#748f00',
+          600: '#9abf00',
+          500: '#c1ef00',
+          400: '#cdf233',
+          300: '#daf566',
+          200: '#e6f999',
+          100: '#f3fccc',
+        },
+
+        redAccent: {
+          900: '#2e1009',
+          800: '#5d2013',
+          700: '#8b301c',
+          600: '#ba4026',
+          500: '#e8502f',
+          400: '#ed7359',
+          300: '#f19682',
+          200: '#f6b9ac',
+          100: '#fadcd5',
+        },
+
+        blackAccent: {
+          900: '#000000',
+          800: '#000000',
+          700: '#000000',
+          600: '#000000',
+          500: '#000000',
+          400: '#333333',
+          300: '#666666',
+          200: '#999999',
+          100: '#cccccc',
+        },
+
+        grayAccent: {
+          900: '#0c0c0c',
+          800: '#181818',
+          700: '#242424',
+          600: '#303030',
+          500: '#3c3c3c',
+          400: '#636363',
+          300: '#8a8a8a',
+          200: '#b1b1b1',
+          100: '#d8d8d8',
+        },
+
+        lightGrayAccent: {
+          900: '#191919',
+          800: '#323232',
+          700: '#4a4a4a',
+          600: '#636363',
+          500: '#7c7c7c',
+          400: '#969696',
+          300: '#b0b0b0',
+          200: '#cbcbcb',
+          100: '#e5e5e5',
+        },
+
+        greenAccent: {
+          900: '#223321',
+          800: '#446643',
+          700: '#659964',
+          600: '#87cc86',
+          500: '#a9ffa7',
+          400: '#baffb9',
+          300: '#cbffca',
+          200: '#ddffdc',
+          100: '#eeffed',
+        },
       }),
 });
-
-export const themeSettings: any = (mode: string) => {
-  const colors = tokens(mode);
-
-  return {
-    palette: {
-      mode: mode,
-      ...(mode === 'dark'
-        ? {
-            primary: {
-              main: colors.primary.DEFAULT,
-            },
-
-            secondary: {
-              main: colors.secondary.DEFAULT,
-            },
-
-            neutral: {
-              dark: colors.black[500],
-              light: colors.white[100],
-            },
-          }
-        : {
-            primary: {
-              main: colors.primary.DEFAULT,
-            },
-
-            secondary: {
-              main: colors.secondary.DEFAULT,
-            },
-
-            neutral: {
-              dark: colors.black[500],
-              light: colors.white[100],
-            },
-          }),
-    },
-
-    typography: {
-      fontFamily: ['Poppins', 'sans-serif'].join(','),
-      fontSize: 14,
-      h1: {
-        fontFamily: ['Poppins', 'sans-serif'].join(','),
-        fontSize: 40,
-        fontWeight: 600,
-      },
-      h2: {
-        fontFamily: ['Poppins', 'sans-serif'].join(','),
-        fontSize: 35,
-        fontWeight: 600,
-      },
-      h3: {
-        fontFamily: ['Poppins', 'sans-serif'].join(','),
-        fontSize: 30,
-        fontWeight: 500,
-      },
-      h4: {
-        fontFamily: ['Poppins', 'sans-serif'].join(','),
-        fontSize: 25,
-        fontWeight: 500,
-      },
-      p: {
-        fontFamily: ['Poppins', 'sans-serif'].join(','),
-        fontSize: 20,
-      },
-    },
-  };
-};
-
-export const ColorModeContext = createContext<{ toggleColorMode: () => void }>({
-  toggleColorMode: () => {},
-});
-
-export const useMode = () => {
-  const [mode, setMode] = useState('dark');
-
-  const colorMode = useMemo(
-    () => ({
-      toggleColorMode: () =>
-        setMode((prev) => (prev === 'light' ? 'dark' : 'light')),
-    }),
-    []
-  );
-
-  const theme: any = useMemo(() => createTheme(themeSettings(mode)), [mode]);
-
-  return [theme, colorMode];
-};

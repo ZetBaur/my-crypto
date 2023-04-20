@@ -1,8 +1,7 @@
-import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Box, IconButton, useTheme } from '@mui/material';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useContext } from 'react';
 import { ColorModeContext, tokens } from '../../theme';
 import InputBase from '@mui/material/InputBase';
 import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
@@ -24,16 +23,18 @@ const Header = ({ open, handleDrawerOpen }: IProps) => {
 
   return (
     <Toolbar>
-      <IconButton
-        size='large'
-        edge='start'
-        color='inherit'
-        aria-label='menu'
-        sx={{ mr: 2 }}
-        onClick={handleDrawerOpen}
-      >
-        <MenuIcon />
-      </IconButton>
+      {!open && (
+        <IconButton
+          size='large'
+          edge='start'
+          color='inherit'
+          aria-label='menu'
+          sx={{ mr: 2 }}
+          onClick={handleDrawerOpen}
+        >
+          <MenuIcon />
+        </IconButton>
+      )}
 
       <Box
         sx={{

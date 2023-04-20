@@ -1,18 +1,19 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Dashboard from './components/pages/dashboard';
-import PrivateRoute from './components/utils/router/privateRoute';
-import AuthRootPage from './components/pages/auth';
+import Dashboard from './pages/dashboard';
+import { MainLayout, AuthLayout } from './components';
+import AuthRootPage from './pages/auth';
 
 function App() {
   return (
     <div className='app'>
       <BrowserRouter>
         <Routes>
-          <Route path='/' element={<PrivateRoute />}>
+          <Route path='/' element={<MainLayout />}>
             <Route index element={<Dashboard />} />
           </Route>
 
-          <Route path='login' element={<AuthRootPage />} />
+          <Route path='login' element={<AuthLayout />} />
+          <Route path='register' element={<AuthLayout />} />
         </Routes>
       </BrowserRouter>
     </div>

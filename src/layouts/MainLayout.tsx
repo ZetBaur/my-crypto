@@ -1,40 +1,47 @@
+import * as React from 'react';
+import { useTheme } from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import CssBaseline from '@mui/material/CssBaseline';
+import { AppHeader, Navbar } from '../components';
 import { Outlet } from 'react-router-dom';
-import { Navbar, Header } from '../components';
-import { Box, useTheme } from '@mui/material';
-import { tokens } from '../theme';
 
-const MainLayout = () => {
+const drawerWidth = 240;
+
+export default function PersistentDrawerLeft() {
   const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
+  const [open, setOpen] = React.useState(false);
+
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
+
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        background: colors.primary.DEFAULT,
-      }}
-    >
-      <Navbar />
+    <Box sx={{ display: 'flex' }}>
+      <CssBaseline />
+
+      <Navbar
+        open={open}
+        handleDrawerClose={handleDrawerClose}
+        drawerWidth={drawerWidth}
+      />
 
       <Box
         sx={{
           flex: '1',
         }}
       >
-        <Header />
+        <AppHeader
+          open={open}
+          handleDrawerOpen={handleDrawerOpen}
+          drawerWidth={drawerWidth}
+        />
 
-        <Box
-          component='main'
-          sx={{
-            background: colors.content.DEFAULT,
-            height: '100%',
-          }}
-        >
-          <Outlet />
-        </Box>
+        <Outlet />
       </Box>
     </Box>
   );
-};
-
-export default MainLayout;
+}

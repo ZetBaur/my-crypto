@@ -78,6 +78,7 @@ export const tokens = (mode: string) => ({
 
 export const themeSettings: any = (mode: string) => {
   const colors = tokens(mode);
+
   return {
     palette: {
       mode: mode,
@@ -107,6 +108,7 @@ export const themeSettings: any = (mode: string) => {
             },
           }),
     },
+
     typography: {
       fontFamily: ['Source Sans Pro', 'sans-serif'].join(','),
       fontSize: 14,

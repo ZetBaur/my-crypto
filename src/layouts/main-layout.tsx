@@ -3,13 +3,13 @@ import { Navbar, Header } from '../components';
 
 const MainLayout = () => {
   return (
-    <div className='min-h-screen flex bg-backgoundLight dark:bg-backgroundDark'>
+    <div className='layout'>
       <Navbar />
 
-      <div className='grow p-4'>
+      <div className='content'>
         <Header />
 
-        <main>
+        <main className='main'>
           <Outlet />
         </main>
       </div>

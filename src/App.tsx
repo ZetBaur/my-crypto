@@ -12,18 +12,16 @@ function App() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
 
-        <div className='app'>
-          <BrowserRouter>
-            <Routes>
-              <Route path='/' element={<MainLayout />}>
-                <Route index element={<Dashboard />} />
-              </Route>
+        <BrowserRouter>
+          <Routes>
+            <Route path='/' element={<MainLayout />}>
+              <Route index element={<Dashboard />} />
+            </Route>
 
-              <Route path='login' element={<AuthLayout />} />
-              <Route path='register' element={<AuthLayout />} />
-            </Routes>
-          </BrowserRouter>
-        </div>
+            <Route path='login' element={<AuthLayout />} />
+            <Route path='register' element={<AuthLayout />} />
+          </Routes>
+        </BrowserRouter>
       </ThemeProvider>
     </ColorModeContext.Provider>
   );

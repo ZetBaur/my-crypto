@@ -15,10 +15,18 @@ const Topbar = () => {
   const colorMode = useContext(ColorModeContext);
 
   return (
-    <Box display='flex' gap='2rem' p={2} borderBottom='1px solid #3C3C3C'>
+    <Box
+      component='header'
+      sx={{
+        display: 'flex',
+        gap: '2rem',
+        padding: '2rem',
+        borderBottom: `1px solid ${colors.borderColor}`,
+      }}
+    >
       <Box
         sx={{
-          background: `${colors.secondary.DEFAULT}`,
+          background: colors.secondary.DEFAULT,
           display: 'flex',
           borderRadius: '4px',
           flex: 1,

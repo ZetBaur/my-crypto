@@ -1,5 +1,7 @@
-const Navbar = () => {
-  return <aside className='p-4'>Navbarjjjjjjjjj</aside>;
+import { Box } from '@mui/material';
+
+const navbar = () => {
+  return <div>Navbar</div>;
 };
 
-export default Navbar;
+export default navbar;

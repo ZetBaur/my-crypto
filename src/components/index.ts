@@ -1,4 +1,3 @@
-export { default as ScreenWrapper } from './common/screen-wrapper';
 export { default as MainLayout } from '../layouts/main-layout';
 export { default as Dashboard } from '../pages/dashboard';
 export { default as Navbar } from './common/navbar';

@@ -15,88 +15,65 @@ import SearchIcon from '@mui/icons-material/Search';
 interface IProps {
   open: boolean;
   handleDrawerOpen: () => void;
-  drawerWidth: number;
 }
 
-const Header = ({ open, handleDrawerOpen, drawerWidth }: IProps) => {
+const Header = ({ open, handleDrawerOpen }: IProps) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const colorMode = useContext(ColorModeContext);
-  const component = useRef<HTMLDivElement | null>(null);
-  const [componentWith, setComponentWith] = useState('100%');
-
-  useEffect(() => {
-    console.log('component', component.current?.clientWidth + 'px');
-    console.log('first', drawerWidth);
-
-    component.current.
-
-    let shrinkedWidth = `${component?.current?.clientWidth - drawerWidth}px`;
-
-    console.log(shrinkedWidth);
-
-    setComponentWith(open ? `${shrinkedWidth}` : '100%');
-  }, [open]);
 
   return (
-    <AppBar
-      ref={component}
-      sx={{
-        width: { componentWith },
-      }}
-    >
-      <Toolbar>
-        <IconButton
-          size='large'
-          edge='start'
-          color='inherit'
-          aria-label='menu'
-          sx={{ mr: 2 }}
-          onClick={handleDrawerOpen}
-        >
-          <MenuIcon />
+    <Toolbar>
+      <IconButton
+        size='large'
+        edge='start'
+        color='inherit'
+        aria-label='menu'
+        sx={{ mr: 2 }}
+        onClick={handleDrawerOpen}
+      >
+        <MenuIcon />
+      </IconButton>
+
+      <Box
+        sx={{
+          background: colors.secondary.DEFAULT,
+          display: 'flex',
+          borderRadius: '4px',
+          flex: 1,
+          border: `1px solid ${colors.borderColor}`,
+          marginRight: '1rem',
+        }}
+      >
+        <InputBase sx={{ ml: 2, flex: 1 }} placeholder='Search' />
+
+        <IconButton type='button' sx={{ p: 1 }}>
+          <SearchIcon />
+        </IconButton>
+      </Box>
+
+      <Box display='flex'>
+        <IconButton onClick={colorMode.toggleColorMode}>
+          {theme.palette.mode === 'dark' ? (
+            <DarkModeOutlinedIcon />
+          ) : (
+            <LightModeOutlinedIcon />
+          )}
         </IconButton>
 
-        <Box
-          sx={{
-            background: colors.secondary.DEFAULT,
-            display: 'flex',
-            borderRadius: '4px',
-            flex: 1,
-            border: `1px solid ${colors.borderColor}`,
-            marginRight: '1rem',
-          }}
-        >
-          <InputBase sx={{ ml: 2, flex: 1 }} placeholder='Search' />
+        <IconButton>
+          <NotificationsOutlinedIcon />
+        </IconButton>
 
-          <IconButton type='button' sx={{ p: 1 }}>
-            <SearchIcon />
-          </IconButton>
-        </Box>
+        <IconButton>
+          <SettingsOutlinedIcon />
+        </IconButton>
 
-        <Box display='flex'>
-          <IconButton onClick={colorMode.toggleColorMode}>
-            {theme.palette.mode === 'dark' ? (
-              <DarkModeOutlinedIcon />
-            ) : (
-              <LightModeOutlinedIcon />
-            )}
-          </IconButton>
-
-          <IconButton>
-            <NotificationsOutlinedIcon />
-          </IconButton>
-
-          <IconButton>
-            <SettingsOutlinedIcon />
-          </IconButton>
-
-          <IconButton>
-            <PersonOutlinedIcon />
-          </IconButton>
-        </Box>
-      </Toolbar>
-    </AppBar>
+        <IconButton>
+          <PersonOutlinedIcon />
+        </IconButton>
+      </Box>
+    </Toolbar>
   );
 };
 export default Header;

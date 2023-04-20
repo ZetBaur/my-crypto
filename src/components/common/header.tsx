@@ -1,15 +1,21 @@
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import { Box } from '@mui/material';
 
 const Header = () => {
   return (
-    <header className='flex gap-x-4 justify-between'>
+    <Box
+      sx={{
+        display: 'flex',
+        gap: '1rem',
+      }}
+    >
       <TextField variant='outlined' fullWidth size='small' />
 
       <Button variant='contained' size='small'>
         Contained
       </Button>
-    </header>
+    </Box>
   );
 };
 

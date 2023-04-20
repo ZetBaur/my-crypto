@@ -75,3 +75,85 @@ export const tokens = (mode: string) => ({
         blue: '#1900D5',
       }),
 });
+
+export const themeSettings: any = (mode: string) => {
+  const colors = tokens(mode);
+  return {
+    palette: {
+      mode: mode,
+      ...(mode === 'dark'
+        ? {
+            primary: {
+              main: colors.primary.DEFAULT,
+            },
+            secondary: {
+              main: colors.secondary.DEFAULT,
+            },
+            neutral: {
+              dark: colors.black[500],
+              light: colors.white[100],
+            },
+          }
+        : {
+            primary: {
+              main: colors.primary.DEFAULT,
+            },
+            secondary: {
+              main: colors.secondary.DEFAULT,
+            },
+            neutral: {
+              dark: colors.black[500],
+              light: colors.white[100],
+            },
+          }),
+    },
+    typography: {
+      fontFamily: ['Source Sans Pro', 'sans-serif'].join(','),
+      fontSize: 14,
+      h1: {
+        fontFamily: ['Source Sans Pro', 'sans-serif'].join(','),
+        fontSize: 40,
+        fontWeight: 600,
+      },
+      h2: {
+        fontFamily: ['Source Sans Pro', 'sans-serif'].join(','),
+        fontSize: 35,
+        fontWeight: 600,
+      },
+      h3: {
+        fontFamily: ['Source Sans Pro', 'sans-serif'].join(','),
+        fontSize: 30,
+        fontWeight: 500,
+      },
+      h4: {
+        fontFamily: ['Source Sans Pro', 'sans-serif'].join(','),
+        fontSize: 25,
+        fontWeight: 500,
+      },
+      p: {
+        fontFamily: ['Source Sans Pro', 'sans-serif'].join(','),
+        fontSize: 20,
+      },
+    },
+  };
+};
+
+export const ColorModeContext = createContext<{ toggleColorMode: () => void }>({
+  toggleColorMode: () => {},
+});
+
+export const useMode = () => {
+  const [mode, setMode] = useState('dark');
+
+  const colorMode = useMemo(
+    () => ({
+      toggleColorMode: () =>
+        setMode((prev) => (prev === 'light' ? 'dark' : 'light')),
+    }),
+    []
+  );
+
+  const theme: any = useMemo(() => createTheme(themeSettings(mode)), [mode]);
+
+  return [theme, colorMode];
+};

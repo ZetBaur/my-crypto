@@ -127,7 +127,10 @@ export default function MiniDrawer() {
         <Navbar open={open} />
       </Drawer>
 
-      <Box component='main' sx={{ flexGrow: 1, p: 4 }}>
+      <Box
+        component='main'
+        sx={{ flexGrow: 1, p: 4, background: colors.content.DEFAULT }}
+      >
         <DrawerHeader />
 
         <Outlet />

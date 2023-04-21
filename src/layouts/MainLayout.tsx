@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { styled, useTheme, Theme, CSSObject } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
@@ -10,6 +9,8 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { AppHeader, Navbar } from '../components';
 import { Outlet } from 'react-router-dom';
+import { useContext, useState } from 'react';
+import { ColorModeContext, tokens } from '../theme';
 
 const drawerWidth = 240;
 
@@ -82,8 +83,10 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 export default function MiniDrawer() {
+  const [open, setOpen] = useState(false);
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const colors = tokens(theme.palette.mode);
+  const colorMode = useContext(ColorModeContext);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -94,7 +97,7 @@ export default function MiniDrawer() {
   };
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex', background: colors.primary.DEFAULT }}>
       <CssBaseline />
 
       <AppBar position='fixed' open={open}>
@@ -115,7 +118,11 @@ export default function MiniDrawer() {
         <Navbar open={open} />
       </Drawer>
 
-      <Outlet />
+      <Box component='main' sx={{ flexGrow: 1, p: 3 }}>
+        <DrawerHeader />
+
+        <Outlet />
+      </Box>
     </Box>
   );
 }

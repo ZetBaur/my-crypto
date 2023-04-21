@@ -1,4 +1,5 @@
 import {
+  Box,
   Divider,
   List,
   ListItem,
@@ -8,14 +9,28 @@ import {
 } from '@mui/material';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
+import { useContext, useState } from 'react';
+import { ColorModeContext, tokens } from '../../theme';
+import { styled, useTheme, Theme, CSSObject } from '@mui/material/styles';
 
 interface IProps {
   open: boolean;
 }
 
 const navbar = ({ open }: IProps) => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+  const colorMode = useContext(ColorModeContext);
+
   return (
-    <>
+    <Box
+      component='nav'
+      sx={{
+        background: colors.primary.DEFAULT,
+        height: '100%',
+        // borderRight: `1px solid ${colors.borderColor}`,
+      }}
+    >
       <List>
         {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
           <ListItem key={text} disablePadding sx={{ display: 'block' }}>
@@ -67,7 +82,7 @@ const navbar = ({ open }: IProps) => {
           </ListItem>
         ))}
       </List>
-    </>
+    </Box>
   );
 };
 

@@ -6,7 +6,6 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { AppHeader, Navbar } from '../components';
 import { Outlet } from 'react-router-dom';
 import { useContext, useState } from 'react';
@@ -41,6 +40,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   justifyContent: 'flex-end',
   padding: theme.spacing(0, 1),
   ...theme.mixins.toolbar,
+  // background: colors.,
 }));
 
 interface AppBarProps extends MuiAppBarProps {
@@ -100,21 +100,32 @@ export default function MiniDrawer() {
     <Box sx={{ display: 'flex', background: colors.primary.DEFAULT }}>
       <CssBaseline />
 
-      <AppBar position='fixed' open={open}>
+      <AppBar
+        position='fixed'
+        open={open}
+        sx={{
+          boxShadow: 'none',
+          background: colors.primary.DEFAULT,
+          borderBottom: `1px solid ${colors.borderColor}`,
+        }}
+      >
         <AppHeader open={open} handleDrawerOpen={handleDrawerOpen} />
       </AppBar>
 
       <Drawer variant='permanent' open={open}>
-        <DrawerHeader>
+        <DrawerHeader
+          sx={{
+            background: colors.primary.DEFAULT,
+            // borderRight: `1px solid ${colors.borderColor}`,
+          }}
+        >
           <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'rtl' ? (
-              <ChevronRightIcon />
-            ) : (
-              <ChevronLeftIcon />
-            )}
+            <ChevronLeftIcon />
           </IconButton>
         </DrawerHeader>
-        <Divider />
+
+        {/* <Divider /> */}
+
         <Navbar open={open} />
       </Drawer>
 

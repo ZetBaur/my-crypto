@@ -23,7 +23,12 @@ const listItems = [
   },
 
   {
-    text: 'Wallet',
+    text: 'Transactions',
+    icon: <MailIcon />,
+  },
+
+  {
+    text: 'Portfolio',
     icon: <MailIcon />,
   },
 ];

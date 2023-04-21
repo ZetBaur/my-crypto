@@ -10,7 +10,9 @@ const initialState: IThemeState = {
 
 const themeSlice = createSlice({
   name: 'theme',
+
   initialState,
+
   reducers: {
     setTheme(state, action: PayloadAction<string>) {
       if (window.matchMedia('(prefers-color-scheme:dark)').matches) {

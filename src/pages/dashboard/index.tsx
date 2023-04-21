@@ -1,4 +1,10 @@
+import { useFetchCoinsMarketsQuery } from '../../store/features/coins/coinsApi';
+
 const Dashboard = () => {
+  const { isLoading, isError, data } = useFetchCoinsMarketsQuery('usd', {
+    refetchOnFocus: true,
+  });
+
   return (
     <>
       Dashboard Dashboard Lorem ipsum dolor sit amet consectetur adipisicing

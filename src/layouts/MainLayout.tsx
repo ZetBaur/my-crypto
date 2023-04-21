@@ -40,7 +40,6 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   justifyContent: 'flex-end',
   padding: theme.spacing(0, 1),
   ...theme.mixins.toolbar,
-  // background: colors.,
 }));
 
 interface AppBarProps extends MuiAppBarProps {
@@ -97,7 +96,7 @@ export default function MiniDrawer() {
   };
 
   return (
-    <Box sx={{ display: 'flex', background: colors.primary.DEFAULT }}>
+    <Box sx={{ display: 'flex' }}>
       <CssBaseline />
 
       <AppBar
@@ -116,7 +115,6 @@ export default function MiniDrawer() {
         <DrawerHeader
           sx={{
             background: colors.primary.DEFAULT,
-            // borderRight: `1px solid ${colors.borderColor}`,
           }}
         >
           <IconButton onClick={handleDrawerClose}>
@@ -129,7 +127,7 @@ export default function MiniDrawer() {
         <Navbar open={open} />
       </Drawer>
 
-      <Box component='main' sx={{ flexGrow: 1, p: 3 }}>
+      <Box component='main' sx={{ flexGrow: 1, p: 4 }}>
         <DrawerHeader />
 
         <Outlet />

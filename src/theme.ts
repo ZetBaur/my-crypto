@@ -13,7 +13,7 @@ export const tokens = (mode: string) => ({
         },
 
         content: {
-          DEFAULT: '#0F0E0E',
+          DEFAULT: 'red',
         },
 
         black: {

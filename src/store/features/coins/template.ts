@@ -1,13 +1,16 @@
+//minin
+
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { ICoinsMarkets } from '../../../model/coinsTypes';
 
 export const coinsApi = createApi({
   reducerPath: 'coinsApi',
+
   baseQuery: fetchBaseQuery({
     baseUrl: 'https://api.coingecko.com/api/v3/',
   }),
 
-  keepUnusedDataFor: 60,
+  keepUnusedDataFor: 30,
   refetchOnFocus: true,
   refetchOnReconnect: true,
 
@@ -19,6 +22,18 @@ export const coinsApi = createApi({
           vs_currency: currency,
         },
       }),
+
+      //   transformResponse: (response: unknown) => response.items,
+    }),
+
+    getUserRepos: build.query<unknown, string>({
+      query: (username: string) => ({
+        url: `users/${username}/repos`,
+      }),
+    }),
+
+    createUser: build.mutation<any, void>({
+      query: () => ``,
     }),
   }),
 });

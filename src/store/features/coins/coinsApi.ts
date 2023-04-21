@@ -20,7 +20,13 @@ export const coinsApi = createApi({
         },
       }),
     }),
+
+    fetchCoinsList: build.query<unknown, boolean>({
+      query: (include: boolean) => ({
+        url: `coins/list`,
+      }),
+    }),
   }),
 });
 
-export const { useFetchCoinsMarketsQuery } = coinsApi;
+export const { useFetchCoinsMarketsQuery, useFetchCoinsListQuery } = coinsApi;

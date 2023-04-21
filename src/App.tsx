@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Dashboard from './pages/dashboard';
 import { MainLayout, AuthLayout } from './components';
 import { CssBaseline, ThemeProvider } from '@mui/material';
-import { ColorModeContext, useMode } from './theme';
+import { ColorModeContext, useMode } from './contexts/themeContext';
 
 function App() {
   const [theme, colorMode] = useMode();

@@ -9,7 +9,7 @@ import {
 } from '@mui/material';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
-import { tokens } from '../../theme';
+import { tokens } from '../../contexts/themeContext';
 import { useTheme } from '@mui/material/styles';
 
 interface IProps {

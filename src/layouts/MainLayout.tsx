@@ -82,10 +82,10 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 export default function MiniDrawer() {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const colorMode = useContext(ColorModeContext);
+  // const colorMode = useContext(ColorModeContext);
 
   const handleDrawerOpen = () => {
     setOpen(true);

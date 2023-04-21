@@ -9,7 +9,7 @@ export const tokens = (mode: string) => ({
         },
 
         secondary: {
-          DEFAULT: '#3C3C3C',
+          DEFAULT: '#232323',
         },
 
         content: {
@@ -30,6 +30,7 @@ export const tokens = (mode: string) => ({
 
         accentMain: '#0F0E0E',
         borderColor: '#3C3C3C',
+        chartBoderColor: '#000000',
         blue: '#1900D5',
       }
     : {
@@ -59,6 +60,7 @@ export const tokens = (mode: string) => ({
 
         accentMain: '#F7F7F7',
         borderColor: '#D1D1D1',
+        chartBoderColor: '#D1D1D1',
         blue: '#1900D5',
       }),
 });

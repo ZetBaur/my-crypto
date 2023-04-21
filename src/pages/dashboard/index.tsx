@@ -62,13 +62,12 @@ const Dashboard = () => {
           label='Age'
           onChange={handleChange}
           sx={{
-            // height: '2.5rem',
-            // color: 'white',
             '& .MuiOutlinedInput-notchedOutline': {
               borderColor: 'transparent',
             },
             '& .MuiSvgIcon-root': {
               color: 'yellow',
+              width: '30px',
             },
           }}
         >
@@ -100,13 +99,13 @@ const Dashboard = () => {
               dataKey='pv'
               stroke='#FFAF2C'
               activeDot={{ r: 8 }}
-              strokeWidth='3'
+              strokeWidth='1'
             />
             <Line
               type='monotone'
               dataKey='uv'
               stroke='#428CF4'
-              strokeWidth='3'
+              strokeWidth='1'
             />
           </LineChart>
         </ResponsiveContainer>

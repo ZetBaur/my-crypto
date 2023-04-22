@@ -1,4 +1,4 @@
-export interface ICoinsMarkets {
+export interface ICoinMarkets {
   id: string;
   symbol: string;
   name: string;
@@ -31,4 +31,10 @@ export interface IRoi {
   times: number;
   currency: string;
   percentage: number;
+}
+
+export interface ICoinsList {
+  id: string;
+  symbol: string;
+  name: string;
 }

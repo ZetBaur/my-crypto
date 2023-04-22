@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import themeSlice from './features/theme/themeSlice';
-import { coinsApi } from '../store/features/coins/coinsApi';
+import { coinsApi } from './features/coins/coinsApi';
 import { setupListeners } from '@reduxjs/toolkit/query';
 
 export const store = configureStore({

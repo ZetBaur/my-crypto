@@ -1,11 +1,6 @@
 import { useEffect, useState } from 'react';
 import {
-  useFetchCoinsMarketsQuery,
-  useFetchCoinsListQuery,
-} from '../../store/features/coins/coinsApi';
-import {
   CartesianGrid,
-  Legend,
   Line,
   LineChart,
   ResponsiveContainer,
@@ -13,7 +8,7 @@ import {
   XAxis,
   YAxis,
 } from 'recharts';
-import { data } from '../../data';
+import { mockData } from '../../data';
 import { Box } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { tokens } from '../../contexts/themeContext';
@@ -21,29 +16,24 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 
+import { useFetchCoinMarketsQuery } from '../../store/features/coins/coinsApi';
+
 const Dashboard = () => {
-  // const [open, setOpen] = useState(true);
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const [age, setAge] = useState('Ten');
+  const [coin, setCoin] = useState('');
 
-  // const { isLoading, isError, data } = useFetchCoinsMarketsQuery('usd', {
-  //   refetchOnFocus: true,
-  // });
+  const {
+    data: coinMarkets,
+    isLoading,
+    isSuccess,
+    isError,
+    error,
+  } = useFetchCoinMarketsQuery('usd');
 
-  // const {
-  //   isLoading: coinsLoadinf,
-  //   isError: coinsListIsError,
-  //   data: coinsList,
-  // } = useFetchCoinsListQuery(false);
-
-  useEffect(() => {
-    console.log('data', data);
-  }, []);
-
-  const handleChange = (event: SelectChangeEvent) => {
-    setAge(event.target.value as string);
-  };
+  if (isSuccess) {
+    console.log('coinsList', coinMarkets);
+  }
 
   return (
     <Box
@@ -58,22 +48,26 @@ const Dashboard = () => {
         <Select
           labelId='demo-simple-select-label'
           id='demo-simple-select'
-          value={age}
+          value={coin}
           label='Age'
-          onChange={handleChange}
+          onChange={(e) => setCoin(e.target.value)}
           sx={{
             '& .MuiOutlinedInput-notchedOutline': {
               borderColor: 'transparent',
             },
             '& .MuiSvgIcon-root': {
               color: 'yellow',
-              width: '30px',
             },
           }}
         >
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
+          {isSuccess &&
+            coinMarkets.map((el) => {
+              return (
+                <MenuItem key={el.id} value={el.symbol}>
+                  {el.symbol}
+                </MenuItem>
+              );
+            })}
         </Select>
       </Box>
 
@@ -84,7 +78,7 @@ const Dashboard = () => {
         }}
       >
         <ResponsiveContainer width='100%' height='100%'>
-          <LineChart width={500} height={300} data={data}>
+          <LineChart width={500} height={300} data={mockData}>
             <CartesianGrid strokeDasharray='3' vertical={false} />
             <XAxis
               dataKey='name'

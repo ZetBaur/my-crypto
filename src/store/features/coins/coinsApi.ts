@@ -1,6 +1,11 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { ICoinMarkets } from '../../../model/coinsTypes';
 
+interface ICoinMarketsQuery {
+  currency: string;
+  limit: number;
+}
+
 export const coinsApi = createApi({
   reducerPath: 'coinsApi',
   baseQuery: fetchBaseQuery({
@@ -12,12 +17,12 @@ export const coinsApi = createApi({
   refetchOnReconnect: true,
 
   endpoints: (build) => ({
-    fetchCoinMarkets: build.query<ICoinMarkets[], string>({
-      query: (currency: string) => ({
+    fetchCoinMarkets: build.query<ICoinMarkets[], ICoinMarketsQuery>({
+      query: (obj: ICoinMarketsQuery) => ({
         url: `markets`,
         params: {
-          vs_currency: currency,
-          // per_page: limit,
+          vs_currency: obj.currency,
+          per_page: obj.limit,
         },
       }),
     }),

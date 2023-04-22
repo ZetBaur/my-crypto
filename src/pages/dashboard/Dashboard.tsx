@@ -18,6 +18,11 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 
 import { useFetchCoinMarketsQuery } from '../../store/features/coins/coinsApi';
 
+interface ICoinMarketsQuery {
+  currency: string;
+  limit: number;
+}
+
 const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -29,7 +34,10 @@ const Dashboard = () => {
     isSuccess,
     isError,
     error,
-  } = useFetchCoinMarketsQuery('usd');
+  } = useFetchCoinMarketsQuery({
+    currency: 'usd',
+    limit: 10,
+  });
 
   if (isSuccess) {
     console.log('coinsList', coinMarkets);

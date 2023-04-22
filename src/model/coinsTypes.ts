@@ -38,3 +38,8 @@ export interface ICoinsList {
   symbol: string;
   name: string;
 }
+
+export interface ICoinMarketsQuery {
+  currency: string;
+  limit: number;
+}

@@ -17,11 +17,9 @@ import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 
 import { useFetchCoinMarketsQuery } from '../../store/features/coins/coinsApi';
+import { ICoinMarketsQuery } from '../../model/coinsTypes';
 
-interface ICoinMarketsQuery {
-  currency: string;
-  limit: number;
-}
+//------------------
 
 const Dashboard = () => {
   const theme = useTheme();
@@ -42,6 +40,8 @@ const Dashboard = () => {
   if (isSuccess) {
     console.log('coinsList', coinMarkets);
   }
+
+  //------------------
 
   return (
     <Box

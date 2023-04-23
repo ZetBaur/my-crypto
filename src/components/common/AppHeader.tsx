@@ -1,9 +1,7 @@
-import Toolbar from '@mui/material/Toolbar';
-import MenuIcon from '@mui/icons-material/Menu';
-import { Box, IconButton, useTheme } from '@mui/material';
 import { useContext } from 'react';
+import { Box, IconButton, useTheme, Toolbar, InputBase } from '@mui/material';
 import { ColorModeContext, tokens } from '../../contexts/themeContext';
-import InputBase from '@mui/material/InputBase';
+import MenuIcon from '@mui/icons-material/Menu';
 import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
 import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';

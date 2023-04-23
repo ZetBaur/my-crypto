@@ -41,4 +41,8 @@ export const coinsApi = createApi({
   }),
 });
 
-export const { useFetchCoinMarketsQuery, useFetchMarketChartQuery } = coinsApi;
+export const {
+  useFetchCoinMarketsQuery,
+  useFetchMarketChartQuery,
+  useLazyFetchMarketChartQuery,
+} = coinsApi;

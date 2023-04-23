@@ -19,12 +19,14 @@ import {
   Select,
   Tooltip as MuiTooltip,
 } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
+import { BootstrapSelect } from '../../utils/styles';
+
 import { useTheme } from '@mui/material/styles';
 import { tokens } from '../../contexts/themeContext';
 import { IPrices } from '../../model/coinsTypes';
-import { useFetchMarketChartQuery } from '../../store/features/coins/coinsApi';
-import SearchIcon from '@mui/icons-material/Search';
-import { BootstrapSelect } from '../../utils/styles';
+
+import { useLazyFetchMarketChartQuery } from '../../store/features/coins/coinsApi';
 
 const initialMarketChartQueryState = {
   id: 'bitcoin',
@@ -39,30 +41,37 @@ const MarketsChart = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [prices, setPrices] = useState<IPrices[]>([]);
+
   const [searchCoin, setSearchCoin] = useState<string>();
   const [currency, setCurrency] = useState<string>();
   const [period, setPeriod] = useState<string>();
   const [interval, setInterval] = useState<string>();
 
-  const {
-    data: coinPrices,
-    isLoading,
-    isSuccess,
-    isError,
-    error,
-  } = useFetchMarketChartQuery(initialMarketChartQueryState);
+  const [
+    fetchMarketChart,
+    {
+      data: marketChartData,
+      isLoading: isMarketChartLoading,
+      isSuccess: isMarketChartSuccess,
+      isError: isMarketChartError,
+      error: marketChartError,
+    },
+  ] = useLazyFetchMarketChartQuery();
 
   useEffect(() => {
-    if (isSuccess) {
-      const arr = coinPrices.prices.map((el) => {
+    fetchMarketChart(initialMarketChartQueryState);
+
+    if (marketChartData) {
+      const arr = marketChartData?.prices.map((el) => {
         return {
-          date: moment(el[0]).format('MMM DD HH'),
+          date: moment(el[0]).format('MMM DD'),
           price: parseInt(el[1].toFixed(2)),
         };
       });
+
       setPrices(arr);
     }
-  }, [isSuccess]);
+  }, [isMarketChartSuccess]);
 
   return (
     <Box

@@ -35,7 +35,8 @@ export interface IRoi {
 
 export interface ICoinMarketsQuery {
   currency: string;
-  limit: number;
+  coin: string;
+  limit?: number;
 }
 
 //--------

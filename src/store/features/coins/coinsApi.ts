@@ -22,7 +22,7 @@ export const coinsApi = createApi({
         url: `markets`,
         params: {
           vs_currency: obj.currency,
-          days_page: obj.limit,
+          ids: obj.coin,
         },
       }),
     }),
@@ -41,8 +41,5 @@ export const coinsApi = createApi({
   }),
 });
 
-export const {
-  useFetchCoinMarketsQuery,
-  useFetchMarketChartQuery,
-  useLazyFetchMarketChartQuery,
-} = coinsApi;
+export const { useLazyFetchCoinMarketsQuery, useLazyFetchMarketChartQuery } =
+  coinsApi;

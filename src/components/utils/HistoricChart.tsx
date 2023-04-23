@@ -28,7 +28,10 @@ import { useTheme } from '@mui/material/styles';
 import { tokens } from '../../contexts/themeContext';
 import { IPrices } from '../../model/coinsTypes';
 
-import { useLazyFetchMarketChartQuery } from '../../store/features/coins/coinsApi';
+import {
+  useLazyFetchMarketChartQuery,
+  useLazyFetchCoinMarketsQuery,
+} from '../../store/features/coins/coinsApi';
 
 import { useDebounce } from '../../hooks/debounceHook';
 
@@ -48,6 +51,34 @@ const MarketsChart = () => {
   const [currency, setCurrency] = useState<string>('');
   const [period, setPeriod] = useState<string>('');
   const [interval, setInterval] = useState<string>('');
+
+  //------------ markets
+
+  const [
+    fetchMarkets,
+    {
+      data: marketsData,
+      isLoading: isMarketsLoading,
+      isSuccess: isMarketsSuccess,
+      isError: isMarketsError,
+      error: marketsError,
+    },
+  ] = useLazyFetchCoinMarketsQuery();
+
+  useEffect(() => {
+    const params = {
+      currency: 'usd',
+      coin: debounced,
+    };
+
+    fetchMarkets(params);
+
+    if (marketsData) {
+      console.log('marketsData', marketsData);
+    }
+  }, [isMarketsSuccess, debounced]);
+
+  //---------- chart --------------------
 
   const [
     fetchMarketChart,
@@ -77,10 +108,13 @@ const MarketsChart = () => {
           price: parseInt(el[1].toFixed(2)),
         };
       });
+
+      // console.log('marketChartData', marketChartData);
       setPrices(arr);
     }
   }, [isMarketChartSuccess]);
 
+  //----------------------------------
   return (
     <Box
       sx={{

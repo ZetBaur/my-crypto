@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import moment from 'moment';
 import {
   Area,
@@ -15,17 +15,16 @@ import {
   FormControl,
   IconButton,
   InputBase,
-  InputLabel,
   MenuItem,
   Select,
-  styled,
+  Tooltip as MuiTooltip,
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { tokens } from '../../contexts/themeContext';
-import { IPrices, IMarketChartQuery } from '../../model/coinsTypes';
+import { IPrices } from '../../model/coinsTypes';
 import { useFetchMarketChartQuery } from '../../store/features/coins/coinsApi';
 import SearchIcon from '@mui/icons-material/Search';
-import { BootstrapInput } from '../../utils/styles';
+import { BootstrapSelect } from '../../utils/styles';
 
 const initialMarketChartQueryState = {
   id: 'bitcoin',
@@ -103,24 +102,66 @@ const MarketsChart = () => {
           </IconButton>
         </Box>
 
-        {/* select */}
+        {/* selects */}
 
-        <FormControl sx={{ m: 1 }} variant='standard'>
-          <Select
-            value={age}
-            onChange={handleChange}
-            input={<BootstrapInput />}
-            sx={{
-              width: '100px',
-            }}
-          >
-            <MenuItem value=''>
-              <em>None</em>
-            </MenuItem>
-            <MenuItem value={10}>Ten</MenuItem>
-            <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem>
-          </Select>
+        <FormControl variant='standard'>
+          <MuiTooltip title='Currency' placement='top'>
+            <Select
+              value={age}
+              onChange={handleChange}
+              input={<BootstrapSelect />}
+              sx={{
+                width: '100px',
+              }}
+            >
+              <MenuItem value=''>
+                <em>None</em>
+              </MenuItem>
+              <MenuItem value={10}>Ten</MenuItem>
+              <MenuItem value={20}>Twenty</MenuItem>
+              <MenuItem value={30}>Thirty</MenuItem>
+            </Select>
+          </MuiTooltip>
+        </FormControl>
+
+        <FormControl variant='standard'>
+          <MuiTooltip title='Period' placement='top'>
+            <Select
+              value={age}
+              onChange={handleChange}
+              input={<BootstrapSelect />}
+              sx={{
+                width: '100px',
+              }}
+            >
+              <MenuItem value=''>
+                <em>None</em>
+              </MenuItem>
+              <MenuItem value={10}>Ten</MenuItem>
+              <MenuItem value={20}>Twenty</MenuItem>
+              <MenuItem value={30}>Thirty</MenuItem>
+            </Select>
+          </MuiTooltip>
+        </FormControl>
+
+        <FormControl variant='standard'>
+          <MuiTooltip title='Interval' placement='top'>
+            <Select
+              value={age}
+              onChange={handleChange}
+              input={<BootstrapSelect />}
+              sx={{
+                width: '100px',
+              }}
+            >
+              <MenuItem value=''>
+                <em>None</em>
+              </MenuItem>
+              <MenuItem value={10}>Ten</MenuItem>
+              <MenuItem value={20}>Twenty</MenuItem>
+              <MenuItem value={30}>Thirty</MenuItem>
+            </Select>
+          </MuiTooltip>
         </FormControl>
       </Box>
 

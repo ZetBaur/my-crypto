@@ -89,14 +89,21 @@ const MarketsChart = () => {
             domain={['dataMin', 'dataMax']}
           />
 
-          <Tooltip />
+          <Tooltip
+            contentStyle={{
+              background: '#000000',
+              color: '#fff',
+              fontSize: '10px',
+              borderRadius: '5px',
+            }}
+          />
 
           <Line
             type='monotone'
             dataKey='price'
             stroke='#FFAF2C'
             activeDot={{ r: 8 }}
-            strokeWidth='1'
+            strokeWidth='2'
             dot={false}
           />
 

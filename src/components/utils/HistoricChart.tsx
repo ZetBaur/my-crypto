@@ -21,6 +21,8 @@ import {
   Tooltip as MuiTooltip,
   Autocomplete,
   TextField,
+  List,
+  ListItem,
 } from '@mui/material';
 
 import SearchIcon from '@mui/icons-material/Search';
@@ -35,8 +37,6 @@ import {
   useLazySearchCoinQuery,
 } from '../../store/features/coins/coinsApi';
 
-import { useDebounce } from '../../hooks/debounceHook';
-
 //-------------------------
 
 const HistoricChart = () => {
@@ -48,8 +48,8 @@ const HistoricChart = () => {
   const [period, setPeriod] = useState<string>('');
   const [interval, setInterval] = useState<string>('');
   const [coinsList, setCoinsList] = useState<ICoin[]>([]);
-
-  const debounced = useDebounce(searchCoin);
+  const [coinsListModal, setCoinsListModal] = useState(false);
+  const [currentCoin, setCurrentCoin] = useState('bitcoin');
 
   //------------ search
 
@@ -67,11 +67,10 @@ const HistoricChart = () => {
   useEffect(() => {
     if (searchCoin.length > 2) {
       searchCoins(searchCoin);
+      setCoinsListModal(true);
     }
-
     if (searchData?.coins) {
       console.log('searchData', searchData.coins);
-
       setCoinsList(searchData.coins);
     }
   }, [searchCoin, searchSuccess]);
@@ -116,6 +115,13 @@ const HistoricChart = () => {
     console.log('first');
   };
 
+  const handleCoinChage = (coinData: ICoin) => {
+    console.log('value', coinData);
+    setCoinsListModal(false);
+    setCoinsList([]);
+    setSearchCoin('');
+  };
+
   //----------------------------------
   return (
     <Box
@@ -144,18 +150,52 @@ const HistoricChart = () => {
             borderRadius: '4px',
             flex: 1,
             border: `1px solid ${theme.palette.background.paper}`,
+            position: 'relative',
           }}
         >
           <InputBase
             sx={{ ml: 2, flex: 1 }}
-            placeholder='Search'
+            placeholder='Search coin'
             value={searchCoin}
             onChange={(e) => setSearchCoin(e.target.value)}
           />
 
-          <IconButton type='submit' sx={{ p: 1 }}>
+          <IconButton type='submit' sx={{ p: 1 }} disabled={!searchCoin}>
             <SearchIcon />
           </IconButton>
+
+          {coinsListModal && (
+            <List
+              sx={{
+                position: 'absolute',
+                top: '110%',
+                background: colors.secondary.DEFAULT,
+                width: '100%',
+                borderRadius: '4px',
+                zIndex: '10',
+                opacity: '0.9',
+                maxHeight: '400px',
+                overflow: 'scroll',
+              }}
+            >
+              {coinsList.map((el) => {
+                return (
+                  <ListItem
+                    key={el.id}
+                    sx={{
+                      cursor: 'pointer',
+                      ':hover': {
+                        color: 'gray',
+                      },
+                    }}
+                    onClick={() => handleCoinChage(el)}
+                  >
+                    {el.symbol}
+                  </ListItem>
+                );
+              })}
+            </List>
+          )}
         </Box>
 
         {/* selects ----------------- */}

@@ -12,9 +12,9 @@ export const coinsApi = createApi({
     baseUrl: 'https://api.coingecko.com/api/v3/coins/',
   }),
 
-  keepUnusedDataFor: 60,
-  refetchOnFocus: true,
-  refetchOnReconnect: true,
+  // keepUnusedDataFor: 60,
+  // refetchOnFocus: true,
+  // refetchOnReconnect: true,
 
   endpoints: (build) => ({
     fetchCoinMarkets: build.query<ICoinMarkets[], ICoinMarketsQuery>({

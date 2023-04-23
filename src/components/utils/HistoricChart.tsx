@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import moment from 'moment';
+
 import {
   Area,
   AreaChart,
@@ -19,6 +20,7 @@ import {
   Select,
   Tooltip as MuiTooltip,
 } from '@mui/material';
+
 import SearchIcon from '@mui/icons-material/Search';
 import { BootstrapSelect } from '../../utils/styles';
 
@@ -28,12 +30,7 @@ import { IPrices } from '../../model/coinsTypes';
 
 import { useLazyFetchMarketChartQuery } from '../../store/features/coins/coinsApi';
 
-const initialMarketChartQueryState = {
-  id: 'bitcoin',
-  currency: 'usd',
-  days: '21',
-  interval: 'hourly',
-};
+import { useDebounce } from '../../hooks/debounceHook';
 
 //-------------------------
 
@@ -42,10 +39,15 @@ const MarketsChart = () => {
   const colors = tokens(theme.palette.mode);
   const [prices, setPrices] = useState<IPrices[]>([]);
 
-  const [searchCoin, setSearchCoin] = useState<string>();
-  const [currency, setCurrency] = useState<string>();
-  const [period, setPeriod] = useState<string>();
-  const [interval, setInterval] = useState<string>();
+  const [searchCoin, setSearchCoin] = useState<string>('');
+
+  const debounced = useDebounce(searchCoin);
+
+  console.log('debounced', debounced);
+
+  const [currency, setCurrency] = useState<string>('');
+  const [period, setPeriod] = useState<string>('');
+  const [interval, setInterval] = useState<string>('');
 
   const [
     fetchMarketChart,
@@ -59,6 +61,13 @@ const MarketsChart = () => {
   ] = useLazyFetchMarketChartQuery();
 
   useEffect(() => {
+    const initialMarketChartQueryState = {
+      id: 'bitcoin',
+      currency: 'usd',
+      days: '21',
+      interval: 'hourly',
+    };
+
     fetchMarketChart(initialMarketChartQueryState);
 
     if (marketChartData) {
@@ -68,7 +77,6 @@ const MarketsChart = () => {
           price: parseInt(el[1].toFixed(2)),
         };
       });
-
       setPrices(arr);
     }
   }, [isMarketChartSuccess]);

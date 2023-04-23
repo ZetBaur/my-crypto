@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import moment from 'moment';
 import {
+  Area,
+  AreaChart,
   CartesianGrid,
   Line,
   LineChart,
@@ -72,15 +74,10 @@ const MarketsChart = () => {
       }}
     >
       <ResponsiveContainer width='100%' height='100%'>
-        <LineChart width={500} height={300} data={prices}>
+        <AreaChart width={500} height={300} data={prices}>
           <CartesianGrid strokeDasharray='3' vertical={false} />
 
-          <XAxis
-            dataKey='date'
-            padding={{ left: 30, right: 30 }}
-            axisLine={false}
-            tickLine={false}
-          />
+          <XAxis dataKey='date' axisLine={false} tickLine={false} />
 
           <YAxis
             axisLine={false}
@@ -98,17 +95,16 @@ const MarketsChart = () => {
             }}
           />
 
-          <Line
+          <Area
             type='monotone'
             dataKey='price'
-            stroke='#FFAF2C'
+            stroke='#428CF4'
             activeDot={{ r: 8 }}
             strokeWidth='2'
             dot={false}
+            fill='#428CF4'
           />
-
-          {/* <Line type='monotone' dataKey='uv' stroke='#428CF4' strokeWidth='1' /> */}
-        </LineChart>
+        </AreaChart>
       </ResponsiveContainer>
     </Box>
   );

@@ -39,13 +39,10 @@ const MarketsChart = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [prices, setPrices] = useState<IPrices[]>([]);
-  const [searchCoin, setSearchCoin] = useState<string>(); //for id
-  const [currency, setCurrency] = useState<string>(); // select currency
-
-  const [age, setAge] = useState('');
-  const handleChange = (event: { target: { value: string } }) => {
-    setAge(event.target.value);
-  };
+  const [searchCoin, setSearchCoin] = useState<string>();
+  const [currency, setCurrency] = useState<string>();
+  const [period, setPeriod] = useState<string>();
+  const [interval, setInterval] = useState<string>();
 
   const {
     data: coinPrices,
@@ -63,7 +60,6 @@ const MarketsChart = () => {
           price: parseInt(el[1].toFixed(2)),
         };
       });
-
       setPrices(arr);
     }
   }, [isSuccess]);
@@ -84,7 +80,7 @@ const MarketsChart = () => {
           alignItems: 'center',
         }}
       >
-        {/* search input */}
+        {/* search input --------------- */}
 
         <Box
           sx={{
@@ -95,20 +91,25 @@ const MarketsChart = () => {
             border: `1px solid ${theme.palette.background.paper}`,
           }}
         >
-          <InputBase sx={{ ml: 2, flex: 1 }} placeholder='Search' />
+          <InputBase
+            sx={{ ml: 2, flex: 1 }}
+            placeholder='Search'
+            value={searchCoin}
+            onChange={(e) => setSearchCoin(e.target.value)}
+          />
 
           <IconButton type='button' sx={{ p: 1 }}>
             <SearchIcon />
           </IconButton>
         </Box>
 
-        {/* selects */}
+        {/* selects ----------------- */}
 
         <FormControl variant='standard'>
           <MuiTooltip title='Currency' placement='top'>
             <Select
-              value={age}
-              onChange={handleChange}
+              value={currency}
+              onChange={(e) => setCurrency(e.target.value)}
               input={<BootstrapSelect />}
               sx={{
                 width: '100px',
@@ -127,8 +128,8 @@ const MarketsChart = () => {
         <FormControl variant='standard'>
           <MuiTooltip title='Period' placement='top'>
             <Select
-              value={age}
-              onChange={handleChange}
+              value={period}
+              onChange={(e) => setPeriod(e.target.value)}
               input={<BootstrapSelect />}
               sx={{
                 width: '100px',
@@ -147,8 +148,8 @@ const MarketsChart = () => {
         <FormControl variant='standard'>
           <MuiTooltip title='Interval' placement='top'>
             <Select
-              value={age}
-              onChange={handleChange}
+              value={interval}
+              onChange={(e) => setInterval(e.target.value)}
               input={<BootstrapSelect />}
               sx={{
                 width: '100px',

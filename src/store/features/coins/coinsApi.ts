@@ -1,23 +1,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { ICoinMarkets } from '../../../model/coinsTypes';
-
-interface ICoinMarketsQuery {
-  currency: string;
-  limit: number;
-}
-
-export interface IPrices {
-  prices: number[][];
-  market_caps: number[][];
-  total_volumes: number[][];
-}
-
-interface ICoinPricesQuery {
-  id: string;
-  currency: string;
-  days: string;
-  interval: string;
-}
+import {
+  ICoinMarkets,
+  ICoinMarketsQuery,
+  IMarketChart,
+  IMarketChartQuery,
+} from '../../../model/coinsTypes';
 
 export const coinsApi = createApi({
   reducerPath: 'coinsApi',
@@ -40,10 +27,8 @@ export const coinsApi = createApi({
       }),
     }),
 
-    //bitcoin/market_chart?vs_currency=usd&days=13
-
-    fetchMarketChart: build.query<IPrices, ICoinPricesQuery>({
-      query: (obj: ICoinPricesQuery) => ({
+    fetchMarketChart: build.query<IMarketChart, IMarketChartQuery>({
+      query: (obj: IMarketChartQuery) => ({
         url: `bitcoin/market_chart`,
         params: {
           id: obj.id,
@@ -52,8 +37,6 @@ export const coinsApi = createApi({
           interval: obj.interval,
         },
       }),
-
-      // transformResponse: (response: IPrices) => response.prices,
     }),
   }),
 });

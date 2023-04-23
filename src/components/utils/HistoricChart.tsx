@@ -13,13 +13,9 @@ import {
 import { Box } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { tokens } from '../../contexts/themeContext';
+import { IPrices } from '../../model/coinsTypes';
 
 import { useFetchMarketChartQuery } from '../../store/features/coins/coinsApi';
-
-interface IPrices {
-  date: string;
-  price: number;
-}
 
 const MarketsChart = () => {
   const theme = useTheme();
@@ -83,16 +79,19 @@ const MarketsChart = () => {
               fontSize: '10px',
               borderRadius: '5px',
             }}
+            wrapperStyle={{
+              outline: 'none',
+            }}
           />
 
           <Area
             type='monotone'
             dataKey='price'
-            stroke='#428CF4'
+            stroke='#FFAF2C'
             activeDot={{ r: 8 }}
             strokeWidth='2'
             dot={false}
-            fill='#428CF4'
+            fill='#FFAF2C'
           />
         </AreaChart>
       </ResponsiveContainer>

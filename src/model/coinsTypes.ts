@@ -33,13 +33,37 @@ export interface IRoi {
   percentage: number;
 }
 
+export interface ICoinMarketsQuery {
+  currency: string;
+  limit: number;
+}
+
+//--------
+
 export interface ICoinsList {
   id: string;
   symbol: string;
   name: string;
 }
 
-export interface ICoinMarketsQuery {
+//-------- market_chart
+
+export interface IMarketChart {
+  prices: number[][];
+  market_caps: number[][];
+  total_volumes: number[][];
+}
+
+export interface IMarketChartQuery {
+  id: string;
   currency: string;
-  limit: number;
+  days: string;
+  interval: string;
+}
+
+//----------
+
+export interface IPrices {
+  date: string;
+  price: number;
 }

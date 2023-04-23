@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import moment from 'moment';
 
 import {
@@ -31,6 +31,7 @@ import { IPrices } from '../../model/coinsTypes';
 import {
   useLazyFetchMarketChartQuery,
   useLazyFetchCoinMarketsQuery,
+  useLazySearchCoinQuery,
 } from '../../store/features/coins/coinsApi';
 
 import { useDebounce } from '../../hooks/debounceHook';
@@ -44,39 +45,38 @@ const MarketsChart = () => {
 
   const [searchCoin, setSearchCoin] = useState<string>('');
 
-  const debounced = useDebounce(searchCoin);
-
-  console.log('debounced', debounced);
+  // const debounced = useDebounce(searchCoin);
 
   const [currency, setCurrency] = useState<string>('');
   const [period, setPeriod] = useState<string>('');
   const [interval, setInterval] = useState<string>('');
 
-  //------------ markets
+  const memoizedDbounced = useCallback(() => {
+    const debounced = useDebounce(searchCoin);
+  }, []);
+
+  console.log('debounced', debounced);
+
+  //------------ search
 
   const [
-    fetchMarkets,
+    searchCoins,
     {
-      data: marketsData,
-      isLoading: isMarketsLoading,
-      isSuccess: isMarketsSuccess,
-      isError: isMarketsError,
-      error: marketsError,
+      data: searchData,
+      isLoading: searchLoading,
+      isSuccess: searchSuccess,
+      isError: searchIsError,
+      error: searchError,
     },
-  ] = useLazyFetchCoinMarketsQuery();
+  ] = useLazySearchCoinQuery();
 
   useEffect(() => {
-    const params = {
-      currency: 'usd',
-      coin: debounced,
-    };
+    searchCoins(debounced);
 
-    fetchMarkets(params);
-
-    if (marketsData) {
-      console.log('marketsData', marketsData);
+    if (searchData) {
+      console.log('searchData', searchData);
     }
-  }, [isMarketsSuccess, debounced]);
+  }, [debounced]);
 
   //---------- chart --------------------
 

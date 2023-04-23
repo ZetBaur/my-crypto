@@ -4,12 +4,13 @@ import {
   ICoinMarketsQuery,
   IMarketChart,
   IMarketChartQuery,
+  ISearchCoin,
 } from '../../../model/coinsTypes';
 
 export const coinsApi = createApi({
   reducerPath: 'coinsApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'https://api.coingecko.com/api/v3/coins/',
+    baseUrl: 'https://api.coingecko.com/api/v3/',
   }),
 
   // keepUnusedDataFor: 60,
@@ -19,7 +20,7 @@ export const coinsApi = createApi({
   endpoints: (build) => ({
     fetchCoinMarkets: build.query<ICoinMarkets[], ICoinMarketsQuery>({
       query: (obj: ICoinMarketsQuery) => ({
-        url: `markets`,
+        url: `coins/markets`,
         params: {
           vs_currency: obj.currency,
           ids: obj.coin,
@@ -29,7 +30,7 @@ export const coinsApi = createApi({
 
     fetchMarketChart: build.query<IMarketChart, IMarketChartQuery>({
       query: (obj: IMarketChartQuery) => ({
-        url: `bitcoin/market_chart`,
+        url: `coins/bitcoin/market_chart`,
         params: {
           id: obj.id,
           vs_currency: obj.currency,
@@ -38,8 +39,20 @@ export const coinsApi = createApi({
         },
       }),
     }),
+
+    searchCoin: build.query<ISearchCoin[], string>({
+      query: (query: string) => ({
+        url: `search`,
+        params: {
+          query,
+        },
+      }),
+    }),
   }),
 });
 
-export const { useLazyFetchCoinMarketsQuery, useLazyFetchMarketChartQuery } =
-  coinsApi;
+export const {
+  useLazyFetchCoinMarketsQuery,
+  useLazyFetchMarketChartQuery,
+  useLazySearchCoinQuery,
+} = coinsApi;

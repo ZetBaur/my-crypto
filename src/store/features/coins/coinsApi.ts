@@ -6,6 +6,18 @@ interface ICoinMarketsQuery {
   limit: number;
 }
 
+export interface IPrices {
+  prices: number[][];
+  market_caps: number[][];
+  total_volumes: number[][];
+}
+
+interface ICoinPricesQuery {
+  id: string;
+  currency: string;
+  days: string;
+}
+
 export const coinsApi = createApi({
   reducerPath: 'coinsApi',
   baseQuery: fetchBaseQuery({
@@ -22,11 +34,26 @@ export const coinsApi = createApi({
         url: `markets`,
         params: {
           vs_currency: obj.currency,
-          per_page: obj.limit,
+          days_page: obj.limit,
         },
       }),
+    }),
+
+    //bitcoin/market_chart?vs_currency=usd&days=13
+
+    fetchMarketChart: build.query<IPrices, ICoinPricesQuery>({
+      query: (obj: ICoinPricesQuery) => ({
+        url: `bitcoin/market_chart`,
+        params: {
+          id: obj.id,
+          vs_currency: obj.currency,
+          days: obj.days,
+        },
+      }),
+
+      // transformResponse: (response: IPrices) => response.prices,
     }),
   }),
 });
 
-export const { useFetchCoinMarketsQuery } = coinsApi;
+export const { useFetchCoinMarketsQuery, useFetchMarketChartQuery } = coinsApi;

@@ -29,7 +29,7 @@ export const tokens = (mode: string) => ({
         },
 
         accentMain: '#0F0E0E',
-        borderColor: '#3C3C3C',
+        borderColor: '#232323',
         chartBoderColor: '#000000',
         blue: '#1900D5',
       }

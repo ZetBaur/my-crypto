@@ -10,12 +10,22 @@ import {
   YAxis,
 } from 'recharts';
 
-import { Box, IconButton, InputBase } from '@mui/material';
+import {
+  Box,
+  FormControl,
+  IconButton,
+  InputBase,
+  InputLabel,
+  MenuItem,
+  Select,
+  styled,
+} from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { tokens } from '../../contexts/themeContext';
 import { IPrices, IMarketChartQuery } from '../../model/coinsTypes';
 import { useFetchMarketChartQuery } from '../../store/features/coins/coinsApi';
 import SearchIcon from '@mui/icons-material/Search';
+import { BootstrapInput } from '../../utils/styles';
 
 const initialMarketChartQueryState = {
   id: 'bitcoin',
@@ -24,12 +34,19 @@ const initialMarketChartQueryState = {
   interval: 'hourly',
 };
 
+//-------------------------
+
 const MarketsChart = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [prices, setPrices] = useState<IPrices[]>([]);
   const [searchCoin, setSearchCoin] = useState<string>(); //for id
   const [currency, setCurrency] = useState<string>(); // select currency
+
+  const [age, setAge] = useState('');
+  const handleChange = (event: { target: { value: string } }) => {
+    setAge(event.target.value);
+  };
 
   const {
     data: coinPrices,
@@ -63,17 +80,20 @@ const MarketsChart = () => {
       <Box
         sx={{
           padding: '1rem',
+          display: 'flex',
+          gap: '1rem',
+          alignItems: 'center',
         }}
       >
         {/* search input */}
 
         <Box
           sx={{
-            background: colors.secondary.DEFAULT,
+            background: theme.palette.background.paper,
             display: 'flex',
             borderRadius: '4px',
             flex: 1,
-            border: `1px solid ${colors.borderColor}`,
+            border: `1px solid ${theme.palette.background.paper}`,
           }}
         >
           <InputBase sx={{ ml: 2, flex: 1 }} placeholder='Search' />
@@ -82,6 +102,26 @@ const MarketsChart = () => {
             <SearchIcon />
           </IconButton>
         </Box>
+
+        {/* select */}
+
+        <FormControl sx={{ m: 1 }} variant='standard'>
+          <Select
+            value={age}
+            onChange={handleChange}
+            input={<BootstrapInput />}
+            sx={{
+              width: '100px',
+            }}
+          >
+            <MenuItem value=''>
+              <em>None</em>
+            </MenuItem>
+            <MenuItem value={10}>Ten</MenuItem>
+            <MenuItem value={20}>Twenty</MenuItem>
+            <MenuItem value={30}>Thirty</MenuItem>
+          </Select>
+        </FormControl>
       </Box>
 
       {/* chart */}

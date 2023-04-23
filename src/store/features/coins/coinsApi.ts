@@ -16,6 +16,7 @@ interface ICoinPricesQuery {
   id: string;
   currency: string;
   days: string;
+  interval: string;
 }
 
 export const coinsApi = createApi({
@@ -48,6 +49,7 @@ export const coinsApi = createApi({
           id: obj.id,
           vs_currency: obj.currency,
           days: obj.days,
+          interval: obj.interval,
         },
       }),
 

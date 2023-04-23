@@ -4,26 +4,17 @@ import {
   Area,
   AreaChart,
   CartesianGrid,
-  Line,
-  LineChart,
   ResponsiveContainer,
   Tooltip,
   XAxis,
   YAxis,
 } from 'recharts';
 
-import { mockData } from '../../data';
 import { Box } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { tokens } from '../../contexts/themeContext';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { ICoinMarketsQuery } from '../../model/coinsTypes';
-import {
-  useFetchCoinMarketsQuery,
-  useFetchMarketChartQuery,
-} from '../../store/features/coins/coinsApi';
+
+import { useFetchMarketChartQuery } from '../../store/features/coins/coinsApi';
 
 interface IPrices {
   date: string;
@@ -44,19 +35,18 @@ const MarketsChart = () => {
   } = useFetchMarketChartQuery({
     id: 'bitcoin',
     currency: 'usd',
-    days: '13',
+    days: '21',
+    interval: 'hourly',
   });
 
   useEffect(() => {
     if (isSuccess) {
       const arr = coinPrices.prices.map((el) => {
         return {
-          date: moment(el[0]).format('MMM DD'),
+          date: moment(el[0]).format('MMM DD HH'),
           price: parseInt(el[1].toFixed(2)),
         };
       });
-
-      console.log('arr', arr);
 
       setPrices(arr);
     }

@@ -6,4 +6,4 @@ export { default as Button } from './base/button';
 export { default as Input } from './base/Input';
 export { default as AuthLayout } from '../layouts/AuthLayout';
 export { default as AppHeader } from '../components/common/AppHeader';
-export { default as MarketsChart } from '../components/utils/MarketsChart';
+export { default as HistoricChart } from './utils/HistoricChart';

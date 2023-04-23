@@ -1,7 +1,7 @@
-import { MarketsChart } from '../../components';
+import { HistoricChart } from '../../components';
 
 const Dashboard = () => {
-  return <MarketsChart />;
+  return <HistoricChart />;
 };
 
 export default Dashboard;

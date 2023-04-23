@@ -72,14 +72,14 @@ export interface IPrices {
 //------ search coin
 
 export interface ISearchCoin {
-  coins: Coin[];
-  exchanges: Exchange[];
+  coins: ICoin[];
+  exchanges: IExchange[];
   icos: any[];
-  categories: Category[];
-  nfts: Nft[];
+  categories: ICategory[];
+  nfts: INft[];
 }
 
-export interface Coin {
+export interface ICoin {
   id: string;
   name: string;
   api_symbol: string;
@@ -89,7 +89,7 @@ export interface Coin {
   large: string;
 }
 
-export interface Exchange {
+export interface IExchange {
   id: string;
   name: string;
   market_type: string;
@@ -97,12 +97,12 @@ export interface Exchange {
   large: string;
 }
 
-export interface Category {
+export interface ICategory {
   id: number;
   name: string;
 }
 
-export interface Nft {
+export interface INft {
   id: string;
   name: string;
   symbol: string;

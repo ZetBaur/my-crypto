@@ -8,7 +8,5 @@ export function useDebounce(value: string, delay = 300): string {
     return () => clearTimeout(handler);
   }, [value, delay]);
 
-  // console.log('debounced', debounced);
-
   return debounced;
 }

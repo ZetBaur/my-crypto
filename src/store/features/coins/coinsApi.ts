@@ -5,6 +5,7 @@ import {
   IMarketChart,
   IMarketChartQuery,
   ISearchCoin,
+  ICoin,
 } from '../../../model/coinsTypes';
 
 export const coinsApi = createApi({
@@ -40,13 +41,15 @@ export const coinsApi = createApi({
       }),
     }),
 
-    searchCoin: build.query<ISearchCoin[], string>({
+    searchCoin: build.query<ISearchCoin, string>({
       query: (query: string) => ({
         url: `search`,
         params: {
           query,
         },
       }),
+
+      // transformResponse: (response: ISearchCoin) => response.coins,
     }),
   }),
 });

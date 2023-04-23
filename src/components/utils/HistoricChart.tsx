@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import moment from 'moment';
 
 import {
@@ -26,11 +26,10 @@ import { BootstrapSelect } from '../../utils/styles';
 
 import { useTheme } from '@mui/material/styles';
 import { tokens } from '../../contexts/themeContext';
-import { IPrices } from '../../model/coinsTypes';
+import { ICoin, IPrices } from '../../model/coinsTypes';
 
 import {
   useLazyFetchMarketChartQuery,
-  useLazyFetchCoinMarketsQuery,
   useLazySearchCoinQuery,
 } from '../../store/features/coins/coinsApi';
 
@@ -38,24 +37,17 @@ import { useDebounce } from '../../hooks/debounceHook';
 
 //-------------------------
 
-const MarketsChart = () => {
+const HistoricChart = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [prices, setPrices] = useState<IPrices[]>([]);
-
   const [searchCoin, setSearchCoin] = useState<string>('');
-
-  // const debounced = useDebounce(searchCoin);
-
   const [currency, setCurrency] = useState<string>('');
   const [period, setPeriod] = useState<string>('');
   const [interval, setInterval] = useState<string>('');
+  const [coinsList, setCoinsList] = useState<ICoin[]>([]);
 
-  const memoizedDbounced = useCallback(() => {
-    const debounced = useDebounce(searchCoin);
-  }, []);
-
-  console.log('debounced', debounced);
+  const debounced = useDebounce(searchCoin);
 
   //------------ search
 
@@ -71,12 +63,16 @@ const MarketsChart = () => {
   ] = useLazySearchCoinQuery();
 
   useEffect(() => {
-    searchCoins(debounced);
-
-    if (searchData) {
-      console.log('searchData', searchData);
+    if (debounced && searchCoin.length > 1) {
+      debounced && searchCoins(debounced);
     }
-  }, [debounced]);
+
+    if (searchData?.coins) {
+      console.log('searchData', searchData.coins);
+
+      setCoinsList(searchData.coins);
+    }
+  }, [debounced, searchSuccess]);
 
   //---------- chart --------------------
 
@@ -102,14 +98,13 @@ const MarketsChart = () => {
     fetchMarketChart(initialMarketChartQueryState);
 
     if (marketChartData) {
-      const arr = marketChartData?.prices.map((el) => {
+      const arr = marketChartData.prices.map((el) => {
         return {
           date: moment(el[0]).format('MMM DD'),
           price: parseInt(el[1].toFixed(2)),
         };
       });
 
-      // console.log('marketChartData', marketChartData);
       setPrices(arr);
     }
   }, [isMarketChartSuccess]);
@@ -273,4 +268,4 @@ const MarketsChart = () => {
   );
 };
 
-export default MarketsChart;
+export default HistoricChart;

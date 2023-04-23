@@ -19,6 +19,8 @@ import {
   MenuItem,
   Select,
   Tooltip as MuiTooltip,
+  Autocomplete,
+  TextField,
 } from '@mui/material';
 
 import SearchIcon from '@mui/icons-material/Search';
@@ -63,8 +65,8 @@ const HistoricChart = () => {
   ] = useLazySearchCoinQuery();
 
   useEffect(() => {
-    if (debounced && searchCoin.length > 1) {
-      debounced && searchCoins(debounced);
+    if (searchCoin.length > 2) {
+      searchCoins(searchCoin);
     }
 
     if (searchData?.coins) {
@@ -72,7 +74,7 @@ const HistoricChart = () => {
 
       setCoinsList(searchData.coins);
     }
-  }, [debounced, searchSuccess]);
+  }, [searchCoin, searchSuccess]);
 
   //---------- chart --------------------
 
@@ -109,6 +111,11 @@ const HistoricChart = () => {
     }
   }, [isMarketChartSuccess]);
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log('first');
+  };
+
   //----------------------------------
   return (
     <Box
@@ -129,6 +136,8 @@ const HistoricChart = () => {
         {/* search input --------------- */}
 
         <Box
+          component='form'
+          onSubmit={handleSubmit}
           sx={{
             background: theme.palette.background.paper,
             display: 'flex',
@@ -144,7 +153,7 @@ const HistoricChart = () => {
             onChange={(e) => setSearchCoin(e.target.value)}
           />
 
-          <IconButton type='button' sx={{ p: 1 }}>
+          <IconButton type='submit' sx={{ p: 1 }}>
             <SearchIcon />
           </IconButton>
         </Box>

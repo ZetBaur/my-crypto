@@ -93,6 +93,7 @@ const HistoricChart = () => {
 
   useEffect(() => {
     console.log('second');
+
     const initialMarketChartQueryState = {
       id: 'bitcoin',
       currency: 'usd',

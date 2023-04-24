@@ -48,8 +48,6 @@ export const coinsApi = createApi({
           query,
         },
       }),
-
-      // transformResponse: (response: ISearchCoin) => response.coins,
     }),
   }),
 });

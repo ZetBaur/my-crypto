@@ -49,7 +49,7 @@ const HistoricChart = () => {
   const [interval, setInterval] = useState<string>('');
   const [coinsList, setCoinsList] = useState<ICoin[]>([]);
   const [coinsListModal, setCoinsListModal] = useState(false);
-  const [currentCoin, setCurrentCoin] = useState('bitcoin');
+  const [currentCoin, setCurrentCoin] = useState<ICoin>();
 
   //------------ search
 
@@ -65,10 +65,13 @@ const HistoricChart = () => {
   ] = useLazySearchCoinQuery();
 
   useEffect(() => {
+    console.log('first');
+
     if (searchCoin.length > 2) {
       searchCoins(searchCoin);
       setCoinsListModal(true);
     }
+
     if (searchData?.coins) {
       console.log('searchData', searchData.coins);
       setCoinsList(searchData.coins);
@@ -89,11 +92,12 @@ const HistoricChart = () => {
   ] = useLazyFetchMarketChartQuery();
 
   useEffect(() => {
+    console.log('second');
     const initialMarketChartQueryState = {
       id: 'bitcoin',
       currency: 'usd',
       days: '21',
-      interval: 'hourly',
+      interval: 'daily',
     };
 
     fetchMarketChart(initialMarketChartQueryState);
@@ -120,6 +124,7 @@ const HistoricChart = () => {
     setCoinsListModal(false);
     setCoinsList([]);
     setSearchCoin('');
+    setCurrentCoin(coinData);
   };
 
   //----------------------------------
@@ -139,6 +144,8 @@ const HistoricChart = () => {
           alignItems: 'center',
         }}
       >
+        <Box>{currentCoin?.symbol}</Box>
+
         {/* search input --------------- */}
 
         <Box

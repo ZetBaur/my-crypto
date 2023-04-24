@@ -56,4 +56,5 @@ export const {
   useLazyFetchCoinMarketsQuery,
   useLazyFetchMarketChartQuery,
   useLazySearchCoinQuery,
+  useFetchMarketChartQuery,
 } = coinsApi;

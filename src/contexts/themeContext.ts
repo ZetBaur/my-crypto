@@ -90,6 +90,12 @@ export const themeSettings: any = (mode: string) => {
           }),
     },
 
+    componenst: {
+      AutoComplete: {
+        defaultProps: {},
+      },
+    },
+
     typography: {
       fontFamily: ['Source Sans Pro', 'sans-serif'].join(','),
       fontSize: 14,

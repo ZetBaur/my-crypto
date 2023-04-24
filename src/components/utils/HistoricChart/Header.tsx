@@ -1,55 +1,46 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React from 'react';
 import { useTheme } from '@mui/material/styles';
 import { tokens } from '../../../contexts/themeContext';
 
 import {
   Box,
   FormControl,
-  IconButton,
-  InputBase,
   MenuItem,
   Select,
   Tooltip as MuiTooltip,
-  List,
-  ListItem,
+  Autocomplete,
+  TextField,
 } from '@mui/material';
 
-import SearchIcon from '@mui/icons-material/Search';
-import { BootstrapSelect } from '../../../utils/styles';
-import SearchList from './SearchList';
 import { ICoin } from '../../../model/coinsTypes';
+import { coinList } from '../../../data/coinList';
 
 interface IProps {
   search: string;
   setSearch: React.Dispatch<React.SetStateAction<string>>;
-  // handleSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
   currency: string;
   setCurrency: React.Dispatch<React.SetStateAction<string>>;
   days: string;
   setDays: React.Dispatch<React.SetStateAction<string>>;
   interval: string;
   setInterval: React.Dispatch<React.SetStateAction<string>>;
-  // handleSubmit: (e: React.FormEvent) => void;
   showSearchList: boolean;
   setShowSearchList: React.Dispatch<React.SetStateAction<boolean>>;
   searchList: ICoin[] | undefined;
 }
 
 //----------------------
+
 const HistoricChartHeader = (props: IProps) => {
   const {
     search,
     setSearch,
-    // handleSearch,
     currency,
     setCurrency,
     days,
     setDays,
     interval,
     setInterval,
-    // handleSubmit,
-    showSearchList,
-    searchList,
   } = props;
 
   const theme = useTheme();
@@ -70,40 +61,44 @@ const HistoricChartHeader = (props: IProps) => {
 
       <Box
         component='form'
-        // onSubmit={handleSubmit}
         sx={{
           background: theme.palette.background.paper,
           display: 'flex',
           borderRadius: '4px',
           flex: 1,
-          border: `1px solid ${theme.palette.background.paper}`,
-          position: 'relative',
         }}
       >
-        <InputBase
-          sx={{ ml: 2, flex: 1 }}
-          placeholder='Search coin'
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
+        <Autocomplete
+          size='small'
+          fullWidth
+          freeSolo
+          options={coinList.map((option) => option.name)}
+          sx={{
+            background: '#000000',
+          }}
+          renderInput={(params) => (
+            <TextField
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              {...params}
+              placeholder='Search Coin'
+            />
+          )}
         />
-
-        <IconButton type='submit' sx={{ p: 1 }} disabled={!search}>
-          <SearchIcon />
-        </IconButton>
-
-        {showSearchList && <SearchList searchList={searchList} />}
       </Box>
 
       {/* selects ------------------------------------------------------- */}
 
-      <FormControl variant='standard'>
+      <FormControl size='small' variant='outlined'>
         <MuiTooltip title='Currency' placement='top'>
           <Select
             value={currency}
             onChange={(e) => setCurrency(e.target.value)}
-            input={<BootstrapSelect />}
             sx={{
               width: '100px',
+              '& .MuiSvgIcon-root': {
+                fill: 'yellow',
+              },
             }}
           >
             <MenuItem value=''>
@@ -116,14 +111,16 @@ const HistoricChartHeader = (props: IProps) => {
         </MuiTooltip>
       </FormControl>
 
-      <FormControl variant='standard'>
+      <FormControl size='small' variant='outlined'>
         <MuiTooltip title='Period' placement='top'>
           <Select
             value={days}
             onChange={(e) => setDays(e.target.value)}
-            input={<BootstrapSelect />}
             sx={{
               width: '100px',
+              '& .MuiSvgIcon-root': {
+                fill: 'yellow',
+              },
             }}
           >
             <MenuItem value=''>
@@ -136,14 +133,16 @@ const HistoricChartHeader = (props: IProps) => {
         </MuiTooltip>
       </FormControl>
 
-      <FormControl variant='standard'>
+      <FormControl size='small' variant='outlined'>
         <MuiTooltip title='Interval' placement='top'>
           <Select
             value={interval}
             onChange={(e) => setInterval(e.target.value)}
-            input={<BootstrapSelect />}
             sx={{
               width: '100px',
+              '& .MuiSvgIcon-root': {
+                fill: 'yellow',
+              },
             }}
           >
             <MenuItem value=''>

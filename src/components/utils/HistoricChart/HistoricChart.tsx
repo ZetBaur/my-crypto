@@ -18,10 +18,7 @@ import { useTheme } from '@mui/material/styles';
 import { tokens } from '../../../contexts/themeContext';
 import { ICoin, IPrices } from '../../../model/coinsTypes';
 
-import {
-  useFetchMarketChartQuery,
-  useLazySearchCoinQuery,
-} from '../../../store/features/coins/coinsApi';
+import { useFetchMarketChartQuery } from '../../../store/features/coins/coinsApi';
 
 //--------------------------------------------------------------------
 const HistoricChart = () => {
@@ -61,23 +58,6 @@ const HistoricChart = () => {
     setPrices(arr);
   }, [marketChartData]);
 
-  // ---- handle search----
-  const [searchCoin, { isLoading: searchCoinLoading, data: searchCoinData }] =
-    useLazySearchCoinQuery();
-
-  useEffect(() => {
-    if (search.length > 2) {
-      searchCoin(search);
-    }
-
-    if (searchCoinData) {
-      console.log(searchCoinData.coins);
-
-      setSearchList(searchCoinData?.coins);
-      setShowSearchList(true);
-    }
-  }, [search]);
-
   //------------------------------------------------------------
   return (
     <Box
@@ -89,7 +69,6 @@ const HistoricChart = () => {
     >
       <Header
         search={search}
-        // handleSearch={handleSearch}
         setSearch={setSearch}
         currency={currency}
         setCurrency={setCurrency}
@@ -97,7 +76,6 @@ const HistoricChart = () => {
         setDays={setDays}
         interval={interval}
         setInterval={setInterval}
-        // handleSubmit={handleSubmit}
         showSearchList={showSearchList}
         setShowSearchList={setShowSearchList}
         searchList={searchList}

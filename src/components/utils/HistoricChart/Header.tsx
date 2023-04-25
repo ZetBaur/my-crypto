@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useTheme } from '@mui/material/styles';
 import { tokens } from '../../../contexts/themeContext';
+import { currencies } from '../../../data/currencies';
 
 import {
   Box,
@@ -121,12 +122,28 @@ const HistoricChartHeader = (props: IProps) => {
               },
             }}
           >
-            <MenuItem value=''>
-              <em>None</em>
-            </MenuItem>
-            <MenuItem value={10}>Ten</MenuItem>
-            <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem>
+            {currencies.map((el) => {
+              return (
+                <MenuItem key={el.code} value={el.code}>
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      gap: '8px',
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        color: '#4688E4',
+                      }}
+                    >
+                      {el.symbolNative}
+                    </Box>
+
+                    <Box>{el.code}</Box>
+                  </Box>
+                </MenuItem>
+              );
+            })}
           </Select>
         </MuiTooltip>
       </FormControl>

@@ -32,7 +32,7 @@ const HistoricChart = () => {
   const [prices, setPrices] = useState<IPrices[] | undefined>([]);
 
   const [search, setSearch] = useState('');
-  const [currency, setCurrency] = useState('usd');
+  const [currency, setCurrency] = useState('USD');
   const [days, setDays] = useState('13');
   const [interval, setInterval] = useState('daily');
 

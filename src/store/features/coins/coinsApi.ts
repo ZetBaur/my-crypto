@@ -64,6 +64,13 @@ export const coinsApi = createApi({
         },
       }),
     }),
+
+    //companies/public_treasury/bitcoin
+    fetchPublicCompanies: build.query<ICurrentCoin, string | null>({
+      query: (id: string) => ({
+        url: `companies/public_treasury/${id}`,
+      }),
+    }),
   }),
 });
 
@@ -73,4 +80,5 @@ export const {
   useLazySearchCoinQuery,
   useFetchMarketChartQuery,
   useLazyFetchCoinByIdQuery,
+  useLazyFetchPublicCompaniesQuery,
 } = coinsApi;

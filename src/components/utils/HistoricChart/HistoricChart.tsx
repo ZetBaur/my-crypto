@@ -16,7 +16,7 @@ import {
 import { Box } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { tokens } from '../../../contexts/themeContext';
-import { ICoin, IPrices } from '../../../model/coinsTypes';
+import { ICurrentCoin, IPrices } from '../../../model/coinsTypes';
 
 import { useFetchMarketChartQuery } from '../../../store/features/coins/coinsApi';
 
@@ -33,8 +33,11 @@ const HistoricChart = () => {
   const [days, setDays] = useState('13');
   const [interval, setInterval] = useState('daily');
 
-  const [showSearchList, setShowSearchList] = useState(false);
-  const [searchList, setSearchList] = useState<ICoin[] | undefined>([]);
+  const [currentCoin, setCurrentCoin] = useState<ICurrentCoin | undefined>({
+    id: 'bitcoin',
+    name: 'Bitcoin',
+    symbol: 'btc',
+  });
 
   //----------fetch chart -------
   const initialMarketChartQueryState = {
@@ -55,6 +58,8 @@ const HistoricChart = () => {
         price: Math.round(el[1]),
       };
     });
+
+    console.log('arr', marketChartData);
     setPrices(arr);
   }, [marketChartData]);
 
@@ -76,9 +81,12 @@ const HistoricChart = () => {
         setDays={setDays}
         interval={interval}
         setInterval={setInterval}
-        showSearchList={showSearchList}
-        setShowSearchList={setShowSearchList}
-        searchList={searchList}
+        currentCoin={currentCoin}
+        setCurrentCoin={setCurrentCoin}
+
+        // showSearchList={showSearchList}
+        // setShowSearchList={setShowSearchList}
+        // searchList={searchList}
       />
 
       <Box

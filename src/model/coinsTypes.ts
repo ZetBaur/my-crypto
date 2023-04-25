@@ -110,3 +110,9 @@ export interface INft {
 }
 
 // ------------
+
+export interface ICurrentCoin {
+  id: string;
+  symbol: string;
+  name: string;
+}

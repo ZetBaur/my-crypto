@@ -12,7 +12,7 @@ import {
   TextField,
 } from '@mui/material';
 
-import { ICoin } from '../../../model/coinsTypes';
+import { ICoin, ICurrentCoin } from '../../../model/coinsTypes';
 import { coinList } from '../../../data/coinList';
 
 interface IProps {
@@ -24,9 +24,14 @@ interface IProps {
   setDays: React.Dispatch<React.SetStateAction<string>>;
   interval: string;
   setInterval: React.Dispatch<React.SetStateAction<string>>;
-  showSearchList: boolean;
-  setShowSearchList: React.Dispatch<React.SetStateAction<boolean>>;
-  searchList: ICoin[] | undefined;
+  currentCoin: ICurrentCoin | undefined;
+  setCurrentCoin: React.Dispatch<
+    React.SetStateAction<ICurrentCoin | undefined>
+  >;
+
+  // showSearchList: boolean;
+  // setShowSearchList: React.Dispatch<React.SetStateAction<boolean>>;
+  // searchList: ICoin[] | undefined;
 }
 
 //----------------------
@@ -41,10 +46,21 @@ const HistoricChartHeader = (props: IProps) => {
     setDays,
     interval,
     setInterval,
+    currentCoin,
+    setCurrentCoin,
   } = props;
 
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+  const handleCurrentCurrency = (currency: string | null) => {
+    console.log('currencyData', currency);
+
+    const currencyData = coinList.find((el) => el.name === currency);
+
+    console.log('first', currencyData);
+    setCurrentCoin(currencyData);
+  };
 
   return (
     <Box
@@ -55,7 +71,7 @@ const HistoricChartHeader = (props: IProps) => {
         alignItems: 'center',
       }}
     >
-      <Box>{'BTC'}</Box>
+      <Box>{currentCoin?.name}</Box>
 
       {/* search input ----------------------------------------------------------- */}
 
@@ -73,6 +89,7 @@ const HistoricChartHeader = (props: IProps) => {
           fullWidth
           freeSolo
           options={coinList.map((option) => option.name)}
+          onChange={(event: any, newValue) => handleCurrentCurrency(newValue)}
           sx={{
             background: '#000000',
           }}

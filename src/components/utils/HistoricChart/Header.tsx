@@ -17,8 +17,8 @@ import { ICoin, ICurrentCoin } from '../../../model/coinsTypes';
 import { coinList } from '../../../data/coinList';
 
 interface IProps {
-  search: string;
-  setSearch: React.Dispatch<React.SetStateAction<string>>;
+  // search: string;
+  // setSearch: React.Dispatch<React.SetStateAction<string>>;
   currency: string;
   setCurrency: React.Dispatch<React.SetStateAction<string>>;
   days: string;
@@ -29,15 +29,15 @@ interface IProps {
   setCurrentCoin: React.Dispatch<
     React.SetStateAction<ICurrentCoin | undefined>
   >;
-  handleCurrentCurrency: (currency: string | null) => void;
+  handleSearchCoin: (currency: string | null) => void;
 }
 
 //----------------------
 
 const HistoricChartHeader = (props: IProps) => {
   const {
-    search,
-    setSearch,
+    // search,
+    // setSearch,
     currency,
     setCurrency,
     days,
@@ -46,7 +46,7 @@ const HistoricChartHeader = (props: IProps) => {
     setInterval,
     currentCoin,
     setCurrentCoin,
-    handleCurrentCurrency,
+    handleSearchCoin,
   } = props;
 
   const theme = useTheme();
@@ -93,14 +93,14 @@ const HistoricChartHeader = (props: IProps) => {
           fullWidth
           freeSolo
           options={coinList.map((option) => option.id)}
-          onChange={(event: any, newValue) => handleCurrentCurrency(newValue)}
+          onChange={(event: any, newValue) => handleSearchCoin(newValue)}
           sx={{
             background: '#000000',
           }}
           renderInput={(params) => (
             <TextField
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              // value={search}
+              // onChange={(e) => setSearch(e.target.value)}
               {...params}
               placeholder='Search Coin'
             />

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { SyntheticEvent, useState } from 'react';
 import { useTheme } from '@mui/material/styles';
 import { tokens } from '../../../contexts/themeContext';
 import { currencies } from '../../../data/currencies';
@@ -29,7 +29,9 @@ interface IProps {
   setCurrentCoin: React.Dispatch<
     React.SetStateAction<ICurrentCoin | undefined>
   >;
-  handleSearchCoin: (currency: string | null) => void;
+  // handleSearchCoin: (currency: string | null) => void;
+  id: string | null;
+  setId: React.Dispatch<React.SetStateAction<string | null>>;
   // newCoin: string;
   // setNewCoin: React.Dispatch<React.SetStateAction<string>>;
 }
@@ -47,8 +49,10 @@ const HistoricChartHeader = (props: IProps) => {
     interval,
     setInterval,
     currentCoin,
-    setCurrentCoin,
-    handleSearchCoin,
+    // setCurrentCoin,
+    // handleSearchCoin,
+    id,
+    setId,
     // newCoin,
     // setNewCoin,
   } = props;
@@ -97,7 +101,8 @@ const HistoricChartHeader = (props: IProps) => {
           fullWidth
           freeSolo
           options={coinList.map((option) => option.id)}
-          onChange={(event: any, newCoin) => handleSearchCoin(newCoin)}
+          value={id}
+          onChange={(event, newCoin: string | null) => setId(newCoin)}
           sx={{
             background: '#000000',
           }}

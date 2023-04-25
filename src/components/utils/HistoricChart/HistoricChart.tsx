@@ -19,27 +19,26 @@ import { tokens } from '../../../contexts/themeContext';
 import { ICurrentCoin, IPrices } from '../../../model/coinsTypes';
 
 import {
-  useFetchMarketChartQuery,
+  // useFetchMarketChartQuery,
   useLazyFetchCoinByIdQuery,
   useLazyFetchMarketChartQuery,
+  useFetchMarketChartQuery,
 } from '../../../store/features/coins/coinsApi';
 
 //--------------------------------------------------------------------
 const HistoricChart = () => {
+  console.log('render');
+
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
   //------- states -----------
-  const [prices, setPrices] = useState<IPrices[] | undefined>([]);
+  const [prices, setPrices] = useState<IPrices[] | undefined>([]); // chart
 
-  // const [search, setSearch] = useState('');
-
-  const [id, setId] = useState('bitcoin');
+  const [id, setId] = useState<string | null>('bitcoin');
   const [vsCurrency, setVsCurrency] = useState('USD');
   const [days, setDays] = useState('13');
   const [interval, setInterval] = useState('daily');
-
-  // const [newCoin, setNewCoin] = useState('');
 
   const [currentCoin, setCurrentCoin] = useState<ICurrentCoin | undefined>({
     id: 'bitcoin',
@@ -56,27 +55,30 @@ const HistoricChart = () => {
   });
 
   //----------fetch chart -------
-
-  // const { data: marketChartData } = useFetchMarketChartQuery(
-  //   initialMarketChartQueryState
-  // );
+  const [fetchCoinById, { isLoading: isCoinByIdLoading, data: coinByIdData }] =
+    useLazyFetchCoinByIdQuery();
 
   const [
     fetchMarketChart,
-    { isLoading: areReposLoading, data: lazyMarketChartData },
+    { isLoading: areReposLoading, data: marketChartData },
   ] = useLazyFetchMarketChartQuery();
 
   useEffect(() => {
-    const initialMarketChartQueryState = {
+    const params = {
       id,
       vsCurrency,
       days,
       interval,
     };
 
-    fetchMarketChart(initialMarketChartQueryState); // fetch chart
+    if (id) {
+      fetchMarketChart(params); // fetch chart
+      fetchCoinById(id); // for current coin data
+    }
+  }, [id]);
 
-    const arr = lazyMarketChartData?.prices.map((el) => {
+  useEffect(() => {
+    const arr = marketChartData?.prices.map((el) => {
       return {
         date: moment(el[0]).format('MMM DD'),
         price: Math.round(el[1]),
@@ -84,37 +86,11 @@ const HistoricChart = () => {
     });
 
     setPrices(arr);
-  }, [lazyMarketChartData]);
-
-  // useEffect(() => {
-  //   const arr = marketChartData?.prices.map((el) => {
-  //     return {
-  //       date: moment(el[0]).format('MMM DD'),
-  //       price: Math.round(el[1]),
-  //     };
-  //   });
-
-  //   setPrices(arr);
-  // }, [marketChartData]);
-  //----------------------------------
-
-  // ------- fetch coin by id ---------
-  const [fetchCoinById, { isLoading: isCoinByIdLoading, data: coinById }] =
-    useLazyFetchCoinByIdQuery();
-
-  const handleSearchCoin = (newCoin: string | null) => {
-    console.log('currency', newCoin);
-
-    if (newCoin) fetchCoinById(newCoin);
-
-    // const newCurrentCoin = setCurrentCoin();
-
-    // setSearch('');
-  };
+  }, [marketChartData]);
 
   useEffect(() => {
-    if (coinById) setCurrentCoin(coinById);
-  }, [coinById]);
+    setCurrentCoin(coinByIdData);
+  }, [coinByIdData]);
 
   //------------------------------------------------------------
   return (
@@ -136,7 +112,9 @@ const HistoricChart = () => {
         setInterval={setInterval}
         currentCoin={currentCoin}
         setCurrentCoin={setCurrentCoin}
-        handleSearchCoin={handleSearchCoin}
+        // handleSearchCoin={handleSearchCoin}
+        id={id}
+        setId={setId}
         // newCoin={newCoin}
         // setNewCoin={newCoin}
 

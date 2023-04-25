@@ -32,9 +32,9 @@ export const coinsApi = createApi({
 
     fetchMarketChart: build.query<IMarketChart, IMarketChartQuery>({
       query: (obj: IMarketChartQuery) => ({
-        url: `coins/bitcoin/market_chart`,
+        url: `coins/${obj.id}/market_chart`,
         params: {
-          id: obj.id,
+          // id: obj.id,
           vs_currency: obj.vsCurrency,
           days: obj.days,
           interval: obj.interval,

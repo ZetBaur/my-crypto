@@ -56,7 +56,7 @@ export interface IMarketChart {
 }
 
 export interface IMarketChartQuery {
-  id: string;
+  id: string | null;
   vsCurrency: string;
   days: string;
   interval: string;

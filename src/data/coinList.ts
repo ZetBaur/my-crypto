@@ -14,17 +14,6 @@ export const coinList = [
     symbol: 'aave',
     name: 'Aave',
   },
-  {
-    id: 'aave-aave',
-    symbol: 'aaave',
-    name: 'Aave AAVE',
-  },
-
-  {
-    id: 'aave-amm-dai',
-    symbol: 'aammdai',
-    name: 'Aave AMM DAI',
-  },
 
   {
     id: 'aave-bat',
@@ -106,11 +95,7 @@ export const coinList = [
     symbol: 'agusd',
     name: 'Aave GUSD',
   },
-  {
-    id: 'aave-interest-bearing-steth',
-    symbol: 'asteth',
-    name: 'Aave Interest Bearing STETH',
-  },
+
   {
     id: 'aave-knc',
     symbol: 'aknc',

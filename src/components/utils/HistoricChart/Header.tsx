@@ -120,85 +120,79 @@ const HistoricChartHeader = (props: IProps) => {
       {/* selects ------------------------------------------------------- */}
 
       <FormControl size='small' variant='outlined'>
-        <MuiTooltip title='Currency' placement='top'>
-          <Select
-            value={vsCurrency}
-            onChange={(e) => setVsCurrency(e.target.value)}
-            sx={{
-              width: '100px',
-              '& .MuiSvgIcon-root': {
-                fill: 'yellow',
-              },
-            }}
-          >
-            {currencies.map((el) => {
-              return (
-                <MenuItem key={el.code} value={el.code}>
+        <Select
+          value={vsCurrency}
+          onChange={(e) => setVsCurrency(e.target.value)}
+          sx={{
+            width: '100px',
+            '& .MuiSvgIcon-root': {
+              fill: 'yellow',
+            },
+          }}
+        >
+          {currencies.map((el) => {
+            return (
+              <MenuItem key={el.code} value={el.code}>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    gap: '8px',
+                  }}
+                >
                   <Box
                     sx={{
-                      display: 'flex',
-                      gap: '8px',
+                      color: '#4688E4',
                     }}
                   >
-                    <Box
-                      sx={{
-                        color: '#4688E4',
-                      }}
-                    >
-                      {el.symbolNative}
-                    </Box>
-
-                    <Box>{el.code}</Box>
+                    {el.symbolNative}
                   </Box>
-                </MenuItem>
-              );
-            })}
-          </Select>
-        </MuiTooltip>
+
+                  <Box>{el.code}</Box>
+                </Box>
+              </MenuItem>
+            );
+          })}
+        </Select>
       </FormControl>
 
       <FormControl size='small' variant='outlined'>
-        <MuiTooltip title='Period' placement='top'>
-          <Select
-            value={days}
-            onChange={(e) => setDays(e.target.value)}
-            sx={{
-              width: '100px',
-              '& .MuiSvgIcon-root': {
-                fill: 'yellow',
-              },
-            }}
-          >
-            <MenuItem value=''>
-              <em>None</em>
-            </MenuItem>
-            <MenuItem value={10}>Ten</MenuItem>
-            <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem>
-          </Select>
-        </MuiTooltip>
+        <Select
+          value={days}
+          onChange={(e) => setDays(e.target.value)}
+          sx={{
+            width: '100px',
+            '& .MuiSvgIcon-root': {
+              fill: 'yellow',
+            },
+          }}
+        >
+          <MenuItem value=''>
+            <em>None</em>
+          </MenuItem>
+          <MenuItem value={10}>Ten</MenuItem>
+          <MenuItem value={20}>Twenty</MenuItem>
+          <MenuItem value={30}>Thirty</MenuItem>
+        </Select>
       </FormControl>
 
       <FormControl size='small' variant='outlined'>
-        <MuiTooltip title='Interval' placement='top'>
-          <Select
-            value={interval}
-            onChange={(e) => setInterval(e.target.value)}
-            sx={{
-              width: '100px',
-              '& .MuiSvgIcon-root': {
-                fill: 'yellow',
-              },
-            }}
-          >
-            <MenuItem value=''>
-              <em>None</em>
-            </MenuItem>
-            <MenuItem value={10}>Ten</MenuItem>
-            <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem>
-          </Select>
-        </MuiTooltip>
+        <Select
+          value={interval}
+          onChange={(e) => setInterval(e.target.value)}
+          sx={{
+            width: '100px',
+            '& .MuiSvgIcon-root': {
+              fill: 'yellow',
+            },
+          }}
+        >
+          <MenuItem value=''>
+            <em>None</em>
+          </MenuItem>
+          <MenuItem value={10}>Ten</MenuItem>
+          <MenuItem value={20}>Twenty</MenuItem>
+          <MenuItem value={30}>Thirty</MenuItem>
+        </Select>
       </FormControl>
     </Box>
   );

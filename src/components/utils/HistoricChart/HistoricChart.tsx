@@ -145,8 +145,6 @@ const HistoricChart = () => {
               <CartesianGrid
                 strokeDasharray='3'
                 vertical={false}
-                // horizontalFill={['#555555', '#444444']}
-                // fillOpacity={0.2}
                 stroke='gray'
               />
 

@@ -18,7 +18,10 @@ import { useTheme } from '@mui/material/styles';
 import { tokens } from '../../../contexts/themeContext';
 import { ICurrentCoin, IPrices } from '../../../model/coinsTypes';
 
-import { useFetchMarketChartQuery } from '../../../store/features/coins/coinsApi';
+import {
+  useFetchMarketChartQuery,
+  useLazyFetchCoinByIdQuery,
+} from '../../../store/features/coins/coinsApi';
 
 //--------------------------------------------------------------------
 const HistoricChart = () => {
@@ -37,6 +40,14 @@ const HistoricChart = () => {
     id: 'bitcoin',
     name: 'Bitcoin',
     symbol: 'btc',
+    image: {
+      large:
+        'https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1547033579',
+      small:
+        'https://assets.coingecko.com/coins/images/1/small/bitcoin.png?1547033579',
+      thumb:
+        'https://assets.coingecko.com/coins/images/1/thumb/bitcoin.png?1547033579',
+    },
   });
 
   //----------fetch chart -------
@@ -59,9 +70,23 @@ const HistoricChart = () => {
       };
     });
 
-    console.log('arr', marketChartData);
     setPrices(arr);
   }, [marketChartData]);
+
+  // ------- fetch coin by id ---------
+
+  const [fetchCoinById, { isLoading: isCoinByIdLoading, data: coinById }] =
+    useLazyFetchCoinByIdQuery();
+
+  const handleCurrentCurrency = (currency: string | null) => {
+    fetchCoinById(currency);
+  };
+
+  useEffect(() => {
+    console.log('coinById', coinById);
+
+    setCurrentCoin(coinById);
+  }, [coinById]);
 
   //------------------------------------------------------------
   return (
@@ -83,6 +108,7 @@ const HistoricChart = () => {
         setInterval={setInterval}
         currentCoin={currentCoin}
         setCurrentCoin={setCurrentCoin}
+        handleCurrentCurrency={handleCurrentCurrency}
 
         // showSearchList={showSearchList}
         // setShowSearchList={setShowSearchList}

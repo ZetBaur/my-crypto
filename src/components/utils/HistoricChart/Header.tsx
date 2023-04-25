@@ -28,10 +28,7 @@ interface IProps {
   setCurrentCoin: React.Dispatch<
     React.SetStateAction<ICurrentCoin | undefined>
   >;
-
-  // showSearchList: boolean;
-  // setShowSearchList: React.Dispatch<React.SetStateAction<boolean>>;
-  // searchList: ICoin[] | undefined;
+  handleCurrentCurrency: (currency: string | null) => void;
 }
 
 //----------------------
@@ -48,19 +45,11 @@ const HistoricChartHeader = (props: IProps) => {
     setInterval,
     currentCoin,
     setCurrentCoin,
+    handleCurrentCurrency,
   } = props;
 
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-
-  const handleCurrentCurrency = (currency: string | null) => {
-    console.log('currencyData', currency);
-
-    const currencyData = coinList.find((el) => el.name === currency);
-
-    console.log('first', currencyData);
-    setCurrentCoin(currencyData);
-  };
 
   return (
     <Box
@@ -71,7 +60,16 @@ const HistoricChartHeader = (props: IProps) => {
         alignItems: 'center',
       }}
     >
-      <Box>{currentCoin?.name}</Box>
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+        }}
+      >
+        <img src={currentCoin?.image.thumb} alt={currentCoin?.symbol} />
+        <span>{currentCoin?.name}</span>
+      </Box>
 
       {/* search input ----------------------------------------------------------- */}
 
@@ -88,7 +86,7 @@ const HistoricChartHeader = (props: IProps) => {
           size='small'
           fullWidth
           freeSolo
-          options={coinList.map((option) => option.name)}
+          options={coinList.map((option) => option.id)}
           onChange={(event: any, newValue) => handleCurrentCurrency(newValue)}
           sx={{
             background: '#000000',

@@ -6,6 +6,7 @@ import {
   IMarketChartQuery,
   ISearchCoin,
   ICoin,
+  ICurrentCoin,
 } from '../../../model/coinsTypes';
 
 export const coinsApi = createApi({
@@ -49,6 +50,20 @@ export const coinsApi = createApi({
         },
       }),
     }),
+
+    fetchCoinById: build.query<ICurrentCoin, string | null>({
+      query: (id: string) => ({
+        url: `coins/${id}`,
+        params: {
+          localization: false,
+          tickers: false,
+          market_data: false,
+          community_data: false,
+          developer_data: false,
+          sparkline: false,
+        },
+      }),
+    }),
   }),
 });
 
@@ -57,4 +72,5 @@ export const {
   useLazyFetchMarketChartQuery,
   useLazySearchCoinQuery,
   useFetchMarketChartQuery,
+  useLazyFetchCoinByIdQuery,
 } = coinsApi;

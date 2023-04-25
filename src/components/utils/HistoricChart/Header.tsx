@@ -160,18 +160,25 @@ const HistoricChartHeader = (props: IProps) => {
           value={days}
           onChange={(e) => setDays(e.target.value)}
           sx={{
-            width: '100px',
+            minWidth: '120px',
             '& .MuiSvgIcon-root': {
               fill: 'yellow',
             },
           }}
         >
-          <MenuItem value=''>
+          {/* <MenuItem value=''>
             <em>None</em>
+          </MenuItem> */}
+          <MenuItem value='1'>Last Day</MenuItem>
+          <MenuItem value='7'>Last Week</MenuItem>
+          <MenuItem value='30'>Last Month</MenuItem>
+          <MenuItem value='90'>Last 3 Months</MenuItem>
+          <MenuItem value='180' disabled={interval === 'hourly'}>
+            Last 6 Months
           </MenuItem>
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
+          <MenuItem value='360' disabled={interval === 'hourly'}>
+            Last year
+          </MenuItem>
         </Select>
       </FormControl>
 
@@ -186,12 +193,11 @@ const HistoricChartHeader = (props: IProps) => {
             },
           }}
         >
-          <MenuItem value=''>
-            <em>None</em>
+          <MenuItem value='hourly'>Hourly</MenuItem>
+          <MenuItem value='daily' disabled={days === '180' || days === '360'}>
+            Dayly
           </MenuItem>
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
+          {/* <MenuItem value={30}>Thirty</MenuItem> */}
         </Select>
       </FormControl>
     </Box>

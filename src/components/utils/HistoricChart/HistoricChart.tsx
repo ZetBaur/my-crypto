@@ -37,8 +37,8 @@ const HistoricChart = () => {
 
   const [id, setId] = useState<string | null>('bitcoin');
   const [vsCurrency, setVsCurrency] = useState('USD');
-  const [days, setDays] = useState('13');
-  const [interval, setInterval] = useState('daily');
+  const [days, setDays] = useState('1');
+  const [interval, setInterval] = useState('hourly');
 
   const [currentCoin, setCurrentCoin] = useState<ICurrentCoin | undefined>({
     id: 'bitcoin',
@@ -60,7 +60,11 @@ const HistoricChart = () => {
 
   const [
     fetchMarketChart,
-    { isLoading: isChartLoading, data: marketChartData },
+    {
+      isFetching: isChartFetching,
+      isLoading: isChartLoading,
+      data: marketChartData,
+    },
   ] = useLazyFetchMarketChartQuery();
 
   useEffect(() => {
@@ -75,7 +79,7 @@ const HistoricChart = () => {
       fetchMarketChart(params); // fetch chart
       fetchCoinById(id); // for current coin data
     }
-  }, [id]);
+  }, [id, vsCurrency, days, interval]);
 
   useEffect(() => {
     const arr = marketChartData?.prices.map((el) => {
@@ -105,8 +109,6 @@ const HistoricChart = () => {
       }}
     >
       <Header
-        // search={search}
-        // setSearch={setSearch}
         vsCurrency={vsCurrency}
         setVsCurrency={setVsCurrency}
         days={days}
@@ -115,80 +117,65 @@ const HistoricChart = () => {
         setInterval={setInterval}
         currentCoin={currentCoin}
         setCurrentCoin={setCurrentCoin}
-        // handleSearchCoin={handleSearchCoin}
         id={id}
         setId={setId}
-        // newCoin={newCoin}
-        // setNewCoin={newCoin}
-
-        // showSearchList={showSearchList}
-        // setShowSearchList={setShowSearchList}
-        // searchList={searchList}
       />
 
-      {isChartLoading && (
-        <Box sx={{ display: 'flex' }}>
-          <CircularProgress />
-        </Box>
-      )}
+      <Box
+        sx={{
+          width: '100%',
+          height: '500px',
+          padding: '1rem 1rem 0 1rem',
+        }}
+      >
+        <ResponsiveContainer width='100%' height='100%'>
+          <AreaChart width={500} height={300} data={prices}>
+            <CartesianGrid
+              strokeDasharray='3'
+              vertical={false}
+              stroke={colors.secondary.DEFAULT}
+            />
 
-      {marketChartData && (
-        <Box
-          sx={{
-            width: '100%',
-            height: '500px',
-            padding: '1rem 1rem 0 1rem',
-          }}
-        >
-          <ResponsiveContainer width='100%' height='100%'>
-            <AreaChart width={500} height={300} data={prices}>
-              <CartesianGrid
-                strokeDasharray='3'
-                vertical={false}
-                stroke='gray'
-              />
+            <XAxis
+              dataKey='date'
+              axisLine={false}
+              tickLine={false}
+              style={{ fontSize: '10px' }}
+            />
 
-              <XAxis
-                dataKey='date'
-                axisLine={false}
-                tickLine={false}
-                style={{ fontSize: '10px' }}
-              />
+            <YAxis
+              axisLine={false}
+              tickLine={false}
+              type='number'
+              domain={['dataMin', 'dataMax']}
+              style={{ fontSize: '10px' }}
+              tickCount={7}
+            />
 
-              <YAxis
-                axisLine={false}
-                tickLine={false}
-                type='number'
-                domain={['dataMin', 'dataMax']}
-                style={{ fontSize: '10px' }}
-                tickCount={7}
-              />
+            <Tooltip
+              contentStyle={{
+                background: '#000000',
+                color: '#fff',
+                fontSize: '10px',
+                borderRadius: '5px',
+              }}
+              wrapperStyle={{
+                outline: 'none',
+              }}
+            />
 
-              <Tooltip
-                contentStyle={{
-                  background: '#000000',
-                  color: '#fff',
-                  fontSize: '10px',
-                  borderRadius: '5px',
-                }}
-                wrapperStyle={{
-                  outline: 'none',
-                }}
-              />
-
-              <Area
-                type='monotone'
-                dataKey='price'
-                stroke='#FFAF2C'
-                activeDot={{ r: 8 }}
-                strokeWidth='2'
-                dot={false}
-                fill='#FFAF2C'
-              />
-            </AreaChart>
-          </ResponsiveContainer>
-        </Box>
-      )}
+            <Area
+              type='monotone'
+              dataKey='price'
+              stroke='#FFAF2C'
+              activeDot={{ r: 8 }}
+              strokeWidth='2'
+              dot={false}
+              fill='#FFAF2C'
+            />
+          </AreaChart>
+        </ResponsiveContainer>
+      </Box>
     </Box>
   );
 };

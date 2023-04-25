@@ -63,7 +63,7 @@ const HistoricChartHeader = (props: IProps) => {
   return (
     <Box
       sx={{
-        padding: '1rem 1rem 1rem 2rem',
+        padding: '1rem',
         display: 'flex',
         gap: '1rem',
         alignItems: 'center',

@@ -66,7 +66,7 @@ export interface IMarketChartQuery {
 
 export interface IPrices {
   date: string;
-  price: number;
+  price: string;
 }
 
 //------ search coin

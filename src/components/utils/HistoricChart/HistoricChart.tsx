@@ -13,7 +13,7 @@ import {
   YAxis,
 } from 'recharts';
 
-import { Box } from '@mui/material';
+import { Box, CircularProgress } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { tokens } from '../../../contexts/themeContext';
 import { ICurrentCoin, IPrices } from '../../../model/coinsTypes';
@@ -60,7 +60,7 @@ const HistoricChart = () => {
 
   const [
     fetchMarketChart,
-    { isLoading: areReposLoading, data: marketChartData },
+    { isLoading: isChartLoading, data: marketChartData },
   ] = useLazyFetchMarketChartQuery();
 
   useEffect(() => {
@@ -81,9 +81,12 @@ const HistoricChart = () => {
     const arr = marketChartData?.prices.map((el) => {
       return {
         date: moment(el[0]).format('MMM DD'),
-        price: Math.round(el[1]),
+        // price: Math.round(el[1]),
+        price: el[1].toFixed(5),
       };
     });
+
+    console.log('arr', arr);
 
     setPrices(arr);
   }, [marketChartData]);
@@ -123,56 +126,71 @@ const HistoricChart = () => {
         // searchList={searchList}
       />
 
-      <Box
-        sx={{
-          width: '100%',
-          height: '500px',
-          padding: '1rem 1rem 0 0',
-        }}
-      >
-        <ResponsiveContainer width='100%' height='100%'>
-          <AreaChart width={500} height={300} data={prices}>
-            <CartesianGrid strokeDasharray='3' vertical={false} />
+      {isChartLoading && (
+        <Box sx={{ display: 'flex' }}>
+          <CircularProgress />
+        </Box>
+      )}
 
-            <XAxis
-              dataKey='date'
-              axisLine={false}
-              tickLine={false}
-              style={{ fontSize: '10px' }}
-            />
+      {marketChartData && (
+        <Box
+          sx={{
+            width: '100%',
+            height: '500px',
+            padding: '1rem 1rem 0 1rem',
+          }}
+        >
+          <ResponsiveContainer width='100%' height='100%'>
+            <AreaChart width={500} height={300} data={prices}>
+              <CartesianGrid
+                strokeDasharray='3'
+                vertical={false}
+                // horizontalFill={['#555555', '#444444']}
+                // fillOpacity={0.2}
+                stroke='gray'
+              />
 
-            <YAxis
-              axisLine={false}
-              tickLine={false}
-              type='number'
-              domain={['dataMin', 'dataMax']}
-              style={{ fontSize: '10px' }}
-            />
+              <XAxis
+                dataKey='date'
+                axisLine={false}
+                tickLine={false}
+                style={{ fontSize: '10px' }}
+              />
 
-            <Tooltip
-              contentStyle={{
-                background: '#000000',
-                color: '#fff',
-                fontSize: '10px',
-                borderRadius: '5px',
-              }}
-              wrapperStyle={{
-                outline: 'none',
-              }}
-            />
+              <YAxis
+                axisLine={false}
+                tickLine={false}
+                type='number'
+                domain={['dataMin', 'dataMax']}
+                style={{ fontSize: '10px' }}
+                tickCount={7}
+              />
 
-            <Area
-              type='monotone'
-              dataKey='price'
-              stroke='#FFAF2C'
-              activeDot={{ r: 8 }}
-              strokeWidth='2'
-              dot={false}
-              fill='#FFAF2C'
-            />
-          </AreaChart>
-        </ResponsiveContainer>
-      </Box>
+              <Tooltip
+                contentStyle={{
+                  background: '#000000',
+                  color: '#fff',
+                  fontSize: '10px',
+                  borderRadius: '5px',
+                }}
+                wrapperStyle={{
+                  outline: 'none',
+                }}
+              />
+
+              <Area
+                type='monotone'
+                dataKey='price'
+                stroke='#FFAF2C'
+                activeDot={{ r: 8 }}
+                strokeWidth='2'
+                dot={false}
+                fill='#FFAF2C'
+              />
+            </AreaChart>
+          </ResponsiveContainer>
+        </Box>
+      )}
     </Box>
   );
 };

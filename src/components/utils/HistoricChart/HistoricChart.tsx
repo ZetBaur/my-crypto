@@ -79,13 +79,12 @@ const HistoricChart = () => {
     useLazyFetchCoinByIdQuery();
 
   const handleCurrentCurrency = (currency: string | null) => {
-    fetchCoinById(currency);
+    if (currency) fetchCoinById(currency);
+    setSearch('');
   };
 
   useEffect(() => {
-    console.log('coinById', coinById);
-
-    setCurrentCoin(coinById);
+    if (coinById) setCurrentCoin(coinById);
   }, [coinById]);
 
   //------------------------------------------------------------

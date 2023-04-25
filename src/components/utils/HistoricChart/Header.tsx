@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTheme } from '@mui/material/styles';
 import { tokens } from '../../../contexts/themeContext';
 
@@ -65,6 +65,11 @@ const HistoricChartHeader = (props: IProps) => {
           display: 'flex',
           alignItems: 'center',
           gap: '8px',
+          minWidth: '100px',
+          marginRight: '1 rem',
+          background: colors.secondary.DEFAULT,
+          borderRadius: '4px',
+          padding: '8px 16px',
         }}
       >
         <img src={currentCoin?.image.thumb} alt={currentCoin?.symbol} />

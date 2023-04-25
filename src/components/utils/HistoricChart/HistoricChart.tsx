@@ -33,9 +33,13 @@ const HistoricChart = () => {
   const [prices, setPrices] = useState<IPrices[] | undefined>([]);
 
   // const [search, setSearch] = useState('');
-  const [currency, setCurrency] = useState('USD');
+
+  const [id, setId] = useState('bitcoin');
+  const [vsCurrency, setVsCurrency] = useState('USD');
   const [days, setDays] = useState('13');
   const [interval, setInterval] = useState('daily');
+
+  // const [newCoin, setNewCoin] = useState('');
 
   const [currentCoin, setCurrentCoin] = useState<ICurrentCoin | undefined>({
     id: 'bitcoin',
@@ -64,15 +68,13 @@ const HistoricChart = () => {
 
   useEffect(() => {
     const initialMarketChartQueryState = {
-      id: 'bitcoin',
-      currency: 'usd',
-      days: '21',
-      interval: 'hourly',
+      id,
+      vsCurrency,
+      days,
+      interval,
     };
 
-    fetchMarketChart(initialMarketChartQueryState);
-
-    console.log('lazyMarketChartData', lazyMarketChartData);
+    fetchMarketChart(initialMarketChartQueryState); // fetch chart
 
     const arr = lazyMarketChartData?.prices.map((el) => {
       return {
@@ -94,16 +96,16 @@ const HistoricChart = () => {
 
   //   setPrices(arr);
   // }, [marketChartData]);
+  //----------------------------------
 
   // ------- fetch coin by id ---------
-
   const [fetchCoinById, { isLoading: isCoinByIdLoading, data: coinById }] =
     useLazyFetchCoinByIdQuery();
 
-  const handleSearchCoin = (currency: string | null) => {
-    console.log('currency', currency);
+  const handleSearchCoin = (newCoin: string | null) => {
+    console.log('currency', newCoin);
 
-    if (currency) fetchCoinById(currency);
+    if (newCoin) fetchCoinById(newCoin);
 
     // const newCurrentCoin = setCurrentCoin();
 
@@ -126,8 +128,8 @@ const HistoricChart = () => {
       <Header
         // search={search}
         // setSearch={setSearch}
-        currency={currency}
-        setCurrency={setCurrency}
+        vsCurrency={vsCurrency}
+        setVsCurrency={setVsCurrency}
         days={days}
         setDays={setDays}
         interval={interval}
@@ -135,6 +137,8 @@ const HistoricChart = () => {
         currentCoin={currentCoin}
         setCurrentCoin={setCurrentCoin}
         handleSearchCoin={handleSearchCoin}
+        // newCoin={newCoin}
+        // setNewCoin={newCoin}
 
         // showSearchList={showSearchList}
         // setShowSearchList={setShowSearchList}

@@ -19,8 +19,8 @@ import { coinList } from '../../../data/coinList';
 interface IProps {
   // search: string;
   // setSearch: React.Dispatch<React.SetStateAction<string>>;
-  currency: string;
-  setCurrency: React.Dispatch<React.SetStateAction<string>>;
+  vsCurrency: string;
+  setVsCurrency: React.Dispatch<React.SetStateAction<string>>;
   days: string;
   setDays: React.Dispatch<React.SetStateAction<string>>;
   interval: string;
@@ -30,6 +30,8 @@ interface IProps {
     React.SetStateAction<ICurrentCoin | undefined>
   >;
   handleSearchCoin: (currency: string | null) => void;
+  // newCoin: string;
+  // setNewCoin: React.Dispatch<React.SetStateAction<string>>;
 }
 
 //----------------------
@@ -38,8 +40,8 @@ const HistoricChartHeader = (props: IProps) => {
   const {
     // search,
     // setSearch,
-    currency,
-    setCurrency,
+    vsCurrency,
+    setVsCurrency,
     days,
     setDays,
     interval,
@@ -47,6 +49,8 @@ const HistoricChartHeader = (props: IProps) => {
     currentCoin,
     setCurrentCoin,
     handleSearchCoin,
+    // newCoin,
+    // setNewCoin,
   } = props;
 
   const theme = useTheme();
@@ -93,7 +97,7 @@ const HistoricChartHeader = (props: IProps) => {
           fullWidth
           freeSolo
           options={coinList.map((option) => option.id)}
-          onChange={(event: any, newValue) => handleSearchCoin(newValue)}
+          onChange={(event: any, newCoin) => handleSearchCoin(newCoin)}
           sx={{
             background: '#000000',
           }}
@@ -113,8 +117,8 @@ const HistoricChartHeader = (props: IProps) => {
       <FormControl size='small' variant='outlined'>
         <MuiTooltip title='Currency' placement='top'>
           <Select
-            value={currency}
-            onChange={(e) => setCurrency(e.target.value)}
+            value={vsCurrency}
+            onChange={(e) => setVsCurrency(e.target.value)}
             sx={{
               width: '100px',
               '& .MuiSvgIcon-root': {

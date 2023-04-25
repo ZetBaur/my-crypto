@@ -35,7 +35,7 @@ export const coinsApi = createApi({
         url: `coins/bitcoin/market_chart`,
         params: {
           id: obj.id,
-          vs_currency: obj.currency,
+          vs_currency: obj.vsCurrency,
           days: obj.days,
           interval: obj.interval,
         },

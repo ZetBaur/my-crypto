@@ -240,6 +240,6 @@ export interface ICoinData {
   id: string | undefined;
   symbol: string | undefined;
   name: string | undefined;
-  image: Image | undefined;
+  image: string | undefined;
   inPortfolio: boolean;
 }

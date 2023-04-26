@@ -4,7 +4,7 @@ import { Box, Tooltip } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
 import { useTheme } from '@mui/material/styles';
 import { tokens } from '../../contexts/themeContext';
-import { ITrending, ITrendingCoin } from '../../model/coinsTypes';
+import { ICoinData, ITrending, ITrendingCoin } from '../../model/coinsTypes';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
 import {
   setId,
@@ -37,7 +37,7 @@ const Trending = () => {
   const handleIconClick = async (el: ITrendingCoin) => {
     console.log(el);
 
-    const coinToAdd = {
+    const coinToAdd: ICoinData = {
       id: el.item.id,
       symbol: el.item.symbol,
       name: el.item.name,
@@ -45,20 +45,14 @@ const Trending = () => {
       inPortfolio: false,
     };
 
-    // await fetchCoinById(el.item.id);
+    const isInPortfolio = portfolio.some((el) => {
+      return el.id === coinByIdData?.id;
+    });
+
+    !isInPortfolio
+      ? dispatch(addToPortfolio(coinToAdd))
+      : removeFromPortfolio(coinToAdd);
   };
-
-  useEffect(() => {
-    if (coinByIdData) {
-      const isInPortfolio = portfolio.some((el) => {
-        return el.id === coinByIdData?.id;
-      });
-
-      !isInPortfolio
-        ? dispatch(addToPortfolio(coinByIdData))
-        : removeFromPortfolio(coinByIdData);
-    }
-  }, [coinByIdData]);
 
   const iconColor = (el: ITrendingCoin) => {
     const inP = portfolio.some((item) => el.item.id === item.id);

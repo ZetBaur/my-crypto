@@ -84,7 +84,7 @@ const Chart = () => {
         id: coinByIdData.id,
         symbol: coinByIdData.symbol,
         name: coinByIdData.name,
-        image: coinByIdData.image,
+        image: coinByIdData.image.thumb,
         inPortfolio: false,
       };
       dispatch(setCurrentCoin(newCurrentCoin));

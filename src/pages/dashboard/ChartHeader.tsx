@@ -1,4 +1,3 @@
-import React, { SyntheticEvent, useState } from 'react';
 import { useTheme } from '@mui/material/styles';
 import { tokens } from '../../contexts/themeContext';
 import { currencies } from '../../data/currencies';
@@ -8,12 +7,10 @@ import {
   FormControl,
   MenuItem,
   Select,
-  Tooltip as MuiTooltip,
   Autocomplete,
   TextField,
 } from '@mui/material';
 
-import { ICoin, ICurrentCoin } from '../../model/coinsTypes';
 import { coinList } from '../../data/coinList';
 
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
@@ -24,49 +21,8 @@ import {
   setInterval,
 } from '../../store/features/coins/coinsSlice';
 
-interface IProps {
-  // search: string;
-  // setSearch: React.Dispatch<React.SetStateAction<string>>;
-  // vsCurrency: string;
-  // setVsCurrency: React.Dispatch<React.SetStateAction<string>>;
-  // days: string;
-  // setDays: React.Dispatch<React.SetStateAction<string>>;
-  // interval: string;
-  // setInterval: React.Dispatch<React.SetStateAction<string>>;
-  // currentCoin: ICurrentCoin | undefined;
-  // setCurrentCoin: React.Dispatch<
-  //   React.SetStateAction<ICurrentCoin | undefined>
-  // >;
-  // handleSearchCoin: (currency: string | null) => void;
-  // id: string | null;
-  // setId: React.Dispatch<React.SetStateAction<string | null>>;
-  // newCoin: string;
-  // setNewCoin: React.Dispatch<React.SetStateAction<string>>;
-  reduxSetId: (id: string | null) => void;
-}
-
-//----------------------
-
+//------------------------------------------------------------------------------------
 const HistoricChartHeader = () => {
-  // const {
-  //   search,
-  //   setSearch,
-  //   vsCurrency,
-  //   setVsCurrency,
-  //   days,
-  //   setDays,
-  //   interval,
-  //   setInterval,
-  //   currentCoin,
-  //   setCurrentCoin,
-  //   handleSearchCoin,
-  //   id,
-  //   setId,
-  //   newCoin,
-  //   setNewCoin,
-  //   reduxSetId,
-  // } = props;
-
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -74,6 +30,7 @@ const HistoricChartHeader = () => {
   const vsCurrency = useAppSelector((state) => state.coins.vsCurrency);
   const days = useAppSelector((state) => state.coins.days);
   const interval = useAppSelector((state) => state.coins.interval);
+
   const prices = useAppSelector((state) => state.coins.prices);
   const currentCoin = useAppSelector((state) => state.coins.currentCoin);
 
@@ -126,12 +83,7 @@ const HistoricChartHeader = () => {
             background: '#000000',
           }}
           renderInput={(params) => (
-            <TextField
-              // value={search}
-              // onChange={(e) => setSearch(e.target.value)}
-              {...params}
-              placeholder='Search Coin'
-            />
+            <TextField {...params} placeholder='Search Coin' />
           )}
         />
       </Box>
@@ -185,9 +137,6 @@ const HistoricChartHeader = () => {
             },
           }}
         >
-          {/* <MenuItem value=''>
-            <em>None</em>
-          </MenuItem> */}
           <MenuItem value='1'>Last Day</MenuItem>
           <MenuItem value='7'>Last Week</MenuItem>
           <MenuItem value='30'>Last Month</MenuItem>
@@ -216,7 +165,6 @@ const HistoricChartHeader = () => {
           <MenuItem value='daily' disabled={days === '180' || days === '360'}>
             Dayly
           </MenuItem>
-          {/* <MenuItem value={30}>Thirty</MenuItem> */}
         </Select>
       </FormControl>
     </Box>

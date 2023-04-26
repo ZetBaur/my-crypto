@@ -18,6 +18,16 @@ import { useTheme } from '@mui/material/styles';
 import { tokens } from '../../contexts/themeContext';
 import { ICurrentCoin, IPrices } from '../../model/coinsTypes';
 
+import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
+import {
+  setId,
+  setDays,
+  setVsCurrency,
+  setInterval,
+  setCurrentCoin,
+  setPrices,
+} from '../../store/features/coins/coinsSlice';
+
 import {
   useLazyFetchCoinByIdQuery,
   useLazyFetchMarketChartQuery,
@@ -29,26 +39,15 @@ const Chart = () => {
   const colors = tokens(theme.palette.mode);
 
   //------- states --------------------------------------------
-  const [prices, setPrices] = useState<IPrices[] | undefined>([]); // chart
+  const id = useAppSelector((state) => state.coins.id);
+  const vsCurrency = useAppSelector((state) => state.coins.vsCurrency);
+  const days = useAppSelector((state) => state.coins.days);
+  const interval = useAppSelector((state) => state.coins.interval);
 
-  const [id, setId] = useState<string | null>('bitcoin');
-  const [vsCurrency, setVsCurrency] = useState('USD');
-  const [days, setDays] = useState('7');
-  const [interval, setInterval] = useState('hourly');
+  const prices = useAppSelector((state) => state.coins.prices);
+  const currentCoin = useAppSelector((state) => state.coins.currentCoin);
 
-  const [currentCoin, setCurrentCoin] = useState<ICurrentCoin | undefined>({
-    id: 'bitcoin',
-    name: 'Bitcoin',
-    symbol: 'btc',
-    image: {
-      large:
-        'https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1547033579',
-      small:
-        'https://assets.coingecko.com/coins/images/1/small/bitcoin.png?1547033579',
-      thumb:
-        'https://assets.coingecko.com/coins/images/1/thumb/bitcoin.png?1547033579',
-    },
-  });
+  const dispatch = useAppDispatch();
 
   //--------------- fetches -------------------------------------
   const [fetchCoinById, { isLoading: isCoinByIdLoading, data: coinByIdData }] =
@@ -64,7 +63,7 @@ const Chart = () => {
   ] = useLazyFetchMarketChartQuery();
 
   useEffect(() => {
-    if (id) fetchCoinById(id); //                    fetch current coin data
+    if (id) fetchCoinById(id);
   }, [id]);
 
   useEffect(() => {
@@ -74,7 +73,7 @@ const Chart = () => {
       days,
       interval,
     };
-    if (id) fetchChart(params); //           fetch chart
+    if (id) fetchChart(params);
   }, [id, vsCurrency, days, interval]);
 
   useEffect(() => {
@@ -84,15 +83,14 @@ const Chart = () => {
         price: el[1].toFixed(5),
       };
     });
-    setPrices(arr);
+    dispatch(setPrices(arr));
   }, [marketChartData]);
 
   useEffect(() => {
-    setCurrentCoin(coinByIdData);
+    dispatch(setCurrentCoin(coinByIdData));
   }, [coinByIdData]);
 
   //------------------------------------------------------------
-
   return (
     <Box
       sx={{
@@ -102,18 +100,7 @@ const Chart = () => {
         flex: '1',
       }}
     >
-      <ChartHeader
-        vsCurrency={vsCurrency}
-        setVsCurrency={setVsCurrency}
-        days={days}
-        setDays={setDays}
-        interval={interval}
-        setInterval={setInterval}
-        currentCoin={currentCoin}
-        setCurrentCoin={setCurrentCoin}
-        id={id}
-        setId={setId}
-      />
+      <ChartHeader />
 
       <Box
         sx={{

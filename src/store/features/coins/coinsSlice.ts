@@ -4,7 +4,7 @@ import { ICurrentCoin, IPrices } from '../../../model/coinsTypes';
 interface IInitialState {
   prices: IPrices[] | undefined;
   currentCoin: ICurrentCoin | undefined;
-  id: string;
+  id: string | null;
   vsCurrency: string;
   days: string;
   interval: string;
@@ -36,7 +36,7 @@ export const coinsSlice = createSlice({
   name: 'coins',
   initialState,
   reducers: {
-    setId(state, action: PayloadAction<string>) {
+    setId(state, action: PayloadAction<string | null>) {
       state.id = action.payload;
     },
 
@@ -52,16 +52,22 @@ export const coinsSlice = createSlice({
       state.interval = action.payload;
     },
 
-    setPrices(state, action: PayloadAction<IPrices[]>) {
+    setPrices(state, action: PayloadAction<IPrices[] | undefined>) {
       state.prices = action.payload;
     },
 
-    setCurrentCoin(state, action: PayloadAction<ICurrentCoin>) {
+    setCurrentCoin(state, action: PayloadAction<ICurrentCoin | undefined>) {
       state.currentCoin = action.payload;
     },
   },
 });
 
-export const { setId, setVsCurrency, setDays, setInterval } =
-  coinsSlice.actions;
+export const {
+  setId,
+  setVsCurrency,
+  setDays,
+  setInterval,
+  setCurrentCoin,
+  setPrices,
+} = coinsSlice.actions;
 export default coinsSlice.reducer;

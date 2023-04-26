@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Dashboard from './pages/dashboard/Dashboard';
+import { Dashboard } from './pages';
 import { MainLayout, AuthLayout } from './components';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { ColorModeContext, useMode } from './contexts/themeContext';

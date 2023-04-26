@@ -1,7 +1,7 @@
 import React, { SyntheticEvent, useState } from 'react';
 import { useTheme } from '@mui/material/styles';
-import { tokens } from '../../../contexts/themeContext';
-import { currencies } from '../../../data/currencies';
+import { tokens } from '../../contexts/themeContext';
+import { currencies } from '../../data/currencies';
 
 import {
   Box,
@@ -13,8 +13,8 @@ import {
   TextField,
 } from '@mui/material';
 
-import { ICoin, ICurrentCoin } from '../../../model/coinsTypes';
-import { coinList } from '../../../data/coinList';
+import { ICoin, ICurrentCoin } from '../../model/coinsTypes';
+import { coinList } from '../../data/coinList';
 
 interface IProps {
   // search: string;

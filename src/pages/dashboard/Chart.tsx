@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import moment from 'moment';
 
-import Header from './ChartHeader';
+import ChartHeader from './ChartHeader';
 
 import {
   Area,
@@ -19,23 +19,16 @@ import { tokens } from '../../contexts/themeContext';
 import { ICurrentCoin, IPrices } from '../../model/coinsTypes';
 
 import {
-  // useFetchMarketChartQuery,
   useLazyFetchCoinByIdQuery,
   useLazyFetchMarketChartQuery,
-  useFetchMarketChartQuery,
-  useLazyFetchPublicCompaniesQuery,
-  useLazyFetchTrendingQuery,
 } from '../../store/features/coins/coinsApi';
-import PublicCompanies from './PublicCompanies';
 
-//--------------------------------------------------------------------
-const HistoricChart = () => {
-  console.log('render');
-
+//----------------------------------------------------------------------------------------
+const Chart = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  //------- states -----------
+  //------- states --------------------------------------------
   const [prices, setPrices] = useState<IPrices[] | undefined>([]); // chart
 
   const [id, setId] = useState<string | null>('bitcoin');
@@ -57,12 +50,12 @@ const HistoricChart = () => {
     },
   });
 
-  //----------fetch chart -------
+  //--------------- fetches -------------------------------------
   const [fetchCoinById, { isLoading: isCoinByIdLoading, data: coinByIdData }] =
     useLazyFetchCoinByIdQuery();
 
   const [
-    fetchMarketChart,
+    fetchChart,
     {
       isFetching: isChartFetching,
       isLoading: isChartLoading,
@@ -70,13 +63,9 @@ const HistoricChart = () => {
     },
   ] = useLazyFetchMarketChartQuery();
 
-  const [
-    fetchPublicCompanies,
-    { isLoading: isPublicCompaniesLoading, data: publicCompaniesData },
-  ] = useLazyFetchPublicCompaniesQuery();
-
-  const [fetchTrending, { isLoading: isTrendingLoading, data: trendingData }] =
-    useLazyFetchTrendingQuery();
+  useEffect(() => {
+    if (id) fetchCoinById(id); //                    fetch current coin data
+  }, [id]);
 
   useEffect(() => {
     const params = {
@@ -85,13 +74,8 @@ const HistoricChart = () => {
       days,
       interval,
     };
-    if (id) fetchMarketChart(params); // fetch chart
+    if (id) fetchChart(params); //           fetch chart
   }, [id, vsCurrency, days, interval]);
-
-  useEffect(() => {
-    fetchCoinById(id); //          current coin data
-    fetchPublicCompanies(id); //   piblic companies
-  }, [id]);
 
   useEffect(() => {
     const arr = marketChartData?.prices.map((el) => {
@@ -107,10 +91,6 @@ const HistoricChart = () => {
     setCurrentCoin(coinByIdData);
   }, [coinByIdData]);
 
-  useEffect(() => {
-    console.log('publicCompaniesData', publicCompaniesData);
-  }, [publicCompaniesData]);
-
   //------------------------------------------------------------
 
   return (
@@ -122,7 +102,7 @@ const HistoricChart = () => {
         flex: '1',
       }}
     >
-      <Header
+      <ChartHeader
         vsCurrency={vsCurrency}
         setVsCurrency={setVsCurrency}
         days={days}
@@ -194,4 +174,4 @@ const HistoricChart = () => {
   );
 };
 
-export default HistoricChart;
+export default Chart;

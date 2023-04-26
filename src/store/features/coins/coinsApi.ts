@@ -72,7 +72,7 @@ export const coinsApi = createApi({
       }),
     }),
 
-    fetchTrending: build.query<any, any>({
+    fetchTrending: build.query<any, void>({
       query: () => ({
         url: `search/trending`,
       }),

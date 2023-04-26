@@ -3,14 +3,25 @@ import { tokens } from '../../contexts/themeContext';
 import { Box, Chip, Typography } from '@mui/material';
 import { IPublicCompanies } from '../../model/coinsTypes';
 
-interface IProps {
-  publicCompaniesData: IPublicCompanies | undefined;
-}
+import { useLazyFetchPublicCompaniesQuery } from '../../store/features/coins/coinsApi';
+import { useEffect } from 'react';
 
-const PublicCompanies = (props: IProps) => {
-  const { publicCompaniesData } = props;
+const PublicCompanies = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+  const [
+    fetchPublicCompanies,
+    { isLoading: isPublicCompaniesLoading, data: publicCompanies },
+  ] = useLazyFetchPublicCompaniesQuery();
+
+  useEffect(() => {
+    fetchPublicCompanies(id);
+  }, []);
+
+  useEffect(() => {
+    console.log('publicCompaniesData', publicCompanies);
+  }, [publicCompanies]);
 
   return (
     <Box

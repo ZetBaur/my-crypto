@@ -1,12 +1,22 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLazyFetchTrendingQuery } from '../../store/features/coins/coinsApi';
-import { Box, Typography } from '@mui/material';
+import { Box, Tooltip, Typography } from '@mui/material';
+import StarIcon from '@mui/icons-material/Star';
 import { useTheme } from '@mui/material/styles';
 import { tokens } from '../../contexts/themeContext';
+import { ITrending, ITrendingCoin } from '../../model/coinsTypes';
+
+import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
+
+import { setId } from '../../store/features/coins/coinsSlice';
 
 const Trending = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+  const [trendingCoins, setTrendingCoins] = useState<ITrending>();
+
+  const dispatch = useAppDispatch();
 
   const [fetchTrending, { isLoading: isTrendingLoading, data: TrendingData }] =
     useLazyFetchTrendingQuery();
@@ -16,8 +26,17 @@ const Trending = () => {
   }, []);
 
   useEffect(() => {
-    console.log(TrendingData);
+    if (TrendingData) setTrendingCoins(TrendingData);
   }, [TrendingData]);
+
+  const handleCoinClick = (el: ITrendingCoin) => {
+    console.log(el);
+    dispatch(setId(el.item.id));
+  };
+
+  const handleIconClick = (el: ITrendingCoin) => {
+    console.log(el);
+  };
 
   return (
     <Box
@@ -29,9 +48,55 @@ const Trending = () => {
         padding: '1rem',
       }}
     >
-      <Typography variant='h6' gutterBottom>
-        h5. Heading
-      </Typography>
+      <Box
+        sx={{
+          textAlign: 'center',
+          marginBottom: '1rem',
+          fontWeight: '600',
+        }}
+      >
+        Top 7 Trending
+      </Box>
+
+      {trendingCoins?.coins.map((el) => (
+        <Box
+          key={el.item.id}
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '1rem',
+            background: colors.secondary.DEFAULT,
+            marginBottom: '1rem',
+            padding: '8px 1rem',
+            borderRadius: '4px',
+          }}
+        >
+          <Tooltip title='Add to portfolio' placement='left'>
+            <StarIcon
+              onClick={() => handleIconClick(el)}
+              color='primary'
+              sx={{
+                cursor: 'pointer',
+              }}
+            />
+          </Tooltip>
+
+          <Box
+            sx={{
+              cursor: 'pointer',
+              flex: '1',
+              ':hover': {
+                color: 'gray',
+              },
+            }}
+            onClick={() => handleCoinClick(el)}
+          >
+            {el.item.name}
+          </Box>
+
+          <img src={el.item.thumb} alt={el.item.name} />
+        </Box>
+      ))}
     </Box>
   );
 };

@@ -75,7 +75,7 @@ const Chart = () => {
     const arr = marketChartData?.prices.map((el) => {
       return {
         date: moment(el[0]).format('MMM DD'),
-        price: el[1].toFixed(3),
+        price: el[1].toFixed(7),
       };
     });
     dispatch(setPrices(arr));

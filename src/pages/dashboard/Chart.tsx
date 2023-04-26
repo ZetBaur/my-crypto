@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react';
 import moment from 'moment';
-
 import ChartHeader from './ChartHeader';
-
 import {
   Area,
   AreaChart,
@@ -12,7 +10,6 @@ import {
   XAxis,
   YAxis,
 } from 'recharts';
-
 import { Box, CircularProgress, Backdrop } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { tokens } from '../../contexts/themeContext';
@@ -82,7 +79,16 @@ const Chart = () => {
   }, [marketChartData]);
 
   useEffect(() => {
-    dispatch(setCurrentCoin(coinByIdData));
+    if (coinByIdData) {
+      const newCurrentCoin = {
+        id: coinByIdData.id,
+        symbol: coinByIdData.symbol,
+        name: coinByIdData.name,
+        image: coinByIdData.image,
+        inPortfolio: false,
+      };
+      dispatch(setCurrentCoin(newCurrentCoin));
+    }
   }, [coinByIdData]);
 
   //------------------------------------------------------------

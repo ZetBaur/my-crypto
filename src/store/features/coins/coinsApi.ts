@@ -6,7 +6,7 @@ import {
   IMarketChartQuery,
   ISearchCoin,
   ICoin,
-  ICurrentCoin,
+  ICoinById,
   IPublicCompanies,
 } from '../../../model/coinsTypes';
 
@@ -52,7 +52,7 @@ export const coinsApi = createApi({
       }),
     }),
 
-    fetchCoinById: build.query<ICurrentCoin, string | null>({
+    fetchCoinById: build.query<ICoinById, string | null>({
       query: (id: string) => ({
         url: `coins/${id}`,
         params: {

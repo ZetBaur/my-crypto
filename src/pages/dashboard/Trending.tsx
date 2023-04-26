@@ -27,9 +27,6 @@ const Trending = () => {
 
   useEffect(() => {
     fetchTrending();
-  }, []);
-
-  useEffect(() => {
     if (TrendingData) setTrendingCoins(TrendingData);
   }, [TrendingData]);
 
@@ -38,7 +35,17 @@ const Trending = () => {
   };
 
   const handleIconClick = async (el: ITrendingCoin) => {
-    await fetchCoinById(el.item.id);
+    console.log(el);
+
+    const coinToAdd = {
+      id: el.item.id,
+      symbol: el.item.symbol,
+      name: el.item.name,
+      image: el.item.thumb,
+      inPortfolio: false,
+    };
+
+    // await fetchCoinById(el.item.id);
   };
 
   useEffect(() => {

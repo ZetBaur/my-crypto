@@ -109,10 +109,9 @@ export interface INft {
   thumb: string;
 }
 
-// ------- current coin-----
+// -------  coin by id -----
 
-export interface ICurrentCoin {
-  // inPortfolio?: boolean;
+export interface ICoinById {
   id: string;
   symbol: string;
   name: string;
@@ -233,4 +232,14 @@ export interface Item {
   slug: string;
   price_btc: number;
   score: number;
+}
+
+// ---------- coin data -----
+
+export interface ICoinData {
+  id: string | undefined;
+  symbol: string | undefined;
+  name: string | undefined;
+  image: Image | undefined;
+  inPortfolio: boolean;
 }

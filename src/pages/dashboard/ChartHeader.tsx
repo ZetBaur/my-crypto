@@ -1,7 +1,6 @@
 import { useTheme } from '@mui/material/styles';
 import { tokens } from '../../contexts/themeContext';
 import { currencies } from '../../data/currencies';
-
 import {
   Box,
   FormControl,
@@ -11,7 +10,6 @@ import {
   TextField,
   Tooltip,
 } from '@mui/material';
-
 import { coinList } from '../../data/coinList';
 
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
@@ -57,7 +55,7 @@ const HistoricChartHeader = () => {
           padding: '8px 16px',
         }}
       >
-        <img src={currentCoin?.image.thumb} alt={currentCoin?.symbol} />
+        <img src={currentCoin?.image?.thumb} alt={currentCoin?.symbol} />
         <span>{currentCoin?.name}</span>
       </Box>
 

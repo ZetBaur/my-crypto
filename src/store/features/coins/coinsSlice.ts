@@ -1,14 +1,16 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ICurrentCoin, IPrices } from '../../../model/coinsTypes';
+import { ICoinById, ICoinData, IPrices } from '../../../model/coinsTypes';
 
 interface IInitialState {
-  prices: IPrices[] | undefined;
-  currentCoin: ICurrentCoin | undefined;
   id: string | null;
   vsCurrency: string;
   days: string;
   interval: string;
-  portfolio: ICurrentCoin[];
+
+  portfolio: ICoinData[];
+
+  prices: IPrices[] | undefined;
+  currentCoin: ICoinData | undefined;
 }
 
 const initialState: IInitialState = {
@@ -25,6 +27,7 @@ const initialState: IInitialState = {
       thumb:
         'https://assets.coingecko.com/coins/images/1/thumb/bitcoin.png?1547033579',
     },
+    inPortfolio: false,
   },
 
   id: 'bitcoin',
@@ -58,15 +61,15 @@ export const coinsSlice = createSlice({
       state.prices = action.payload;
     },
 
-    setCurrentCoin(state, action: PayloadAction<ICurrentCoin | undefined>) {
+    setCurrentCoin(state, action: PayloadAction<ICoinData | undefined>) {
       state.currentCoin = action.payload;
     },
 
-    addToPortfolio(state, action: PayloadAction<ICurrentCoin>) {
+    addToPortfolio(state, action: PayloadAction<ICoinData>) {
       state.portfolio.push(action.payload);
     },
 
-    removeFromPortfolio(state, action: PayloadAction<ICurrentCoin>) {
+    removeFromPortfolio(state, action: PayloadAction<ICoinData>) {
       state.portfolio = state.portfolio.filter(
         (el) => el.id !== action.payload
       );

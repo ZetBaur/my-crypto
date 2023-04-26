@@ -16,49 +16,68 @@ import {
 import { ICoin, ICurrentCoin } from '../../model/coinsTypes';
 import { coinList } from '../../data/coinList';
 
+import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
+import {
+  setId,
+  setDays,
+  setVsCurrency,
+  setInterval,
+} from '../../store/features/coins/coinsSlice';
+
 interface IProps {
   // search: string;
   // setSearch: React.Dispatch<React.SetStateAction<string>>;
-  vsCurrency: string;
-  setVsCurrency: React.Dispatch<React.SetStateAction<string>>;
-  days: string;
-  setDays: React.Dispatch<React.SetStateAction<string>>;
-  interval: string;
-  setInterval: React.Dispatch<React.SetStateAction<string>>;
-  currentCoin: ICurrentCoin | undefined;
-  setCurrentCoin: React.Dispatch<
-    React.SetStateAction<ICurrentCoin | undefined>
-  >;
+  // vsCurrency: string;
+  // setVsCurrency: React.Dispatch<React.SetStateAction<string>>;
+  // days: string;
+  // setDays: React.Dispatch<React.SetStateAction<string>>;
+  // interval: string;
+  // setInterval: React.Dispatch<React.SetStateAction<string>>;
+  // currentCoin: ICurrentCoin | undefined;
+  // setCurrentCoin: React.Dispatch<
+  //   React.SetStateAction<ICurrentCoin | undefined>
+  // >;
   // handleSearchCoin: (currency: string | null) => void;
-  id: string | null;
-  setId: React.Dispatch<React.SetStateAction<string | null>>;
+  // id: string | null;
+  // setId: React.Dispatch<React.SetStateAction<string | null>>;
   // newCoin: string;
   // setNewCoin: React.Dispatch<React.SetStateAction<string>>;
+  reduxSetId: (id: string | null) => void;
 }
 
 //----------------------
 
-const HistoricChartHeader = (props: IProps) => {
-  const {
-    // search,
-    // setSearch,
-    vsCurrency,
-    setVsCurrency,
-    days,
-    setDays,
-    interval,
-    setInterval,
-    currentCoin,
-    // setCurrentCoin,
-    // handleSearchCoin,
-    id,
-    setId,
-    // newCoin,
-    // setNewCoin,
-  } = props;
+const HistoricChartHeader = () => {
+  // const {
+  //   search,
+  //   setSearch,
+  //   vsCurrency,
+  //   setVsCurrency,
+  //   days,
+  //   setDays,
+  //   interval,
+  //   setInterval,
+  //   currentCoin,
+  //   setCurrentCoin,
+  //   handleSearchCoin,
+  //   id,
+  //   setId,
+  //   newCoin,
+  //   setNewCoin,
+  //   reduxSetId,
+  // } = props;
 
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+  const id = useAppSelector((state) => state.coins.id);
+  const vsCurrency = useAppSelector((state) => state.coins.vsCurrency);
+  const days = useAppSelector((state) => state.coins.days);
+  const interval = useAppSelector((state) => state.coins.interval);
+  const prices = useAppSelector((state) => state.coins.prices);
+  const currentCoin = useAppSelector((state) => state.coins.currentCoin);
+
+  const dispatch = useAppDispatch();
 
   return (
     <Box
@@ -102,7 +121,7 @@ const HistoricChartHeader = (props: IProps) => {
           freeSolo
           options={coinList.map((option) => option.id)}
           value={id}
-          onChange={(event, newCoin: string | null) => setId(newCoin)}
+          onChange={(event, newCoin: string | null) => dispatch(setId(newCoin))}
           sx={{
             background: '#000000',
           }}

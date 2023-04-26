@@ -1,12 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
-import themeSlice from './features/theme/themeSlice';
-import { coinsApi } from './features/coins/coinsApi';
 import { setupListeners } from '@reduxjs/toolkit/query';
+import { coinsApi } from './features/coins/coinsApi';
+
+import coinsSlice from './features/coins/coinsSlice';
 
 export const store = configureStore({
   reducer: {
-    themeSlice,
     [coinsApi.reducerPath]: coinsApi.reducer,
+    coins: coinsSlice,
   },
 
   middleware: (getDefaultMiddleware) =>

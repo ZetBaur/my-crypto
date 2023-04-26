@@ -33,7 +33,7 @@ const Chart = () => {
 
   const [id, setId] = useState<string | null>('bitcoin');
   const [vsCurrency, setVsCurrency] = useState('USD');
-  const [days, setDays] = useState('1');
+  const [days, setDays] = useState('7');
   const [interval, setInterval] = useState('hourly');
 
   const [currentCoin, setCurrentCoin] = useState<ICurrentCoin | undefined>({

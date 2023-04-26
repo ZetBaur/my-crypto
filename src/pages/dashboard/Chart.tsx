@@ -13,35 +13,27 @@ import {
 import { Box, CircularProgress, Backdrop } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { tokens } from '../../contexts/themeContext';
-
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
 import {
   setCurrentCoin,
   setPrices,
 } from '../../store/features/coins/coinsSlice';
-
 import {
   useLazyFetchCoinByIdQuery,
   useLazyFetchMarketChartQuery,
 } from '../../store/features/coins/coinsApi';
 
-//----------------------------------------------------------------------------------------
 const Chart = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-
-  //------- states --------------------------------------------
   const id = useAppSelector((state) => state.coins.id);
   const vsCurrency = useAppSelector((state) => state.coins.vsCurrency);
   const days = useAppSelector((state) => state.coins.days);
   const interval = useAppSelector((state) => state.coins.interval);
-
   const prices = useAppSelector((state) => state.coins.prices);
   const currentCoin = useAppSelector((state) => state.coins.currentCoin);
-
   const dispatch = useAppDispatch();
 
-  //--------------- fetches -------------------------------------
   const [fetchCoinById, { isLoading: isCoinByIdLoading, data: coinByIdData }] =
     useLazyFetchCoinByIdQuery();
 
@@ -91,7 +83,6 @@ const Chart = () => {
     }
   }, [coinByIdData]);
 
-  //------------------------------------------------------------
   return (
     <Box
       sx={{

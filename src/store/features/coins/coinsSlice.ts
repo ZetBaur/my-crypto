@@ -6,9 +6,7 @@ interface IInitialState {
   vsCurrency: string;
   days: string;
   interval: string;
-
   portfolio: ICoinData[];
-
   prices: IPrices[] | undefined;
   currentCoin: ICoinData | undefined;
 }

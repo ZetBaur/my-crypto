@@ -8,18 +8,20 @@ import { ITrending, ITrendingCoin } from '../../model/coinsTypes';
 
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
 
-import { setId } from '../../store/features/coins/coinsSlice';
+import { setId, addToPortfolio } from '../../store/features/coins/coinsSlice';
+
+import { useLazyFetchCoinByIdQuery } from '../../store/features/coins/coinsApi';
 
 const Trending = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-
   const [trendingCoins, setTrendingCoins] = useState<ITrending>();
 
   const dispatch = useAppDispatch();
-
   const [fetchTrending, { isLoading: isTrendingLoading, data: TrendingData }] =
     useLazyFetchTrendingQuery();
+  const [fetchCoinById, { isLoading: isCoinByIdLoading, data: coinByIdData }] =
+    useLazyFetchCoinByIdQuery();
 
   useEffect(() => {
     fetchTrending();
@@ -35,8 +37,14 @@ const Trending = () => {
   };
 
   const handleIconClick = (el: ITrendingCoin) => {
-    console.log(el);
+    console.log(el.item.id);
+
+    fetchCoinById(el.item.id);
   };
+
+  useEffect(() => {
+    if (coinByIdData) dispatch(addToPortfolio(coinByIdData));
+  }, [coinByIdData]);
 
   return (
     <Box
@@ -53,6 +61,7 @@ const Trending = () => {
           textAlign: 'center',
           marginBottom: '1rem',
           fontWeight: '600',
+          color: colors.blue,
         }}
       >
         Top 7 Trending

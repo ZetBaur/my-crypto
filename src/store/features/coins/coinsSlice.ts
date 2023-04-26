@@ -8,6 +8,7 @@ interface IInitialState {
   vsCurrency: string;
   days: string;
   interval: string;
+  portfolio: ICurrentCoin[];
 }
 
 const initialState: IInitialState = {
@@ -30,6 +31,7 @@ const initialState: IInitialState = {
   vsCurrency: 'USD',
   days: '7',
   interval: 'daily',
+  portfolio: [],
 };
 
 export const coinsSlice = createSlice({
@@ -59,6 +61,10 @@ export const coinsSlice = createSlice({
     setCurrentCoin(state, action: PayloadAction<ICurrentCoin | undefined>) {
       state.currentCoin = action.payload;
     },
+
+    addToPortfolio(state, action: PayloadAction<ICurrentCoin>) {
+      state.portfolio.push(action.payload);
+    },
   },
 });
 
@@ -69,5 +75,6 @@ export const {
   setInterval,
   setCurrentCoin,
   setPrices,
+  addToPortfolio,
 } = coinsSlice.actions;
 export default coinsSlice.reducer;

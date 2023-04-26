@@ -1,21 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLazyFetchTrendingQuery } from '../../store/features/coins/coinsApi';
-import { Box, Tooltip, Typography } from '@mui/material';
+import { Box, Tooltip } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
 import { useTheme } from '@mui/material/styles';
 import { tokens } from '../../contexts/themeContext';
 import { ITrending, ITrendingCoin } from '../../model/coinsTypes';
-
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
-
 import { setId, addToPortfolio } from '../../store/features/coins/coinsSlice';
-
 import { useLazyFetchCoinByIdQuery } from '../../store/features/coins/coinsApi';
 
 const Trending = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [trendingCoins, setTrendingCoins] = useState<ITrending>();
+  const portfolio = useAppSelector((state) => state.coins.portfolio);
 
   const dispatch = useAppDispatch();
   const [fetchTrending, { isLoading: isTrendingLoading, data: TrendingData }] =
@@ -32,19 +30,21 @@ const Trending = () => {
   }, [TrendingData]);
 
   const handleCoinClick = (el: ITrendingCoin) => {
-    console.log(el);
     dispatch(setId(el.item.id));
   };
 
   const handleIconClick = (el: ITrendingCoin) => {
-    console.log(el.item.id);
-
     fetchCoinById(el.item.id);
   };
 
   useEffect(() => {
     if (coinByIdData) dispatch(addToPortfolio(coinByIdData));
   }, [coinByIdData]);
+
+  const iconColor = (el: ITrendingCoin) => {
+    const inP = portfolio.some((item) => el.item.id === item.id);
+    return inP ? 'blue' : 'gray';
+  };
 
   return (
     <Box
@@ -83,9 +83,9 @@ const Trending = () => {
           <Tooltip title='Add to portfolio' placement='left'>
             <StarIcon
               onClick={() => handleIconClick(el)}
-              color='primary'
               sx={{
                 cursor: 'pointer',
+                color: () => iconColor(el),
               }}
             />
           </Tooltip>

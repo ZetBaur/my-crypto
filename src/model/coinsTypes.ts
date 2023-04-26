@@ -112,6 +112,7 @@ export interface INft {
 // ------- current coin-----
 
 export interface ICurrentCoin {
+  // inPortfolio?: boolean;
   id: string;
   symbol: string;
   name: string;

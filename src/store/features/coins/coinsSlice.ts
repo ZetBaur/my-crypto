@@ -65,6 +65,12 @@ export const coinsSlice = createSlice({
     addToPortfolio(state, action: PayloadAction<ICurrentCoin>) {
       state.portfolio.push(action.payload);
     },
+
+    removeFromPortfolio(state, action: PayloadAction<ICurrentCoin>) {
+      state.portfolio = state.portfolio.filter(
+        (el) => el.id !== action.payload
+      );
+    },
   },
 });
 
@@ -76,5 +82,6 @@ export const {
   setCurrentCoin,
   setPrices,
   addToPortfolio,
+  removeFromPortfolio,
 } = coinsSlice.actions;
 export default coinsSlice.reducer;

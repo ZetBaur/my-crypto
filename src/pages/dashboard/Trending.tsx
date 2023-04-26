@@ -6,7 +6,11 @@ import { useTheme } from '@mui/material/styles';
 import { tokens } from '../../contexts/themeContext';
 import { ITrending, ITrendingCoin } from '../../model/coinsTypes';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
-import { setId, addToPortfolio } from '../../store/features/coins/coinsSlice';
+import {
+  setId,
+  addToPortfolio,
+  removeFromPortfolio,
+} from '../../store/features/coins/coinsSlice';
 import { useLazyFetchCoinByIdQuery } from '../../store/features/coins/coinsApi';
 
 const Trending = () => {
@@ -33,12 +37,20 @@ const Trending = () => {
     dispatch(setId(el.item.id));
   };
 
-  const handleIconClick = (el: ITrendingCoin) => {
-    fetchCoinById(el.item.id);
+  const handleIconClick = async (el: ITrendingCoin) => {
+    await fetchCoinById(el.item.id);
   };
 
   useEffect(() => {
-    if (coinByIdData) dispatch(addToPortfolio(coinByIdData));
+    if (coinByIdData) {
+      const isInPortfolio = portfolio.some((el) => {
+        return el.id === coinByIdData?.id;
+      });
+
+      !isInPortfolio
+        ? dispatch(addToPortfolio(coinByIdData))
+        : removeFromPortfolio(coinByIdData);
+    }
   }, [coinByIdData]);
 
   const iconColor = (el: ITrendingCoin) => {

@@ -13,7 +13,7 @@ import {
   YAxis,
 } from 'recharts';
 
-import { Box, CircularProgress } from '@mui/material';
+import { Box, CircularProgress, Backdrop } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { tokens } from '../../../contexts/themeContext';
 import { ICurrentCoin, IPrices } from '../../../model/coinsTypes';

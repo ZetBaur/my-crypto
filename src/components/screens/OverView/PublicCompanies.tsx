@@ -1,7 +1,7 @@
 import { useTheme } from '@mui/material/styles';
-import { tokens } from '../../contexts/themeContext';
+import { tokens } from '../../../contexts/themeContext';
 import { Box, Chip, Typography } from '@mui/material';
-import { IPublicCompanies } from '../../model/coinsTypes';
+import { IPublicCompanies } from '../../../model/coinsTypes';
 
 interface IProps {
   publicCompaniesData: IPublicCompanies | undefined;

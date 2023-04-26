@@ -26,7 +26,7 @@ import {
   useLazyFetchPublicCompaniesQuery,
   useLazyFetchTrendingQuery,
 } from '../../../store/features/coins/coinsApi';
-import PublicCompanies from '../PublicCompanies';
+import PublicCompanies from './PublicCompanies';
 
 //--------------------------------------------------------------------
 const HistoricChart = () => {

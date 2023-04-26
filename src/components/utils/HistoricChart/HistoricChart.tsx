@@ -26,6 +26,7 @@ import {
   useLazyFetchPublicCompaniesQuery,
   useLazyFetchTrendingQuery,
 } from '../../../store/features/coins/coinsApi';
+import PublicCompanies from './PublicCompanies';
 
 //--------------------------------------------------------------------
 const HistoricChart = () => {
@@ -88,8 +89,8 @@ const HistoricChart = () => {
   }, [id, vsCurrency, days, interval]);
 
   useEffect(() => {
-    fetchCoinById(id); // for current coin data
-    fetchPublicCompanies(id); // piblic companies
+    fetchCoinById(id); //          current coin data
+    fetchPublicCompanies(id); //   piblic companies
   }, [id]);
 
   useEffect(() => {
@@ -111,6 +112,7 @@ const HistoricChart = () => {
   }, [publicCompaniesData]);
 
   //------------------------------------------------------------
+
   return (
     <Box
       sx={{
@@ -196,17 +198,7 @@ const HistoricChart = () => {
         </Box>
       </Box>
 
-      <Box
-        sx={{
-          width: '300px',
-          background: colors.primary.DEFAULT,
-          border: `1px solid ${colors.chartBoderColor}`,
-          borderRadius: '12px',
-          padding: '1rem',
-        }}
-      >
-        dfgdfbdfb
-      </Box>
+      <PublicCompanies publicCompaniesData={publicCompaniesData} />
     </Box>
   );
 };

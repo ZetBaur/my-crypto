@@ -19,14 +19,8 @@ const initialState: IInitialState = {
     id: 'bitcoin',
     name: 'Bitcoin',
     symbol: 'btc',
-    image: {
-      large:
-        'https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1547033579',
-      small:
-        'https://assets.coingecko.com/coins/images/1/small/bitcoin.png?1547033579',
-      thumb:
-        'https://assets.coingecko.com/coins/images/1/thumb/bitcoin.png?1547033579',
-    },
+    image:
+      'https://assets.coingecko.com/coins/images/1/thumb/bitcoin.png?1547033579',
     inPortfolio: false,
   },
 
@@ -71,7 +65,7 @@ export const coinsSlice = createSlice({
 
     removeFromPortfolio(state, action: PayloadAction<ICoinData>) {
       state.portfolio = state.portfolio.filter(
-        (el) => el.id !== action.payload
+        (el) => el.id !== action.payload.id
       );
     },
   },

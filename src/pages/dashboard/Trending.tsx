@@ -11,7 +11,6 @@ import {
   addToPortfolio,
   removeFromPortfolio,
 } from '../../store/features/coins/coinsSlice';
-import { useLazyFetchCoinByIdQuery } from '../../store/features/coins/coinsApi';
 
 const Trending = () => {
   const theme = useTheme();
@@ -22,8 +21,6 @@ const Trending = () => {
   const dispatch = useAppDispatch();
   const [fetchTrending, { isLoading: isTrendingLoading, data: TrendingData }] =
     useLazyFetchTrendingQuery();
-  const [fetchCoinById, { isLoading: isCoinByIdLoading, data: coinByIdData }] =
-    useLazyFetchCoinByIdQuery();
 
   useEffect(() => {
     fetchTrending();
@@ -35,8 +32,6 @@ const Trending = () => {
   };
 
   const handleIconClick = async (el: ITrendingCoin) => {
-    console.log(el);
-
     const coinToAdd: ICoinData = {
       id: el.item.id,
       symbol: el.item.symbol,
@@ -45,18 +40,16 @@ const Trending = () => {
       inPortfolio: false,
     };
 
-    const isInPortfolio = portfolio.some((el) => {
-      return el.id === coinByIdData?.id;
-    });
+    const isInPortfolio = portfolio.some((item) => item.id === el.item.id);
 
     !isInPortfolio
       ? dispatch(addToPortfolio(coinToAdd))
-      : removeFromPortfolio(coinToAdd);
+      : dispatch(removeFromPortfolio(coinToAdd));
   };
 
   const iconColor = (el: ITrendingCoin) => {
     const inP = portfolio.some((item) => el.item.id === item.id);
-    return inP ? 'blue' : 'gray';
+    return inP ? 'blue' : 'black';
   };
 
   return (
@@ -93,7 +86,14 @@ const Trending = () => {
             borderRadius: '4px',
           }}
         >
-          <Tooltip title='Add to portfolio' placement='left'>
+          <Tooltip
+            title={
+              iconColor(el) === 'black'
+                ? 'Add to portfolio'
+                : 'Remove from pertfolio'
+            }
+            placement='left'
+          >
             <StarIcon
               onClick={() => handleIconClick(el)}
               sx={{

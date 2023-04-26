@@ -55,7 +55,7 @@ const HistoricChartHeader = () => {
           padding: '8px 16px',
         }}
       >
-        <img src={currentCoin?.image?.thumb} alt={currentCoin?.symbol} />
+        <img src={currentCoin?.image} alt={currentCoin?.symbol} />
         <span>{currentCoin?.name}</span>
       </Box>
 

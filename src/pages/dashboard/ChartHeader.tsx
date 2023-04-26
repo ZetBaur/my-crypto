@@ -8,7 +8,6 @@ import {
   Select,
   Autocomplete,
   TextField,
-  Tooltip,
 } from '@mui/material';
 import { coinList } from '../../data/coinList';
 
@@ -20,18 +19,14 @@ import {
   setInterval,
 } from '../../store/features/coins/coinsSlice';
 
-//------------------------------------------------------------------------------------
 const HistoricChartHeader = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-
   const id = useAppSelector((state) => state.coins.id);
   const vsCurrency = useAppSelector((state) => state.coins.vsCurrency);
   const days = useAppSelector((state) => state.coins.days);
   const interval = useAppSelector((state) => state.coins.interval);
-
   const currentCoin = useAppSelector((state) => state.coins.currentCoin);
-
   const dispatch = useAppDispatch();
 
   return (
@@ -59,8 +54,6 @@ const HistoricChartHeader = () => {
         <span>{currentCoin?.name}</span>
       </Box>
 
-      {/* search input ----------------------------------------------------------- */}
-
       <Box
         component='form'
         sx={{
@@ -87,8 +80,6 @@ const HistoricChartHeader = () => {
           )}
         />
       </Box>
-
-      {/* selects ------------------------------------------------------- */}
 
       <FormControl size='small' variant='outlined'>
         <Select

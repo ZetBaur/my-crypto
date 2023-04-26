@@ -7,6 +7,7 @@ import {
   ISearchCoin,
   ICoin,
   ICurrentCoin,
+  IPublicCompanies,
 } from '../../../model/coinsTypes';
 
 export const coinsApi = createApi({
@@ -65,10 +66,15 @@ export const coinsApi = createApi({
       }),
     }),
 
-    //companies/public_treasury/bitcoin
-    fetchPublicCompanies: build.query<ICurrentCoin, string | null>({
+    fetchPublicCompanies: build.query<IPublicCompanies, string | null>({
       query: (id: string) => ({
         url: `companies/public_treasury/${id}`,
+      }),
+    }),
+
+    fetchTrending: build.query<any, any>({
+      query: () => ({
+        url: `search/trending`,
       }),
     }),
   }),
@@ -81,4 +87,5 @@ export const {
   useFetchMarketChartQuery,
   useLazyFetchCoinByIdQuery,
   useLazyFetchPublicCompaniesQuery,
+  useLazyFetchTrendingQuery,
 } = coinsApi;

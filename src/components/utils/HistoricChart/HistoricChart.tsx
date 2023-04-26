@@ -24,6 +24,7 @@ import {
   useLazyFetchMarketChartQuery,
   useFetchMarketChartQuery,
   useLazyFetchPublicCompaniesQuery,
+  useLazyFetchTrendingQuery,
 } from '../../../store/features/coins/coinsApi';
 
 //--------------------------------------------------------------------
@@ -72,6 +73,9 @@ const HistoricChart = () => {
     fetchPublicCompanies,
     { isLoading: isPublicCompaniesLoading, data: publicCompaniesData },
   ] = useLazyFetchPublicCompaniesQuery();
+
+  const [fetchTrending, { isLoading: isTrendingLoading, data: trendingData }] =
+    useLazyFetchTrendingQuery();
 
   useEffect(() => {
     const params = {

@@ -15,7 +15,6 @@ import {
 const Trending = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const [trendingCoins, setTrendingCoins] = useState<ITrending>();
   const portfolio = useAppSelector((state) => state.coins.portfolio);
 
   const dispatch = useAppDispatch();
@@ -24,7 +23,6 @@ const Trending = () => {
 
   useEffect(() => {
     fetchTrending();
-    if (TrendingData) setTrendingCoins(TrendingData);
   }, [TrendingData]);
 
   const handleCoinClick = (el: ITrendingCoin) => {
@@ -73,7 +71,7 @@ const Trending = () => {
         Top 7 Trending
       </Box>
 
-      {trendingCoins?.coins.map((el) => (
+      {TrendingData?.coins.map((el: ITrendingCoin) => (
         <Box
           key={el.item.id}
           sx={{

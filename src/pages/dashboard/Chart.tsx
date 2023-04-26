@@ -16,14 +16,9 @@ import {
 import { Box, CircularProgress, Backdrop } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { tokens } from '../../contexts/themeContext';
-import { ICurrentCoin, IPrices } from '../../model/coinsTypes';
 
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
 import {
-  setId,
-  setDays,
-  setVsCurrency,
-  setInterval,
   setCurrentCoin,
   setPrices,
 } from '../../store/features/coins/coinsSlice';
@@ -80,7 +75,7 @@ const Chart = () => {
     const arr = marketChartData?.prices.map((el) => {
       return {
         date: moment(el[0]).format('MMM DD'),
-        price: el[1].toFixed(5),
+        price: el[1].toFixed(3),
       };
     });
     dispatch(setPrices(arr));

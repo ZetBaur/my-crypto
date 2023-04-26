@@ -9,6 +9,7 @@ import {
   Select,
   Autocomplete,
   TextField,
+  Tooltip,
 } from '@mui/material';
 
 import { coinList } from '../../data/coinList';
@@ -31,7 +32,6 @@ const HistoricChartHeader = () => {
   const days = useAppSelector((state) => state.coins.days);
   const interval = useAppSelector((state) => state.coins.interval);
 
-  const prices = useAppSelector((state) => state.coins.prices);
   const currentCoin = useAppSelector((state) => state.coins.currentCoin);
 
   const dispatch = useAppDispatch();
@@ -76,7 +76,9 @@ const HistoricChartHeader = () => {
           size='small'
           fullWidth
           freeSolo
-          options={coinList.map((option) => option.id)}
+          options={coinList
+            .map((option) => option.id)
+            .filter((item) => item.length < 11)}
           value={id}
           onChange={(event, newCoin: string | null) => dispatch(setId(newCoin))}
           sx={{
@@ -93,7 +95,7 @@ const HistoricChartHeader = () => {
       <FormControl size='small' variant='outlined'>
         <Select
           value={vsCurrency}
-          onChange={(e) => setVsCurrency(e.target.value)}
+          onChange={(e) => dispatch(setVsCurrency(e.target.value))}
           sx={{
             width: '100px',
             '& .MuiSvgIcon-root': {
@@ -129,7 +131,7 @@ const HistoricChartHeader = () => {
       <FormControl size='small' variant='outlined'>
         <Select
           value={days}
-          onChange={(e) => setDays(e.target.value)}
+          onChange={(e) => dispatch(setDays(e.target.value))}
           sx={{
             minWidth: '120px',
             '& .MuiSvgIcon-root': {
@@ -141,9 +143,11 @@ const HistoricChartHeader = () => {
           <MenuItem value='7'>Last Week</MenuItem>
           <MenuItem value='30'>Last Month</MenuItem>
           <MenuItem value='90'>Last 3 Months</MenuItem>
+
           <MenuItem value='180' disabled={interval === 'hourly'}>
             Last 6 Months
           </MenuItem>
+
           <MenuItem value='360' disabled={interval === 'hourly'}>
             Last year
           </MenuItem>
@@ -153,7 +157,7 @@ const HistoricChartHeader = () => {
       <FormControl size='small' variant='outlined'>
         <Select
           value={interval}
-          onChange={(e) => setInterval(e.target.value)}
+          onChange={(e) => dispatch(setInterval(e.target.value))}
           sx={{
             width: '100px',
             '& .MuiSvgIcon-root': {
@@ -161,10 +165,10 @@ const HistoricChartHeader = () => {
             },
           }}
         >
-          <MenuItem value='hourly'>Hourly</MenuItem>
-          <MenuItem value='daily' disabled={days === '180' || days === '360'}>
-            Dayly
+          <MenuItem value='hourly' disabled={days === '180' || days === '360'}>
+            Hourly
           </MenuItem>
+          <MenuItem value='daily'>Dayly</MenuItem>
         </Select>
       </FormControl>
     </Box>

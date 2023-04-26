@@ -29,7 +29,7 @@ const initialState: IInitialState = {
   id: 'bitcoin',
   vsCurrency: 'USD',
   days: '7',
-  interval: 'hourly',
+  interval: 'daily',
 };
 
 export const coinsSlice = createSlice({

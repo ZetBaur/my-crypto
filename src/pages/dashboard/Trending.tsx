@@ -66,6 +66,8 @@ const Trending = () => {
         Top 7 Trending
       </Box>
 
+      {isTrendingLoading && 'Loading...'}
+
       {TrendingData?.coins.map((el: ITrendingCoin) => (
         <Box
           key={el.item.id}

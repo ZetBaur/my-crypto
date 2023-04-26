@@ -1,10 +1,9 @@
-import { useEffect, useState } from 'react';
-import { useLazyFetchTrendingQuery } from '../../store/features/coins/coinsApi';
+import { useFetchTrendingQuery } from '../../store/features/coins/coinsApi';
 import { Box, Tooltip } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
 import { useTheme } from '@mui/material/styles';
 import { tokens } from '../../contexts/themeContext';
-import { ICoinData, ITrending, ITrendingCoin } from '../../model/coinsTypes';
+import { ICoinData, ITrendingCoin } from '../../model/coinsTypes';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
 import {
   setId,
@@ -16,14 +15,10 @@ const Trending = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const portfolio = useAppSelector((state) => state.coins.portfolio);
-
   const dispatch = useAppDispatch();
-  const [fetchTrending, { isLoading: isTrendingLoading, data: TrendingData }] =
-    useLazyFetchTrendingQuery();
 
-  useEffect(() => {
-    fetchTrending();
-  }, [TrendingData]);
+  const { isLoading: isTrendingLoading, data: TrendingData } =
+    useFetchTrendingQuery();
 
   const handleCoinClick = (el: ITrendingCoin) => {
     dispatch(setId(el.item.id));
@@ -46,8 +41,8 @@ const Trending = () => {
   };
 
   const iconColor = (el: ITrendingCoin) => {
-    const inP = portfolio.some((item) => el.item.id === item.id);
-    return inP ? 'blue' : 'black';
+    const isInPortfolio = portfolio.some((item) => el.item.id === item.id);
+    return isInPortfolio ? 'blue' : 'black';
   };
 
   return (

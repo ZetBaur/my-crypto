@@ -17,8 +17,6 @@ import SelectPeriod from './SelectPeriod';
 import SelectInterval from './SelectInterval';
 
 const HistoricChartHeader = () => {
-  console.log('rendering Header');
-
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const id = useAppSelector((state) => state.coins.id);

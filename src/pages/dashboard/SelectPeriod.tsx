@@ -5,19 +5,27 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
-import { setDays } from '../../store/features/coins/coinsSlice';
+import { setDays, setInterval } from '../../store/features/coins/coinsSlice';
 
-export default function SelectedPeriod() {
+interface IProps {
+  type: string;
+}
+
+export default function SelectedPeriod({ type }: IProps) {
   const dispatch = useAppDispatch();
 
-  const days = useAppSelector((state) => state.coins.days);
+  const feature = useAppSelector((state) =>
+    type === 'period' ? state.coins.days : state.coins.interval
+  );
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(setDays(event.target.value));
+    type === 'period'
+      ? dispatch(setDays(event.target.value))
+      : dispatch(setInterval(event.target.value));
   };
 
   const controlProps = (item: string) => ({
-    checked: days === item,
+    checked: feature === item,
     onChange: handleChange,
     value: item,
     name: 'period',
@@ -51,26 +59,49 @@ export default function SelectedPeriod() {
     },
   ];
 
+  const intervals = [
+    {
+      value: 'hourly',
+      text: 'Hourly',
+    },
+    {
+      value: 'daily',
+      text: 'Daily',
+    },
+  ];
+
+  const options = () => {
+    if (type === 'period') {
+      return periods;
+    } else {
+      return intervals;
+    }
+  };
+
   return (
     <FormControl>
       <RadioGroup
         row
         aria-labelledby='demo-radio-buttons-group-label'
-        defaultValue='female'
+        defaultValue='7'
         name='radio-buttons-group'
       >
-        {periods.map((el) => (
+        {options().map((el) => (
           <FormControlLabel
             key={el.value}
             value={el.value}
             sx={{
-              background: days === el.value ? 'green' : 'black',
+              background: feature === el.value ? 'green' : 'black',
               border: '1px solid gray',
               borderRadius: '4px',
               padding: '0 4px',
               span: {
                 fontSize: '13px',
               },
+              ':hover': {
+                color: 'gray',
+              },
+              marginLeft: '0',
             }}
             control={
               <Radio

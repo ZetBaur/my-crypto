@@ -53,8 +53,6 @@ const HistoricChartHeader = () => {
             display: 'flex',
             alignItems: 'center',
             gap: '8px',
-            minWidth: '100px',
-            marginRight: '1 rem',
             background: colors.secondary.DEFAULT,
             borderRadius: '4px',
             padding: '8px 16px',
@@ -130,8 +128,15 @@ const HistoricChartHeader = () => {
         </FormControl>
       </Box>
 
-      <Box>
-        <SelectPeriod />
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          // padding: '1rem',
+        }}
+      >
+        <SelectPeriod type='period' />
+        <SelectPeriod type='interval' />
       </Box>
     </Box>
   );

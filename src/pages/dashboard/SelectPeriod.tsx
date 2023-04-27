@@ -70,8 +70,8 @@ export default function SelectedPeriod() {
             value={el.value}
             disabled={handleDisable(el)}
             sx={{
-              background: days === el.value ? 'green' : 'black',
-              border: `1px solid ${days === el.value ? 'green' : 'black'}`,
+              background: days === el.value ? '#4688E4' : 'black',
+              border: `1px solid ${days === el.value ? '#4688E4' : 'black'}`,
               borderRadius: '4px',
               padding: '0 4px',
               span: {

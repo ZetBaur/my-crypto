@@ -22,6 +22,7 @@ import {
   useLazyFetchCoinByIdQuery,
   useLazyFetchMarketChartQuery,
 } from '../../store/features/coins/coinsApi';
+import { Translate } from '@mui/icons-material';
 
 const Chart = () => {
   const theme = useTheme();
@@ -67,6 +68,10 @@ const Chart = () => {
         price: el[1].toFixed(7),
       };
     });
+
+    // arr?.forEach((el) => {
+    //   el.price.slice(6, 4);
+    // });
     dispatch(setPrices(arr));
   }, [marketChartData]);
 
@@ -106,10 +111,10 @@ const Chart = () => {
           <CircularProgress
             sx={{
               position: 'absolute',
-              top: '50%',
-              left: '50%',
+              top: '40%',
+              left: '45%',
               zIndex: '10',
-              color: 'white',
+              color: 'blue',
             }}
           />
         )}

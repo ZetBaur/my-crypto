@@ -5,7 +5,6 @@ import {
   IMarketChart,
   IMarketChartQuery,
   ISearchCoin,
-  ICoin,
   ICoinById,
   IPublicCompanies,
 } from '../../../model/coinsTypes';

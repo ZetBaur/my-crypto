@@ -5,12 +5,9 @@ import { tokens } from '../../contexts/themeContext';
 import Chart from './Chart';
 import Trending from './Trending';
 
-//--------------------------------------------------------------------
 const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-
-  //------------------------------------------------------------
 
   return (
     <Box

@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ICoinById, ICoinData, IPrices } from '../../../model/coinsTypes';
+import { ICoinData, IPrices } from '../../../model/coinsTypes';
 
 interface IInitialState {
   id: string | null;
@@ -24,8 +24,8 @@ const initialState: IInitialState = {
 
   id: 'bitcoin',
   vsCurrency: 'USD',
-  days: '7',
-  interval: 'daily',
+  days: '1',
+  interval: 'hourly',
   portfolio: [],
 };
 

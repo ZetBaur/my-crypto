@@ -1,5 +1,5 @@
 import { useFetchTrendingQuery } from '../../store/features/coins/coinsApi';
-import { Box, Tooltip } from '@mui/material';
+import { Box, CircularProgress, Tooltip } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
 import { useTheme } from '@mui/material/styles';
 import { tokens } from '../../contexts/themeContext';
@@ -66,7 +66,7 @@ const Trending = () => {
         Top 7 Trending
       </Box>
 
-      {isTrendingLoading && 'Loading...'}
+      {isTrendingLoading && <CircularProgress />}
 
       {TrendingData?.coins.map((el: ITrendingCoin) => (
         <Box

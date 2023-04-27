@@ -17,8 +17,12 @@ const Trending = () => {
   const portfolio = useAppSelector((state) => state.coins.portfolio);
   const dispatch = useAppDispatch();
 
-  const { isLoading: isTrendingLoading, data: TrendingData } =
-    useFetchTrendingQuery();
+  const {
+    isLoading: isTrendingLoading,
+    isFetching: isTrendingFetching,
+    isError: isTrendingError,
+    data: TrendingData,
+  } = useFetchTrendingQuery();
 
   const handleCoinClick = (el: ITrendingCoin) => {
     dispatch(setId(el.item.id));
@@ -66,7 +70,9 @@ const Trending = () => {
         Top 7 Trending
       </Box>
 
-      {isTrendingLoading && <CircularProgress />}
+      {(isTrendingLoading || isTrendingFetching) && <CircularProgress />}
+
+      {isTrendingError && 'Server does not respond. Try later'}
 
       {TrendingData?.coins.map((el: ITrendingCoin) => (
         <Box

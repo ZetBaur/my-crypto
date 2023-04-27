@@ -41,6 +41,7 @@ const Chart = () => {
     {
       isFetching: isChartFetching,
       isLoading: isChartLoading,
+      isError: isChartError,
       data: marketChartData,
     },
   ] = useLazyFetchMarketChartQuery();
@@ -100,6 +101,10 @@ const Chart = () => {
           padding: '1rem 1rem 0 1rem',
         }}
       >
+        {(isChartLoading || isChartFetching) && <CircularProgress />}
+
+        {isChartError && 'Server does not respond. Try later'}
+
         <ResponsiveContainer width='100%' height='100%'>
           <AreaChart width={500} height={300} data={prices}>
             <CartesianGrid

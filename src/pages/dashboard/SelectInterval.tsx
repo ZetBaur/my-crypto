@@ -55,7 +55,7 @@ export default function SelectedInterval() {
             disabled={handleDisable(el)}
             sx={{
               background: interval === el.value ? 'green' : 'black',
-              border: '1px solid gray',
+              border: `1px solid ${days === el.value ? 'green' : 'black'}`,
               borderRadius: '4px',
               padding: '0 4px',
               span: {

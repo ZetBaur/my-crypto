@@ -31,7 +31,6 @@ const Chart = () => {
   const days = useAppSelector((state) => state.coins.days);
   const interval = useAppSelector((state) => state.coins.interval);
   const prices = useAppSelector((state) => state.coins.prices);
-  // const currentCoin = useAppSelector((state) => state.coins.currentCoin);
   const dispatch = useAppDispatch();
 
   const [fetchCoinById, { isLoading: isCoinByIdLoading, data: coinByIdData }] =
@@ -145,6 +144,7 @@ const Chart = () => {
               strokeWidth='2'
               dot={false}
               fill='#FFAF2C'
+              animationDuration={500}
             />
           </AreaChart>
         </ResponsiveContainer>

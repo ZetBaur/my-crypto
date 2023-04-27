@@ -132,11 +132,10 @@ const HistoricChartHeader = () => {
         sx={{
           display: 'flex',
           justifyContent: 'space-between',
-          // padding: '1rem',
         }}
       >
         <SelectPeriod type='period' />
-        <SelectPeriod type='interval' />
+        <SelectPeriod />
       </Box>
     </Box>
   );

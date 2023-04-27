@@ -5,27 +5,19 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
-import { setDays, setInterval } from '../../store/features/coins/coinsSlice';
+import { setDays } from '../../store/features/coins/coinsSlice';
 
-interface IProps {
-  type: string;
-}
-
-export default function SelectedPeriod({ type }: IProps) {
+export default function SelectedPeriod() {
   const dispatch = useAppDispatch();
-
-  const feature = useAppSelector((state) =>
-    type === 'period' ? state.coins.days : state.coins.interval
-  );
+  const days = useAppSelector((state) => state.coins.days);
+  const interval = useAppSelector((state) => state.coins.interval);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    type === 'period'
-      ? dispatch(setDays(event.target.value))
-      : dispatch(setInterval(event.target.value));
+    dispatch(setDays(event.target.value));
   };
 
   const controlProps = (item: string) => ({
-    checked: feature === item,
+    checked: days === item,
     onChange: handleChange,
     value: item,
     name: 'period',
@@ -59,6 +51,11 @@ export default function SelectedPeriod({ type }: IProps) {
     },
   ];
 
+  const handleDisable = (el: { value: string; text: string }) => {
+    if ((el.value === '180' || el.value === '360') && interval === 'hourly')
+      return true;
+  };
+
   const intervals = [
     {
       value: 'hourly',
@@ -70,14 +67,6 @@ export default function SelectedPeriod({ type }: IProps) {
     },
   ];
 
-  const options = () => {
-    if (type === 'period') {
-      return periods;
-    } else {
-      return intervals;
-    }
-  };
-
   return (
     <FormControl>
       <RadioGroup
@@ -86,12 +75,13 @@ export default function SelectedPeriod({ type }: IProps) {
         defaultValue='7'
         name='radio-buttons-group'
       >
-        {options().map((el) => (
+        {periods.map((el) => (
           <FormControlLabel
             key={el.value}
             value={el.value}
+            disabled={handleDisable(el)}
             sx={{
-              background: feature === el.value ? 'green' : 'black',
+              background: days === el.value ? 'green' : 'black',
               border: '1px solid gray',
               borderRadius: '4px',
               padding: '0 4px',

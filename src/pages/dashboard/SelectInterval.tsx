@@ -5,56 +5,40 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
-import { setDays } from '../../store/features/coins/coinsSlice';
+import { setInterval } from '../../store/features/coins/coinsSlice';
 
-export default function SelectedPeriod() {
+export default function SelectedInterval() {
   const dispatch = useAppDispatch();
   const days = useAppSelector((state) => state.coins.days);
   const interval = useAppSelector((state) => state.coins.interval);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(setDays(event.target.value));
+    dispatch(setInterval(event.target.value));
   };
 
   const controlProps = (item: string) => ({
-    checked: days === item,
+    checked: interval === item,
     onChange: handleChange,
     value: item,
     name: 'period',
     inputProps: { 'aria-label': item },
   });
 
-  const periods = [
-    {
-      value: '1',
-      text: 'Day',
-    },
-    {
-      value: '7',
-      text: 'Week',
-    },
-    {
-      value: '30',
-      text: 'Month',
-    },
-    {
-      value: '90',
-      text: '3 Months',
-    },
-    {
-      value: '180',
-      text: '6 Months',
-    },
-    {
-      value: '360',
-      text: '1 Year',
-    },
-  ];
-
   const handleDisable = (el: { value: string; text: string }) => {
-    if ((el.value === '180' || el.value === '360') && interval === 'hourly')
+    if (el.value === 'hourly' && (days === '180' || days === '360'))
       return true;
   };
+
+  const intervals = [
+    {
+      value: 'hourly',
+      text: 'Hourly',
+    },
+    {
+      value: 'daily',
+      text: 'Daily',
+    },
+  ];
 
   return (
     <FormControl>
@@ -64,13 +48,13 @@ export default function SelectedPeriod() {
         defaultValue='7'
         name='radio-buttons-group'
       >
-        {periods.map((el) => (
+        {intervals.map((el) => (
           <FormControlLabel
             key={el.value}
             value={el.value}
             disabled={handleDisable(el)}
             sx={{
-              background: days === el.value ? 'green' : 'black',
+              background: interval === el.value ? 'green' : 'black',
               border: '1px solid gray',
               borderRadius: '4px',
               padding: '0 4px',

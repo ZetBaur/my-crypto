@@ -23,6 +23,7 @@ import {
   setInterval,
 } from '../../store/features/coins/coinsSlice';
 import SelectPeriod from './SelectPeriod';
+import SelectInterval from './SelectInterval';
 
 const HistoricChartHeader = () => {
   const theme = useTheme();
@@ -134,8 +135,8 @@ const HistoricChartHeader = () => {
           justifyContent: 'space-between',
         }}
       >
-        <SelectPeriod type='period' />
         <SelectPeriod />
+        <SelectInterval />
       </Box>
     </Box>
   );

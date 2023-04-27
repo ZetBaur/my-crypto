@@ -22,7 +22,6 @@ import {
   useLazyFetchCoinByIdQuery,
   useLazyFetchMarketChartQuery,
 } from '../../store/features/coins/coinsApi';
-import { Translate } from '@mui/icons-material';
 
 const Chart = () => {
   const theme = useTheme();

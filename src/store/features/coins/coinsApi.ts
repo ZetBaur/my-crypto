@@ -16,7 +16,7 @@ export const coinsApi = createApi({
     baseUrl: 'https://api.coingecko.com/api/v3/',
   }),
 
-  // keepUnusedDataFor: 60,
+  keepUnusedDataFor: 60,
   // refetchOnFocus: true,
   // refetchOnReconnect: true,
 

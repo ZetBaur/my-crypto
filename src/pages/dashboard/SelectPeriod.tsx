@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useMemo } from 'react';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -52,9 +52,13 @@ export default function SelectedPeriod() {
   ];
 
   const handleDisable = (el: { value: string; text: string }) => {
-    if ((el.value === '180' || el.value === '360') && interval === 'hourly')
+    if ((el.value === '180' || el.value === '360') && interval === 'hourly') {
+      console.log('handleDisable');
       return true;
+    }
   };
+
+  //  const disableHandle =useMemo(()=>handleDisable() ,[interval])
 
   return (
     <FormControl>

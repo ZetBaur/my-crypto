@@ -8,19 +8,19 @@ import {
   Select,
   Autocomplete,
   TextField,
-  FormLabel,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
+  // FormLabel,
+  // RadioGroup,
+  // FormControlLabel,
+  // Radio,
 } from '@mui/material';
 import { coinList } from '../../data/coinList';
 
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
 import {
   setId,
-  setDays,
+  // setDays,
   setVsCurrency,
-  setInterval,
+  // setInterval,
 } from '../../store/features/coins/coinsSlice';
 import SelectPeriod from './SelectPeriod';
 import SelectInterval from './SelectInterval';
@@ -30,8 +30,8 @@ const HistoricChartHeader = () => {
   const colors = tokens(theme.palette.mode);
   const id = useAppSelector((state) => state.coins.id);
   const vsCurrency = useAppSelector((state) => state.coins.vsCurrency);
-  const days = useAppSelector((state) => state.coins.days);
-  const interval = useAppSelector((state) => state.coins.interval);
+  // const days = useAppSelector((state) => state.coins.days);
+  // const interval = useAppSelector((state) => state.coins.interval);
   const currentCoin = useAppSelector((state) => state.coins.currentCoin);
   const dispatch = useAppDispatch();
 
@@ -76,9 +76,7 @@ const HistoricChartHeader = () => {
             size='small'
             fullWidth
             freeSolo
-            options={coinList
-              .map((option) => option.id)
-              .filter((item) => item.length < 11)}
+            options={coinList.map((option) => option.id)}
             value={id}
             onChange={(event, newCoin: string | null) =>
               dispatch(setId(newCoin))

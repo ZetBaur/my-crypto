@@ -99,60 +99,73 @@ const Chart = () => {
           width: '100%',
           height: '40vh',
           padding: '1rem 1rem 0 1rem',
+          position: 'relative',
         }}
       >
-        {(isChartLoading || isChartFetching) && <CircularProgress />}
+        {(isChartLoading || isChartFetching) && (
+          <CircularProgress
+            sx={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              zIndex: '10',
+              color: 'white',
+            }}
+          />
+        )}
 
         {isChartError && 'Server does not respond. Try later'}
 
-        <ResponsiveContainer width='100%' height='100%'>
-          <AreaChart width={500} height={300} data={prices}>
-            <CartesianGrid
-              strokeDasharray='3'
-              vertical={false}
-              stroke={colors.secondary.DEFAULT}
-            />
+        {marketChartData && (
+          <ResponsiveContainer width='100%' height='100%'>
+            <AreaChart width={500} height={300} data={prices}>
+              <CartesianGrid
+                strokeDasharray='3'
+                vertical={false}
+                stroke={colors.secondary.DEFAULT}
+              />
 
-            <XAxis
-              dataKey='date'
-              axisLine={false}
-              tickLine={false}
-              style={{ fontSize: '10px' }}
-            />
+              <XAxis
+                dataKey='date'
+                axisLine={false}
+                tickLine={false}
+                style={{ fontSize: '10px' }}
+              />
 
-            <YAxis
-              axisLine={false}
-              tickLine={false}
-              type='number'
-              domain={['dataMin', 'dataMax']}
-              style={{ fontSize: '10px' }}
-              tickCount={7}
-            />
+              <YAxis
+                axisLine={false}
+                tickLine={false}
+                type='number'
+                domain={['dataMin', 'dataMax']}
+                style={{ fontSize: '10px' }}
+                tickCount={7}
+              />
 
-            <Tooltip
-              contentStyle={{
-                background: '#000000',
-                color: '#fff',
-                fontSize: '10px',
-                borderRadius: '5px',
-              }}
-              wrapperStyle={{
-                outline: 'none',
-              }}
-            />
+              <Tooltip
+                contentStyle={{
+                  background: '#000000',
+                  color: '#fff',
+                  fontSize: '10px',
+                  borderRadius: '5px',
+                }}
+                wrapperStyle={{
+                  outline: 'none',
+                }}
+              />
 
-            <Area
-              type='monotone'
-              dataKey='price'
-              stroke='#FFAF2C'
-              activeDot={{ r: 8 }}
-              strokeWidth='2'
-              dot={false}
-              fill='#FFAF2C'
-              animationDuration={500}
-            />
-          </AreaChart>
-        </ResponsiveContainer>
+              <Area
+                type='monotone'
+                dataKey='price'
+                stroke='#FFAF2C'
+                activeDot={{ r: 8 }}
+                strokeWidth='2'
+                dot={false}
+                fill='#FFAF2C'
+                animationDuration={500}
+              />
+            </AreaChart>
+          </ResponsiveContainer>
+        )}
       </Box>
     </Box>
   );

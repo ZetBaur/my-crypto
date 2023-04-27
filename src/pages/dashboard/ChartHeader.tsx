@@ -22,7 +22,7 @@ import {
   setVsCurrency,
   setInterval,
 } from '../../store/features/coins/coinsSlice';
-import SelectDay from './SelectDay';
+import SelectPeriod from './SelectPeriod';
 
 const HistoricChartHeader = () => {
   const theme = useTheme();
@@ -131,54 +131,7 @@ const HistoricChartHeader = () => {
       </Box>
 
       <Box>
-        <SelectDay />
-
-        {/* <FormControl size='small' variant='outlined'>
-          <Select
-            value={days}
-            onChange={(e) => dispatch(setDays(e.target.value))}
-            sx={{
-              minWidth: '120px',
-              '& .MuiSvgIcon-root': {
-                fill: 'yellow',
-              },
-            }}
-          >
-            <MenuItem value='1'>Last Day</MenuItem>
-            <MenuItem value='7'>Last Week</MenuItem>
-            <MenuItem value='30'>Last Month</MenuItem>
-            <MenuItem value='90'>Last 3 Months</MenuItem>
-
-            <MenuItem value='180' disabled={interval === 'hourly'}>
-              Last 6 Months
-            </MenuItem>
-
-            <MenuItem value='360' disabled={interval === 'hourly'}>
-              Last year
-            </MenuItem>
-          </Select>
-        </FormControl>
-
-        <FormControl size='small' variant='outlined'>
-          <Select
-            value={interval}
-            onChange={(e) => dispatch(setInterval(e.target.value))}
-            sx={{
-              width: '100px',
-              '& .MuiSvgIcon-root': {
-                fill: 'yellow',
-              },
-            }}
-          >
-            <MenuItem
-              value='hourly'
-              disabled={days === '180' || days === '360'}
-            >
-              Hourly
-            </MenuItem>
-            <MenuItem value='daily'>Dayly</MenuItem>
-          </Select>
-        </FormControl> */}
+        <SelectPeriod />
       </Box>
     </Box>
   );

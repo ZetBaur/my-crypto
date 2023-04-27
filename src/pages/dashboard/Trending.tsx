@@ -70,7 +70,17 @@ const Trending = () => {
         Top 7 Trending
       </Box>
 
-      {(isTrendingLoading || isTrendingFetching) && <CircularProgress />}
+      {(isTrendingLoading || isTrendingFetching) && (
+        <CircularProgress
+          sx={{
+            position: 'absolute',
+            top: '40%',
+            left: '45%',
+            zIndex: '10',
+            color: 'blue',
+          }}
+        />
+      )}
 
       {isTrendingError && 'Server does not respond. Try later'}
 

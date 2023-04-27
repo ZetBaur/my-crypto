@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { useTheme } from '@mui/material/styles';
 import { tokens } from '../../contexts/themeContext';
 import { currencies } from '../../data/currencies';
@@ -8,30 +9,21 @@ import {
   Select,
   Autocomplete,
   TextField,
-  // FormLabel,
-  // RadioGroup,
-  // FormControlLabel,
-  // Radio,
 } from '@mui/material';
 import { coinList } from '../../data/coinList';
 
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
-import {
-  setId,
-  // setDays,
-  setVsCurrency,
-  // setInterval,
-} from '../../store/features/coins/coinsSlice';
+import { setId, setVsCurrency } from '../../store/features/coins/coinsSlice';
 import SelectPeriod from './SelectPeriod';
 import SelectInterval from './SelectInterval';
 
 const HistoricChartHeader = () => {
+  console.log('rendering Header');
+
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const id = useAppSelector((state) => state.coins.id);
   const vsCurrency = useAppSelector((state) => state.coins.vsCurrency);
-  // const days = useAppSelector((state) => state.coins.days);
-  // const interval = useAppSelector((state) => state.coins.interval);
   const currentCoin = useAppSelector((state) => state.coins.currentCoin);
   const dispatch = useAppDispatch();
 
@@ -140,4 +132,6 @@ const HistoricChartHeader = () => {
   );
 };
 
-export default HistoricChartHeader;
+export default memo(HistoricChartHeader);
+
+// export default HistoricChartHeader;

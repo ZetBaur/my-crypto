@@ -12,11 +12,14 @@ import {
 } from '@mui/material';
 import { coinList } from '../../data/coinList';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
-import { setId, setVsCurrency } from '../../store/features/coins/coinsSlice';
+import {
+  setId,
+  setVsCurrency,
+} from '../../store/features/coins/marketChartSlice';
 import SelectPeriod from './SelectPeriod';
 import SelectInterval from './SelectInterval';
 
-const HistoricChartHeader = () => {
+const ChartHeader = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const id = useAppSelector((state) => state.coins.id);
@@ -129,4 +132,4 @@ const HistoricChartHeader = () => {
   );
 };
 
-export default memo(HistoricChartHeader);
+export default memo(ChartHeader);

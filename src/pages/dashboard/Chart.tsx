@@ -10,38 +10,45 @@ import {
   XAxis,
   YAxis,
 } from 'recharts';
-import { Box, CircularProgress, Backdrop } from '@mui/material';
+import { Box, CircularProgress } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { tokens } from '../../contexts/themeContext';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
-import {
-  setCurrentCoin,
-  setPrices,
-} from '../../store/features/coins/coinsSlice';
+import { setCurrentCoin } from '../../store/features/coins/marketChartSlice';
 import {
   useLazyFetchCoinByIdQuery,
   useLazyFetchMarketChartQuery,
 } from '../../store/features/coins/coinsApi';
+import { IHistoricCoinPrices } from '../../model/coinsTypes';
 
 const Chart = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const dispatch = useAppDispatch();
   const id = useAppSelector((state) => state.coins.id);
   const vsCurrency = useAppSelector((state) => state.coins.vsCurrency);
   const days = useAppSelector((state) => state.coins.days);
   const interval = useAppSelector((state) => state.coins.interval);
-  const prices = useAppSelector((state) => state.coins.prices);
-  const dispatch = useAppDispatch();
-
-  const [fetchCoinById, { isLoading: isCoinByIdLoading, data: coinByIdData }] =
-    useLazyFetchCoinByIdQuery();
+  const [prices, setPrices] = useState<IHistoricCoinPrices[]>();
 
   const [
-    fetchChart,
+    fetchCoinById,
     {
-      isFetching: isChartFetching,
-      isLoading: isChartLoading,
-      isError: isChartError,
+      isError: isCoinByIdError,
+      isLoading: isCoinByIdLoading,
+      isFetching: isCoinByIdFetchig,
+      isSuccess: isCoinByIdSuccess,
+      data: coinByIdData,
+    },
+  ] = useLazyFetchCoinByIdQuery();
+
+  const [
+    fetchMarketChart,
+    {
+      isError: isMarketChartError,
+      isFetching: isMarketChartFetching,
+      isLoading: isMarketChartLoading,
+      isSuccess: isMarketChartSuccess,
       data: marketChartData,
     },
   ] = useLazyFetchMarketChartQuery();
@@ -57,7 +64,7 @@ const Chart = () => {
       days,
       interval,
     };
-    if (id) fetchChart(params);
+    if (id) fetchMarketChart(params);
   }, [id, vsCurrency, days, interval]);
 
   useEffect(() => {
@@ -71,21 +78,19 @@ const Chart = () => {
     // arr?.forEach((el) => {
     //   el.price.slice(6, 4);
     // });
-    dispatch(setPrices(arr));
-  }, [marketChartData]);
+    setPrices(arr);
+  }, [isMarketChartSuccess]);
 
   useEffect(() => {
-    if (coinByIdData) {
-      const newCurrentCoin = {
-        id: coinByIdData.id,
-        symbol: coinByIdData.symbol,
-        name: coinByIdData.name,
-        image: coinByIdData.image.thumb,
-        inPortfolio: false,
-      };
-      dispatch(setCurrentCoin(newCurrentCoin));
-    }
-  }, [coinByIdData]);
+    const newCurrentCoin = {
+      id: coinByIdData?.id,
+      symbol: coinByIdData?.symbol,
+      name: coinByIdData?.name,
+      image: coinByIdData?.image.thumb,
+      inPortfolio: false,
+    };
+    dispatch(setCurrentCoin(newCurrentCoin));
+  }, [isCoinByIdSuccess]);
 
   return (
     <Box
@@ -106,7 +111,7 @@ const Chart = () => {
           position: 'relative',
         }}
       >
-        {(isChartLoading || isChartFetching) && (
+        {(isMarketChartLoading || isMarketChartFetching) && (
           <CircularProgress
             sx={{
               position: 'absolute',
@@ -118,7 +123,7 @@ const Chart = () => {
           />
         )}
 
-        {isChartError && 'Server does not respond. Try later'}
+        {isMarketChartError && 'Server does not respond. Try later'}
 
         {marketChartData && (
           <ResponsiveContainer width='100%' height='100%'>

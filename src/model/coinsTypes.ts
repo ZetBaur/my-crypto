@@ -70,7 +70,7 @@ export interface IMarketChartQuery {
 
 //----------
 
-export interface IPrices {
+export interface IHistoricCoinPrices {
   date: string;
   price: string;
 }

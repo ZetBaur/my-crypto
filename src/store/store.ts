@@ -3,10 +3,12 @@ import { setupListeners } from '@reduxjs/toolkit/query';
 import { coinsApi } from './features/coins/coinsApi';
 
 import coinsSlice from './features/coins/coinsSlice';
+import marketChartSlice from './features/coins/marketChartSlice';
 
 export const store = configureStore({
   reducer: {
     [coinsApi.reducerPath]: coinsApi.reducer,
+    marketChart: marketChartSlice,
     coins: coinsSlice,
   },
 

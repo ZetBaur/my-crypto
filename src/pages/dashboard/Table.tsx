@@ -8,7 +8,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { useLazyFetchCoinMarketsQuery } from '../../store/features/coins/coinsApi';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
-import { setCoinMarkets } from '../../store/features/coins/coinsSlice';
+import { setMarkets } from '../../store/features/coins/marketsSlice';
 
 function createData(
   name: string,
@@ -30,13 +30,13 @@ const rows = [
 
 console.log(rows);
 
-export default function DenseTable() {
-  const coinMarkets = useAppSelector((state) => state.coins.coinMarkets);
+export default function MarketsTable() {
+  const markets = useAppSelector((state) => state.markets.markets);
   const dispatch = useAppDispatch();
 
   const [
     fetchMarkets,
-    { isSuccess: coinMarketsSuccess, data: coinsMarketsData },
+    { isError: isMarketsError, isSuccess: isMarketsSuccess, data: marketsData },
   ] = useLazyFetchCoinMarketsQuery();
 
   useEffect(() => {
@@ -48,10 +48,10 @@ export default function DenseTable() {
   }, []);
 
   useEffect(() => {
-    console.log(coinsMarketsData);
-    dispatch(setCoinMarkets(coinsMarketsData));
-    console.log(coinMarkets);
-  }, [coinMarketsSuccess]);
+    console.log(marketsData);
+    dispatch(setMarkets(marketsData));
+    console.log(markets);
+  }, [isMarketsSuccess]);
 
   return (
     <TableContainer

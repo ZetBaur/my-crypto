@@ -5,16 +5,17 @@ import { useTheme } from '@mui/material/styles';
 import { tokens } from '../../contexts/themeContext';
 import { ICoinData, ITrendingCoin } from '../../model/coinsTypes';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
+import { setId } from '../../store/features/coins/marketChartSlice';
+
 import {
-  setId,
   addToPortfolio,
   removeFromPortfolio,
-} from '../../store/features/coins/coinsSlice';
+} from '../../store/features/coins/portfolioSlice';
 
 const Trending = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const portfolio = useAppSelector((state) => state.coins.portfolio);
+  const portfolio = useAppSelector((state) => state.portfolio.portfolio);
   const dispatch = useAppDispatch();
 
   const {

@@ -22,9 +22,9 @@ import SelectInterval from './SelectInterval';
 const ChartHeader = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const id = useAppSelector((state) => state.coins.id);
-  const vsCurrency = useAppSelector((state) => state.coins.vsCurrency);
-  const currentCoin = useAppSelector((state) => state.coins.currentCoin);
+  const id = useAppSelector((state) => state.marketChart.id);
+  const vsCurrency = useAppSelector((state) => state.marketChart.vsCurrency);
+  const currentCoin = useAppSelector((state) => state.coinById.currentCoin);
   const dispatch = useAppDispatch();
 
   return (

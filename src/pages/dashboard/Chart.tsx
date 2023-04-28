@@ -14,7 +14,7 @@ import { Box, CircularProgress } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { tokens } from '../../contexts/themeContext';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
-import { setCurrentCoin } from '../../store/features/coins/marketChartSlice';
+import { setCurrentCoin } from '../../store/features/coins/coinByIdSlice';
 import {
   useLazyFetchCoinByIdQuery,
   useLazyFetchMarketChartQuery,
@@ -25,10 +25,10 @@ const Chart = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const dispatch = useAppDispatch();
-  const id = useAppSelector((state) => state.coins.id);
-  const vsCurrency = useAppSelector((state) => state.coins.vsCurrency);
-  const days = useAppSelector((state) => state.coins.days);
-  const interval = useAppSelector((state) => state.coins.interval);
+  const id = useAppSelector((state) => state.marketChart.id);
+  const vsCurrency = useAppSelector((state) => state.marketChart.vsCurrency);
+  const days = useAppSelector((state) => state.marketChart.days);
+  const interval = useAppSelector((state) => state.marketChart.interval);
   const [prices, setPrices] = useState<IHistoricCoinPrices[]>();
 
   const [

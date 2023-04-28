@@ -5,12 +5,12 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
-import { setDays } from '../../store/features/coins/coinsSlice';
+import { setDays } from '../../store/features/coins/marketChartSlice';
 
 export default function SelectedPeriod() {
   const dispatch = useAppDispatch();
-  const days = useAppSelector((state) => state.coins.days);
-  const interval = useAppSelector((state) => state.coins.interval);
+  const days = useAppSelector((state) => state.marketChart.days);
+  const interval = useAppSelector((state) => state.marketChart.interval);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(setDays(event.target.value));

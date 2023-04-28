@@ -1,4 +1,4 @@
-export interface ICoinMarkets {
+export interface IMarkets {
   id: string;
   symbol: string;
   name: string;

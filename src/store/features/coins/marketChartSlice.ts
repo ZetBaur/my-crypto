@@ -8,8 +8,6 @@ interface IInitialState {
   interval: string;
 
   marketChart: IMarketChart | null;
-
-  currentCoin: ICoinData | undefined;
 }
 
 const initialState: IInitialState = {
@@ -19,18 +17,9 @@ const initialState: IInitialState = {
   interval: 'hourly',
 
   marketChart: null,
-
-  currentCoin: {
-    id: 'bitcoin',
-    name: 'Bitcoin',
-    symbol: 'btc',
-    image:
-      'https://assets.coingecko.com/coins/images/1/thumb/bitcoin.png?1547033579',
-    inPortfolio: false,
-  },
 };
 
-export const coinsSlice = createSlice({
+export const marketChartSlice = createSlice({
   name: 'marketChart',
   initialState,
   reducers: {
@@ -49,13 +38,9 @@ export const coinsSlice = createSlice({
     setInterval(state, action: PayloadAction<string>) {
       state.interval = action.payload;
     },
-
-    setCurrentCoin(state, action: PayloadAction<ICoinData | undefined>) {
-      state.currentCoin = action.payload;
-    },
   },
 });
 
-export const { setId, setVsCurrency, setDays, setInterval, setCurrentCoin } =
-  coinsSlice.actions;
-export default coinsSlice.reducer;
+export const { setId, setVsCurrency, setDays, setInterval } =
+  marketChartSlice.actions;
+export default marketChartSlice.reducer;

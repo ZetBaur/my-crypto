@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
+
 import { coinsApi } from './features/coins/coinsApi';
 
 import marketChartSlice from './features/coins/marketChartSlice';
@@ -10,6 +11,7 @@ import portfolioSlice from './features/coins/portfolioSlice';
 export const store = configureStore({
   reducer: {
     [coinsApi.reducerPath]: coinsApi.reducer,
+
     marketChart: marketChartSlice,
     markets: marketsSlice,
     coinById: coinByIdSlice,

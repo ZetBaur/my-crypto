@@ -6,7 +6,7 @@ import { tokens } from '../../contexts/themeContext';
 import { ICoinData, ITrendingCoin } from '../../model/coinsTypes';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
 import { setId } from '../../store/features/coins/marketChartSlice';
-
+import { useCheckPortfolio } from '../../hooks/checkPortfolio';
 import {
   addToPortfolio,
   removeFromPortfolio,
@@ -38,7 +38,7 @@ const Trending = () => {
       inPortfolio: false,
     };
 
-    const isInPortfolio = portfolio.some((item) => item.id === el.item.id);
+    const isInPortfolio = useCheckPortfolio(el.item.id, portfolio);
 
     !isInPortfolio
       ? dispatch(addToPortfolio(coinToAdd))
@@ -46,7 +46,10 @@ const Trending = () => {
   };
 
   const iconColor = (el: ITrendingCoin) => {
-    const isInPortfolio = portfolio.some((item) => el.item.id === item.id);
+    // const isInPortfolio = portfolio.some((item) => el.item.id === item.id);
+
+    const isInPortfolio = useCheckPortfolio(el.item.id, portfolio);
+
     return isInPortfolio ? 'blue' : 'black';
   };
 

@@ -13,18 +13,13 @@ import {
 import { Box, CircularProgress } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { tokens } from '../../contexts/themeContext';
-import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
-import { setCurrentCoin } from '../../store/features/coins/coinByIdSlice';
-import {
-  useLazyFetchCoinByIdQuery,
-  useLazyFetchMarketChartQuery,
-} from '../../store/features/coins/coinsApi';
+import { useAppSelector } from '../../hooks/reduxHook';
+import { useLazyFetchMarketChartQuery } from '../../store/features/coins/coinsApi';
 import { IHistoricCoinPrices } from '../../model/coinsTypes';
 
 const Chart = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const dispatch = useAppDispatch();
   const id = useAppSelector((state) => state.marketChart.id);
   const vsCurrency = useAppSelector((state) => state.marketChart.vsCurrency);
   const days = useAppSelector((state) => state.marketChart.days);
@@ -32,30 +27,14 @@ const Chart = () => {
   const [prices, setPrices] = useState<IHistoricCoinPrices[]>();
 
   const [
-    fetchCoinById,
-    {
-      isError: isCoinByIdError,
-      isLoading: isCoinByIdLoading,
-      isFetching: isCoinByIdFetchig,
-      isSuccess: isCoinByIdSuccess,
-      data: coinByIdData,
-    },
-  ] = useLazyFetchCoinByIdQuery();
-
-  const [
     fetchMarketChart,
     {
       isError: isMarketChartError,
       isFetching: isMarketChartFetching,
       isLoading: isMarketChartLoading,
-      isSuccess: isMarketChartSuccess,
       data: marketChartData,
     },
   ] = useLazyFetchMarketChartQuery();
-
-  useEffect(() => {
-    if (id) fetchCoinById(id);
-  }, [id]);
 
   useEffect(() => {
     const params = {
@@ -74,23 +53,8 @@ const Chart = () => {
         price: el[1].toFixed(7),
       };
     });
-
-    // arr?.forEach((el) => {
-    //   el.price.slice(6, 4);
-    // });
     setPrices(arr);
-  }, [isMarketChartSuccess]);
-
-  useEffect(() => {
-    const newCurrentCoin = {
-      id: coinByIdData?.id,
-      symbol: coinByIdData?.symbol,
-      name: coinByIdData?.name,
-      image: coinByIdData?.image.thumb,
-      inPortfolio: false,
-    };
-    dispatch(setCurrentCoin(newCurrentCoin));
-  }, [isCoinByIdSuccess]);
+  }, [marketChartData]);
 
   return (
     <Box

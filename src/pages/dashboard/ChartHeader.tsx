@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, useEffect } from 'react';
 import { useTheme } from '@mui/material/styles';
 import { tokens } from '../../contexts/themeContext';
 import { currencies } from '../../data/currencies';
@@ -9,6 +9,7 @@ import {
   Select,
   Autocomplete,
   TextField,
+  CircularProgress,
 } from '@mui/material';
 import { coinList } from '../../data/coinList';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
@@ -18,6 +19,8 @@ import {
 } from '../../store/features/coins/marketChartSlice';
 import SelectPeriod from './SelectPeriod';
 import SelectInterval from './SelectInterval';
+import { useLazyFetchCoinByIdQuery } from '../../store/features/coins/coinsApi';
+import { setCurrentCoin } from '../../store/features/coins/coinByIdSlice';
 
 const ChartHeader = () => {
   const theme = useTheme();
@@ -26,6 +29,29 @@ const ChartHeader = () => {
   const vsCurrency = useAppSelector((state) => state.marketChart.vsCurrency);
   const currentCoin = useAppSelector((state) => state.coinById.currentCoin);
   const dispatch = useAppDispatch();
+
+  const [
+    fetchCoinById,
+    {
+      isLoading: isCoinByIdLoading,
+      isFetching: isCoinByIdFetchig,
+      data: coinByIdData,
+    },
+  ] = useLazyFetchCoinByIdQuery();
+
+  useEffect(() => {
+    if (id) fetchCoinById(id);
+  }, [id]);
+
+  useEffect(() => {
+    const newCurrentCoin = {
+      id: coinByIdData?.id,
+      symbol: coinByIdData?.symbol,
+      name: coinByIdData?.name,
+      image: coinByIdData?.image.thumb,
+    };
+    dispatch(setCurrentCoin(newCurrentCoin));
+  }, [coinByIdData]);
 
   return (
     <Box
@@ -49,8 +75,20 @@ const ChartHeader = () => {
             background: colors.secondary.DEFAULT,
             borderRadius: '4px',
             padding: '8px 16px',
+            position: 'relative',
           }}
         >
+          {(isCoinByIdFetchig || isCoinByIdLoading) && (
+            <CircularProgress
+              sx={{
+                position: 'absolute',
+                left: '35%',
+                zIndex: '10',
+                color: 'blue',
+              }}
+            />
+          )}
+
           <img src={currentCoin?.image} alt={currentCoin?.symbol} />
           <span>{currentCoin?.name}</span>
         </Box>

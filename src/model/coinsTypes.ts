@@ -247,5 +247,4 @@ export interface ICoinData {
   symbol: string | undefined;
   name: string | undefined;
   image: string | undefined;
-  inPortfolio: boolean;
 }

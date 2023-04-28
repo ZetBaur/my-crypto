@@ -29,7 +29,7 @@ const Trending = () => {
     dispatch(setId(el.item.id));
   };
 
-  const handleIconClick = async (el: ITrendingCoin) => {
+  const handleIconClick = (el: ITrendingCoin) => {
     const coinToAdd: ICoinData = {
       id: el.item.id,
       symbol: el.item.symbol,

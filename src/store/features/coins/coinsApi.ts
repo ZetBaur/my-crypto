@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import {
-  ICoinMarkets,
-  ICoinMarketsQuery,
+  IMarkets,
+  IMarketsQuery,
   IMarketChart,
   IMarketChartQuery,
   ISearchCoin,
@@ -20,8 +20,8 @@ export const coinsApi = createApi({
   // refetchOnReconnect: true,
 
   endpoints: (build) => ({
-    fetchCoinMarkets: build.query<ICoinMarkets[], ICoinMarketsQuery>({
-      query: (obj: ICoinMarketsQuery) => ({
+    fetchMarkets: build.query<IMarkets[], IMarketsQuery>({
+      query: (obj: IMarketsQuery) => ({
         url: `coins/markets`,
         params: {
           vs_currency: obj.vsCurrency,
@@ -35,7 +35,6 @@ export const coinsApi = createApi({
       query: (obj: IMarketChartQuery) => ({
         url: `coins/${obj.id}/market_chart`,
         params: {
-          // id: obj.id,
           vs_currency: obj.vsCurrency,
           days: obj.days,
           interval: obj.interval,
@@ -81,7 +80,7 @@ export const coinsApi = createApi({
 });
 
 export const {
-  useLazyFetchCoinMarketsQuery,
+  useLazyFetchMarketsQuery,
   useLazyFetchMarketChartQuery,
   useLazySearchCoinQuery,
   useFetchMarketChartQuery,

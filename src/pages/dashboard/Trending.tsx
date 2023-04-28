@@ -46,7 +46,6 @@ const Trending = () => {
 
   const iconColor = (el: ITrendingCoin) => {
     const isInPortfolio = useCheckPortfolio(el.item.id, portfolio);
-
     return isInPortfolio ? 'blue' : 'black';
   };
 

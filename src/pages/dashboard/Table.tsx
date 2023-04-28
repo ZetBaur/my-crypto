@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -6,9 +6,18 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { useLazyFetchCoinMarketsQuery } from '../../store/features/coins/coinsApi';
+import { useLazyFetchMarketsQuery } from '../../store/features/coins/coinsApi';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
 import { setMarkets } from '../../store/features/coins/marketsSlice';
+import StarIcon from '@mui/icons-material/Star';
+import { useCheckPortfolio } from '../../hooks/checkPortfolio';
+import { setId } from '../../store/features/coins/marketChartSlice';
+import { ICoinData, IMarkets } from '../../model/coinsTypes';
+import {
+  addToPortfolio,
+  removeFromPortfolio,
+} from '../../store/features/coins/portfolioSlice';
+import { Tooltip } from '@mui/material';
 
 function createData(
   name: string,
@@ -33,16 +42,17 @@ console.log(rows);
 export default function MarketsTable() {
   const markets = useAppSelector((state) => state.markets.markets);
   const dispatch = useAppDispatch();
+  const portfolio = useAppSelector((state) => state.portfolio.portfolio);
 
   const [
     fetchMarkets,
     { isError: isMarketsError, isSuccess: isMarketsSuccess, data: marketsData },
-  ] = useLazyFetchCoinMarketsQuery();
+  ] = useLazyFetchMarketsQuery();
 
   useEffect(() => {
     const params = {
       vsCurrency: 'usd',
-      perPage: 13,
+      perPage: 10,
     };
     fetchMarkets(params);
   }, []);
@@ -51,7 +61,33 @@ export default function MarketsTable() {
     console.log(marketsData);
     dispatch(setMarkets(marketsData));
     console.log(markets);
+    console.log(marketsData);
   }, [isMarketsSuccess]);
+
+  const handleCoinClick = (el: IMarkets) => {
+    dispatch(setId(el.id));
+  };
+
+  const handleIconClick = async (el: IMarkets) => {
+    const coinToAdd: ICoinData = {
+      id: el.id,
+      symbol: el.symbol,
+      name: el.name,
+      image: el.image,
+    };
+
+    const isInPortfolio = useCheckPortfolio(el.id, portfolio);
+
+    !isInPortfolio
+      ? dispatch(addToPortfolio(coinToAdd))
+      : dispatch(removeFromPortfolio(coinToAdd));
+  };
+
+  const iconColor = (el: IMarkets) => {
+    const isInPortfolio = useCheckPortfolio(el.id, portfolio);
+
+    return isInPortfolio ? 'blue' : 'black';
+  };
 
   return (
     <TableContainer
@@ -65,27 +101,49 @@ export default function MarketsTable() {
       <Table sx={{ minWidth: 650 }} size='small' aria-label='a dense table'>
         <TableHead>
           <TableRow>
-            <TableCell>Dessert (100g serving)</TableCell>
-            <TableCell align='right'>Calories</TableCell>
-            <TableCell align='right'>Fat&nbsp;(g)</TableCell>
-            <TableCell align='right'>Carbs&nbsp;(g)</TableCell>
-            <TableCell align='right'>Protein&nbsp;(g)</TableCell>
+            <TableCell></TableCell>
+            <TableCell>Coin</TableCell>
+            <TableCell align='right'>Price</TableCell>
+            <TableCell align='right'>24h</TableCell>
+            <TableCell align='right'>% 24h</TableCell>
+            <TableCell align='right'>Volume</TableCell>
           </TableRow>
         </TableHead>
 
         <TableBody>
-          {rows.map((row) => (
+          {marketsData?.map((row) => (
             <TableRow
               key={row.name}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
+              <TableCell align='right'>
+                <Tooltip
+                  title={
+                    iconColor(row) === 'black'
+                      ? 'Add to portfolio'
+                      : 'Remove from pertfolio'
+                  }
+                  placement='left'
+                >
+                  <StarIcon
+                    onClick={() => handleIconClick(row)}
+                    sx={{
+                      cursor: 'pointer',
+                      color: () => iconColor(row),
+                    }}
+                  />
+                </Tooltip>
+              </TableCell>
+
               <TableCell component='th' scope='row'>
                 {row.name}
               </TableCell>
-              <TableCell align='right'>{row.calories}</TableCell>
-              <TableCell align='right'>{row.fat}</TableCell>
-              <TableCell align='right'>{row.carbs}</TableCell>
-              <TableCell align='right'>{row.protein}</TableCell>
+              <TableCell align='right'>{row.current_price}</TableCell>
+              <TableCell align='right'>{row.price_change_24h}</TableCell>
+              <TableCell align='right'>
+                {row.price_change_percentage_24h}
+              </TableCell>
+              <TableCell align='right'>{row.total_volume}</TableCell>
             </TableRow>
           ))}
         </TableBody>

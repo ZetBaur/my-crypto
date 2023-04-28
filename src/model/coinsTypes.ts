@@ -33,7 +33,7 @@ export interface IRoi {
   percentage: number;
 }
 
-export interface ICoinMarketsQuery {
+export interface IMarketsQuery {
   vsCurrency: string;
   ids?: string;
   category?: string;

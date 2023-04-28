@@ -12,7 +12,6 @@ const initialState: IInitialState = {
     symbol: 'btc',
     image:
       'https://assets.coingecko.com/coins/images/1/thumb/bitcoin.png?1547033579',
-    inPortfolio: false,
   },
 };
 

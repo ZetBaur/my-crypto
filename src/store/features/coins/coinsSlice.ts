@@ -1,14 +1,16 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ICoinData, IPrices } from '../../../model/coinsTypes';
+import { ICoinData, ICoinMarkets, IPrices } from '../../../model/coinsTypes';
 
 interface IInitialState {
   id: string | null;
   vsCurrency: string;
   days: string;
   interval: string;
-  portfolio: ICoinData[];
+
   prices: IPrices[] | undefined;
   currentCoin: ICoinData | undefined;
+  coinMarkets: ICoinMarkets[] | undefined;
+  portfolio: ICoinData[];
 }
 
 const initialState: IInitialState = {
@@ -21,12 +23,12 @@ const initialState: IInitialState = {
       'https://assets.coingecko.com/coins/images/1/thumb/bitcoin.png?1547033579',
     inPortfolio: false,
   },
-
   id: 'bitcoin',
   vsCurrency: 'USD',
   days: '1',
   interval: 'hourly',
   portfolio: [],
+  coinMarkets: [],
 };
 
 export const coinsSlice = createSlice({
@@ -66,6 +68,10 @@ export const coinsSlice = createSlice({
         (el) => el.id !== action.payload.id
       );
     },
+
+    setCoinMarkets(state, action: PayloadAction<ICoinMarkets[] | undefined>) {
+      state.coinMarkets = action.payload;
+    },
   },
 });
 
@@ -78,5 +84,6 @@ export const {
   setPrices,
   addToPortfolio,
   removeFromPortfolio,
+  setCoinMarkets,
 } = coinsSlice.actions;
 export default coinsSlice.reducer;

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -7,6 +7,8 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { useLazyFetchCoinMarketsQuery } from '../../store/features/coins/coinsApi';
+import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
+import { setCoinMarkets } from '../../store/features/coins/coinsSlice';
 
 function createData(
   name: string,
@@ -26,20 +28,29 @@ const rows = [
   createData('Gingerbread', 356, 16.0, 49, 3.9),
 ];
 
+console.log(rows);
+
 export default function DenseTable() {
+  const coinMarkets = useAppSelector((state) => state.coins.coinMarkets);
+  const dispatch = useAppDispatch();
+
   const [
     fetchMarkets,
     { isSuccess: coinMarketsSuccess, data: coinsMarketsData },
   ] = useLazyFetchCoinMarketsQuery();
 
-  React.useEffect(() => {
+  useEffect(() => {
     const params = {
-      currency: 'usd',
-      coin: 'ethereum',
-      limit: 13,
+      vsCurrency: 'usd',
+      perPage: 13,
     };
     fetchMarkets(params);
+  }, []);
+
+  useEffect(() => {
     console.log(coinsMarketsData);
+    dispatch(setCoinMarkets(coinsMarketsData));
+    console.log(coinMarkets);
   }, [coinMarketsSuccess]);
 
   return (
@@ -61,6 +72,7 @@ export default function DenseTable() {
             <TableCell align='right'>Protein&nbsp;(g)</TableCell>
           </TableRow>
         </TableHead>
+
         <TableBody>
           {rows.map((row) => (
             <TableRow

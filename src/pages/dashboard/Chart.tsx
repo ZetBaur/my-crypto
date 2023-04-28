@@ -61,7 +61,7 @@ const Chart = () => {
   }, [id, vsCurrency, days, interval]);
 
   useEffect(() => {
-    const arr = marketChartData?.prices.map((el) => {
+    const arr = marketChartData?.prices.map((el: number[]) => {
       return {
         date: moment(el[0]).format('MMM DD'),
         price: el[1].toFixed(7),

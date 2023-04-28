@@ -34,9 +34,15 @@ export interface IRoi {
 }
 
 export interface ICoinMarketsQuery {
-  currency: string;
-  coin: string;
-  limit?: number;
+  vsCurrency: string;
+  ids?: string;
+  category?: string;
+  order?: string;
+  perPage?: number;
+  page?: number;
+  sparkline?: boolean;
+  priceChangePercentage?: string;
+  locale?: string;
 }
 
 //--------

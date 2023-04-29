@@ -75,7 +75,7 @@ const Chart = () => {
           position: 'relative',
         }}
       >
-        {(isMarketChartLoading || isMarketChartFetching) && (
+        {isMarketChartFetching && (
           <CircularProgress
             sx={{
               position: 'absolute',

@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -9,7 +9,7 @@ import Paper from '@mui/material/Paper';
 import StarIcon from '@mui/icons-material/Star';
 
 import { useLazyFetchMarketsQuery } from '../../store/features/coins/coinsApi';
-import { Tooltip } from '@mui/material';
+import { Pagination, TablePagination, Tooltip } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
 import { ICoinData, IMarkets } from '../../model/coinsTypes';
 import { useCheckPortfolio } from '../../hooks/checkPortfolio';
@@ -24,10 +24,25 @@ export default function BasicTable() {
   const [fetchMarkets, { data }] = useLazyFetchMarketsQuery();
   const dispatch = useAppDispatch();
   const portfolio = useAppSelector((state) => state.portfolio.portfolio);
+  const [page, setPage] = useState(1);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+
+  const handleChangePage = (
+    event: React.MouseEvent<HTMLButtonElement> | null,
+    newPage: number
+  ) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
 
   useEffect(() => {
     const params = {
-      vsCurrency: 'usd',
       page: 1,
       perPage: 10,
     };
@@ -59,54 +74,69 @@ export default function BasicTable() {
   };
 
   return (
-    <TableContainer
-      component={Paper}
-      sx={{
-        padding: '1rem',
-      }}
-    >
-      <Table sx={{ minWidth: 650 }} aria-label='simple table'>
-        <TableHead>
-          <TableRow>
-            {headCells.map((el) => (
-              <TableCell key={el}>{el}</TableCell>
-            ))}
-          </TableRow>
-        </TableHead>
-
-        <TableBody>
-          {data?.map((el: IMarkets) => (
-            <TableRow
-              key={el.name}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell component='th' scope='row'>
-                <Tooltip
-                  title={
-                    iconColor(el) === 'black'
-                      ? 'Add to portfolio'
-                      : 'Remove from pertfolio'
-                  }
-                  placement='left'
-                >
-                  <StarIcon
-                    onClick={() => handleIconClick(el)}
-                    sx={{
-                      cursor: 'pointer',
-                      color: () => iconColor(el),
-                    }}
-                  />
-                </Tooltip>
-              </TableCell>
-              <TableCell>{el.name}</TableCell>
-              <TableCell>{el.current_price}</TableCell>
-              <TableCell>{el.price_change_24h}</TableCell>
-              <TableCell>{el.price_change_percentage_24h}</TableCell>
-              <TableCell>{el.total_volume}</TableCell>
+    <>
+      <TableContainer
+        component={Paper}
+        sx={{
+          padding: '1rem',
+        }}
+      >
+        <Table sx={{ minWidth: 650 }} aria-label='simple table'>
+          <TableHead>
+            <TableRow>
+              {headCells.map((el) => (
+                <TableCell key={el}>{el}</TableCell>
+              ))}
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+          </TableHead>
+
+          <TableBody>
+            {data?.map((el: IMarkets) => (
+              <TableRow
+                key={el.name}
+                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+              >
+                <TableCell component='th' scope='row'>
+                  <Tooltip
+                    title={
+                      iconColor(el) === 'black'
+                        ? 'Add to portfolio'
+                        : 'Remove from pertfolio'
+                    }
+                    placement='left'
+                  >
+                    <StarIcon
+                      onClick={() => handleIconClick(el)}
+                      sx={{
+                        cursor: 'pointer',
+                        color: () => iconColor(el),
+                      }}
+                    />
+                  </Tooltip>
+                </TableCell>
+                <TableCell>{el.name}</TableCell>
+                <TableCell>{el.current_price}</TableCell>
+                <TableCell>{el.price_change_24h}</TableCell>
+                <TableCell>{el.price_change_percentage_24h}</TableCell>
+                <TableCell>{el.total_volume}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+
+      <TablePagination
+        component='div'
+        count={100}
+        page={page}
+        onPageChange={handleChangePage}
+        rowsPerPage={rowsPerPage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+        sx={{
+          display: 'flex',
+          alignContent: 'flex-start',
+        }}
+      />
+    </>
   );
 }

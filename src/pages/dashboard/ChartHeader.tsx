@@ -78,7 +78,7 @@ const ChartHeader = () => {
             position: 'relative',
           }}
         >
-          {(isCoinByIdFetchig || isCoinByIdLoading) && (
+          {/* {(isCoinByIdFetchig || isCoinByIdLoading) && (
             <CircularProgress
               sx={{
                 position: 'absolute',
@@ -87,7 +87,7 @@ const ChartHeader = () => {
                 color: 'blue',
               }}
             />
-          )}
+          )} */}
 
           <img src={currentCoin?.image} alt={currentCoin?.symbol} />
           <span>{currentCoin?.name}</span>

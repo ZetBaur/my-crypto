@@ -24,8 +24,8 @@ export const coinsApi = createApi({
       query: (obj: IMarketsQuery) => ({
         url: `coins/markets`,
         params: {
-          vs_currency: obj.vsCurrency,
-          ids: obj.ids,
+          vs_currency: 'usd',
+          page: obj.page,
           per_page: obj.perPage,
         },
       }),

@@ -9,7 +9,13 @@ import Paper from '@mui/material/Paper';
 import StarIcon from '@mui/icons-material/Star';
 
 import { useLazyFetchMarketsQuery } from '../../store/features/coins/coinsApi';
-import { Box, Pagination, TablePagination, Tooltip } from '@mui/material';
+import {
+  Box,
+  CircularProgress,
+  TablePagination,
+  Tooltip,
+  Typography,
+} from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
 import { ICoinData, IMarkets } from '../../model/coinsTypes';
 import { useCheckPortfolio } from '../../hooks/checkPortfolio';
@@ -18,7 +24,6 @@ import {
   removeFromPortfolio,
 } from '../../store/features/coins/portfolioSlice';
 import { setId } from '../../store/features/coins/marketChartSlice';
-import TestWS from './TestWS';
 
 const headCells = [
   '',
@@ -30,7 +35,8 @@ const headCells = [
 ];
 
 export default function BasicTable() {
-  const [fetchMarkets, { data }] = useLazyFetchMarketsQuery();
+  const [fetchMarkets, { isError, isFetching, data }] =
+    useLazyFetchMarketsQuery();
   const dispatch = useAppDispatch();
   const portfolio = useAppSelector((state) => state.portfolio.portfolio);
   const [page, setPage] = useState(1);
@@ -40,6 +46,8 @@ export default function BasicTable() {
     event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number
   ) => {
+    console.log('page', page);
+
     setPage(newPage);
   };
 
@@ -110,6 +118,7 @@ export default function BasicTable() {
   const formatPriceChangePercent = (value: number) => {
     return value.toFixed(2);
   };
+
   const valueColor = (value: number) => {
     return Math.sign(value) === -1 ? 'red' : 'green';
   };
@@ -126,99 +135,132 @@ export default function BasicTable() {
         sx={{
           display: 'flex',
           alignContent: 'flex-start',
+          color: 'blue',
+          '& .MuiSvgIcon-root': {
+            fill: 'yellow',
+          },
         }}
       />
 
-      <TableContainer
-        component={Paper}
-        sx={{
-          padding: '1rem',
-          marginTop: '0 !important',
-        }}
-      >
-        <Table sx={{ minWidth: 650 }} aria-label='simple table'>
-          <TableHead>
-            <TableRow>
-              {headCells.map((el) => (
-                <TableCell
-                  key={el}
-                  sx={{
-                    color: 'gray',
-                  }}
-                >
-                  {el}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
+      {isError && (
+        <Box
+          sx={{
+            textAlign: 'center',
+          }}
+        >
+          Server does not respond. Please try later
+        </Box>
+      )}
 
-          <TableBody>
-            {data?.map((el: IMarkets) => (
-              <TableRow
-                key={el.name}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-              >
-                <TableCell component='th' scope='row'>
-                  <Tooltip
-                    title={
-                      iconColor(el) === 'black'
-                        ? 'Add to portfolio'
-                        : 'Remove from pertfolio'
-                    }
-                    placement='left'
-                  >
-                    <StarIcon
-                      onClick={() => handleIconClick(el)}
-                      sx={{
-                        cursor: 'pointer',
-                        color: () => iconColor(el),
-                      }}
-                    />
-                  </Tooltip>
-                </TableCell>
-                <TableCell>
-                  <Box
+      {isFetching && (
+        <CircularProgress
+          sx={{
+            position: 'absolute',
+            top: '40%',
+            left: '45%',
+            zIndex: '10',
+            color: 'blue',
+          }}
+        />
+      )}
+
+      {!isError && (
+        <TableContainer
+          component={Paper}
+          sx={{
+            padding: '1rem',
+            marginTop: '0 !important',
+          }}
+        >
+          <Table sx={{ minWidth: 650 }} aria-label='simple table'>
+            <TableHead>
+              <TableRow>
+                {headCells.map((el) => (
+                  <TableCell
+                    key={el}
                     sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '1rem',
+                      color: 'gray',
                     }}
                   >
-                    <img width='24' height='24' src={el.image} alt={el.name} />
+                    {el}
+                  </TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+
+            <TableBody>
+              {data?.map((el: IMarkets) => (
+                <TableRow
+                  key={el.name}
+                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                >
+                  <TableCell component='th' scope='row'>
+                    <Tooltip
+                      title={
+                        iconColor(el) === 'black'
+                          ? 'Add to portfolio'
+                          : 'Remove from pertfolio'
+                      }
+                      placement='left'
+                    >
+                      <StarIcon
+                        onClick={() => handleIconClick(el)}
+                        sx={{
+                          cursor: 'pointer',
+                          color: () => iconColor(el),
+                        }}
+                      />
+                    </Tooltip>
+                  </TableCell>
+                  <TableCell>
                     <Box
                       sx={{
-                        ':hover': {
-                          color: 'gray',
-                          cursor: 'pointer',
-                        },
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '1rem',
                       }}
-                      onClick={() => handleCoinClick(el)}
                     >
-                      {el.name}
+                      <img
+                        width='24'
+                        height='24'
+                        src={el.image}
+                        alt={el.name}
+                      />
+                      <Box
+                        sx={{
+                          ':hover': {
+                            color: 'gray',
+                            cursor: 'pointer',
+                          },
+                        }}
+                        onClick={() => handleCoinClick(el)}
+                      >
+                        {el.name}
+                      </Box>
                     </Box>
-                  </Box>
-                </TableCell>
-                <TableCell>{formatPrice(el.current_price)}</TableCell>
-                <TableCell
-                  sx={{
-                    color: () => valueColor(el.price_change_24h),
-                  }}
-                >
-                  {formatPriceChange(el.price_change_24h)}
-                </TableCell>
-                <TableCell
-                  sx={{
-                    color: () => valueColor(el.price_change_24h),
-                  }}
-                >
-                  {formatPriceChangePercent(el.price_change_percentage_24h)}
-                </TableCell>
-                <TableCell>{formatVolume(el.total_volume)}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+                  </TableCell>
+                  <TableCell>{formatPrice(el.current_price)}</TableCell>
+                  <TableCell
+                    sx={{
+                      color: () => valueColor(el.price_change_24h),
+                    }}
+                  >
+                    {formatPriceChange(el.price_change_24h)}
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      color: () => valueColor(el.price_change_24h),
+                    }}
+                  >
+                    {formatPriceChangePercent(el.price_change_percentage_24h)}
+                  </TableCell>
+                  <TableCell>{formatVolume(el.total_volume)}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      )}
     </>
   );
 }

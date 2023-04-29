@@ -18,6 +18,7 @@ import {
   removeFromPortfolio,
 } from '../../store/features/coins/portfolioSlice';
 import { setId } from '../../store/features/coins/marketChartSlice';
+import TestWS from './TestWS';
 
 const headCells = [
   '',
@@ -109,6 +110,9 @@ export default function BasicTable() {
   const formatPriceChangePercent = (value: number) => {
     return value.toFixed(2);
   };
+  const valueColor = (value: number) => {
+    return Math.sign(value) === -1 ? 'red' : 'green';
+  };
 
   return (
     <>
@@ -195,8 +199,18 @@ export default function BasicTable() {
                   </Box>
                 </TableCell>
                 <TableCell>{formatPrice(el.current_price)}</TableCell>
-                <TableCell>{formatPriceChange(el.price_change_24h)}</TableCell>
-                <TableCell>
+                <TableCell
+                  sx={{
+                    color: () => valueColor(el.price_change_24h),
+                  }}
+                >
+                  {formatPriceChange(el.price_change_24h)}
+                </TableCell>
+                <TableCell
+                  sx={{
+                    color: () => valueColor(el.price_change_24h),
+                  }}
+                >
                   {formatPriceChangePercent(el.price_change_percentage_24h)}
                 </TableCell>
                 <TableCell>{formatVolume(el.total_volume)}</TableCell>

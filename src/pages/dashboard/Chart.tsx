@@ -63,6 +63,8 @@ const Chart = () => {
         border: `1px solid ${colors.chartBoderColor}`,
         borderRadius: '12px',
         flex: '1',
+        display: 'flex',
+        flexDirection: 'column',
       }}
     >
       <ChartHeader />
@@ -70,7 +72,7 @@ const Chart = () => {
       <Box
         sx={{
           width: '100%',
-          height: '40vh',
+          flex: '1',
           padding: '1rem 1rem 0 1rem',
           position: 'relative',
         }}

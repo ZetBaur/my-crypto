@@ -93,7 +93,7 @@ const Trending = () => {
             gap: '1rem',
             background: colors.secondary.DEFAULT,
             marginBottom: '1rem',
-            padding: '8px 1rem',
+            padding: '4px 1rem',
             borderRadius: '4px',
           }}
         >
@@ -118,6 +118,8 @@ const Trending = () => {
             sx={{
               cursor: 'pointer',
               flex: '1',
+              fontSize: '13px',
+
               ':hover': {
                 color: 'gray',
               },
@@ -127,7 +129,7 @@ const Trending = () => {
             {el.item.name}
           </Box>
 
-          <img src={el.item.thumb} alt={el.item.name} />
+          <img width={16} height={16} src={el.item.thumb} alt={el.item.name} />
         </Box>
       ))}
     </Box>

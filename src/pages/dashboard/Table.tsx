@@ -9,7 +9,7 @@ import Paper from '@mui/material/Paper';
 import StarIcon from '@mui/icons-material/Star';
 
 import { useLazyFetchMarketsQuery } from '../../store/features/coins/coinsApi';
-import { Pagination, TablePagination, Tooltip } from '@mui/material';
+import { Box, Pagination, TablePagination, Tooltip } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
 import { ICoinData, IMarkets } from '../../model/coinsTypes';
 import { useCheckPortfolio } from '../../hooks/checkPortfolio';
@@ -17,14 +17,15 @@ import {
   addToPortfolio,
   removeFromPortfolio,
 } from '../../store/features/coins/portfolioSlice';
+import { setId } from '../../store/features/coins/marketChartSlice';
 
 const headCells = [
   '',
   'Coin',
-  'Price',
-  'Price change 24h',
+  'Price / $',
+  'Price change 24h / $',
   'Price change % 24h',
-  'Volume',
+  'Volume / $',
 ];
 
 export default function BasicTable() {
@@ -60,6 +61,10 @@ export default function BasicTable() {
     console.log('data', data);
   }, [data]);
 
+  const handleCoinClick = (el: IMarkets) => {
+    dispatch(setId(el.id));
+  };
+
   const handleIconClick = (el: IMarkets) => {
     const coinToAdd: ICoinData = {
       id: el.id,
@@ -82,25 +87,49 @@ export default function BasicTable() {
 
   const formatVolume = (value: number) => {
     const v = value.toLocaleString('en-US', {
-      style: 'currency',
       currency: 'USD',
       maximumFractionDigits: 0,
     });
-    const newV = v.slice(0, v.length - 8) + ' M';
-    console.log(newV);
-    return newV;
+
+    return v.slice(0, v.length - 8) + ' M';
   };
 
   const formatPrice = (value: number) => {
+    const v = value.toLocaleString('en-US', {
+      currency: 'USD',
+      maximumFractionDigits: 2,
+    });
+    return v;
+  };
+
+  const formatPriceChange = (value: number) => {
+    return value.toFixed(4);
+  };
+
+  const formatPriceChangePercent = (value: number) => {
     return value.toFixed(2);
   };
 
   return (
     <>
+      <TablePagination
+        component='div'
+        count={100}
+        page={page}
+        onPageChange={handleChangePage}
+        rowsPerPage={rowsPerPage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+        sx={{
+          display: 'flex',
+          alignContent: 'flex-start',
+        }}
+      />
+
       <TableContainer
         component={Paper}
         sx={{
           padding: '1rem',
+          marginTop: '0 !important',
         }}
       >
         <Table sx={{ minWidth: 650 }} aria-label='simple table'>
@@ -143,29 +172,39 @@ export default function BasicTable() {
                     />
                   </Tooltip>
                 </TableCell>
-                <TableCell>{el.name}</TableCell>
+                <TableCell>
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '1rem',
+                    }}
+                  >
+                    <img width='24' height='24' src={el.image} alt={el.name} />
+                    <Box
+                      sx={{
+                        ':hover': {
+                          color: 'gray',
+                          cursor: 'pointer',
+                        },
+                      }}
+                      onClick={() => handleCoinClick(el)}
+                    >
+                      {el.name}
+                    </Box>
+                  </Box>
+                </TableCell>
                 <TableCell>{formatPrice(el.current_price)}</TableCell>
-                <TableCell>{el.price_change_24h}</TableCell>
-                <TableCell>{el.price_change_percentage_24h}</TableCell>
+                <TableCell>{formatPriceChange(el.price_change_24h)}</TableCell>
+                <TableCell>
+                  {formatPriceChangePercent(el.price_change_percentage_24h)}
+                </TableCell>
                 <TableCell>{formatVolume(el.total_volume)}</TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
-
-      <TablePagination
-        component='div'
-        count={100}
-        page={page}
-        onPageChange={handleChangePage}
-        rowsPerPage={rowsPerPage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-        sx={{
-          display: 'flex',
-          alignContent: 'flex-start',
-        }}
-      />
     </>
   );
 }

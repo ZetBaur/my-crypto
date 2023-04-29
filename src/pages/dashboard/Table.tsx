@@ -18,7 +18,14 @@ import {
   removeFromPortfolio,
 } from '../../store/features/coins/portfolioSlice';
 
-const headCells = ['', 'Coin', 'Price', '24h', '% 24h', 'Volume'];
+const headCells = [
+  '',
+  'Coin',
+  'Price',
+  'Price change 24h',
+  'Price change % 24h',
+  'Volume',
+];
 
 export default function BasicTable() {
   const [fetchMarkets, { data }] = useLazyFetchMarketsQuery();
@@ -73,6 +80,21 @@ export default function BasicTable() {
     return isInPortfolio ? 'blue' : 'black';
   };
 
+  const formatVolume = (value: number) => {
+    const v = value.toLocaleString('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      maximumFractionDigits: 0,
+    });
+    const newV = v.slice(0, v.length - 8) + ' M';
+    console.log(newV);
+    return newV;
+  };
+
+  const formatPrice = (value: number) => {
+    return value.toFixed(2);
+  };
+
   return (
     <>
       <TableContainer
@@ -85,7 +107,14 @@ export default function BasicTable() {
           <TableHead>
             <TableRow>
               {headCells.map((el) => (
-                <TableCell key={el}>{el}</TableCell>
+                <TableCell
+                  key={el}
+                  sx={{
+                    color: 'gray',
+                  }}
+                >
+                  {el}
+                </TableCell>
               ))}
             </TableRow>
           </TableHead>
@@ -115,10 +144,10 @@ export default function BasicTable() {
                   </Tooltip>
                 </TableCell>
                 <TableCell>{el.name}</TableCell>
-                <TableCell>{el.current_price}</TableCell>
+                <TableCell>{formatPrice(el.current_price)}</TableCell>
                 <TableCell>{el.price_change_24h}</TableCell>
                 <TableCell>{el.price_change_percentage_24h}</TableCell>
-                <TableCell>{el.total_volume}</TableCell>
+                <TableCell>{formatVolume(el.total_volume)}</TableCell>
               </TableRow>
             ))}
           </TableBody>

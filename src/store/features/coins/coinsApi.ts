@@ -26,7 +26,7 @@ export const coinsApi = createApi({
         params: {
           vs_currency: 'usd',
           page: obj.page,
-          per_page: obj.perPage,
+          per_page: obj.rowsPerPage,
         },
       }),
     }),

@@ -43,11 +43,11 @@ export default function BasicTable() {
 
   useEffect(() => {
     const params = {
-      page: 1,
-      perPage: 10,
+      page,
+      rowsPerPage,
     };
     fetchMarkets(params);
-  }, []);
+  }, [page, rowsPerPage]);
 
   useEffect(() => {
     console.log('data', data);

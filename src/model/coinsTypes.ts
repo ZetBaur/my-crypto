@@ -34,9 +34,9 @@ export interface IRoi {
 }
 
 export interface IMarketsQuery {
-  vsCurrency: string;
+  vsCurrency?: string;
   page?: number;
-  perPage?: number;
+  rowsPerPage?: number;
   ids?: string;
   category?: string;
   order?: string;

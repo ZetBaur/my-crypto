@@ -18,8 +18,7 @@ const Trending = () => {
   const portfolio = useAppSelector((state) => state.portfolio.portfolio);
   const dispatch = useAppDispatch();
 
-  const { isLoading, isFetching, isError, isSuccess, data } =
-    useFetchTrendingQuery();
+  const { isFetching, isError, isSuccess, data } = useFetchTrendingQuery();
 
   const handleCoinClick = (el: ITrendingCoin) => {
     dispatch(setId(el.item.id));
@@ -47,28 +46,6 @@ const Trending = () => {
 
   //---------------------------------------
   if (isFetching) {
-    return (
-      <Box
-        sx={{
-          height: '400px',
-          background: colors.primary.DEFAULT,
-          border: `1px solid ${colors.chartBoderColor}`,
-          borderRadius: '4px',
-          width: '250px',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <CircularProgress
-          sx={{
-            zIndex: '10',
-            color: 'blue',
-          }}
-        />
-      </Box>
-    );
-  } else if (isLoading) {
     return (
       <Box
         sx={{

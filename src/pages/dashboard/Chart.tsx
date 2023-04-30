@@ -26,10 +26,8 @@ const Chart = () => {
   const interval = useAppSelector((state) => state.marketChart.interval);
   const [prices, setPrices] = useState<IHistoricCoinPrices[]>();
 
-  const [
-    fetchMarketChart,
-    { isError, isFetching, isLoading, isSuccess, data },
-  ] = useLazyFetchMarketChartQuery();
+  const [fetchMarketChart, { isError, isFetching, isSuccess, data }] =
+    useLazyFetchMarketChartQuery();
 
   useEffect(() => {
     const params = {
@@ -53,28 +51,6 @@ const Chart = () => {
 
   //---------------------------------------
   if (isFetching) {
-    return (
-      <Box
-        sx={{
-          height: '400px',
-          background: colors.primary.DEFAULT,
-          border: `1px solid ${colors.chartBoderColor}`,
-          borderRadius: '4px',
-          flex: '1',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <CircularProgress
-          sx={{
-            zIndex: '10',
-            color: 'blue',
-          }}
-        />
-      </Box>
-    );
-  } else if (isLoading) {
     return (
       <Box
         sx={{

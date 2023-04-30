@@ -39,7 +39,7 @@ const headCells = [
 
 export default function BasicTable() {
   const [fetchList, { data: listData }] = useLazyFetchListQuery();
-  const [fetchMarkets, { isError, isFetching, isLoading, isSuccess, data }] =
+  const [fetchMarkets, { isError, isFetching, isSuccess, data }] =
     useLazyFetchMarketsQuery();
   const dispatch = useAppDispatch();
   const portfolio = useAppSelector((state) => state.portfolio.portfolio);
@@ -266,27 +266,6 @@ export default function BasicTable() {
       )}
 
       {isFetching && (
-        <Box
-          sx={{
-            height: '300px',
-            background: '#222222',
-            border: `1px solid '#222222'`,
-            borderRadius: '4px',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <CircularProgress
-            sx={{
-              zIndex: '10',
-              color: 'blue',
-            }}
-          />
-        </Box>
-      )}
-
-      {isLoading && (
         <Box
           sx={{
             height: '300px',

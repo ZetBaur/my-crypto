@@ -7,6 +7,7 @@ import {
   ISearchCoin,
   ICoinById,
   IPublicCompanies,
+  IList,
 } from '../../../model/coinsTypes';
 
 export const coinsApi = createApi({
@@ -17,10 +18,10 @@ export const coinsApi = createApi({
 
   keepUnusedDataFor: 60,
   // refetchOnFocus: true,
-  // refetchOnReconnect: true,
+  refetchOnReconnect: true,
 
   endpoints: (build) => ({
-    fetchList: build.query<IMarkets[], void>({
+    fetchList: build.query<IList[], void>({
       query: () => ({
         url: `coins/list`,
       }),

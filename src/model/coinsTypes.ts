@@ -248,3 +248,11 @@ export interface ICoinData {
   name: string | undefined;
   image: string | undefined;
 }
+
+//--------------
+
+export interface IList {
+  id: string;
+  symbol: string;
+  name: string;
+}

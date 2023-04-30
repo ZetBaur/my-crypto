@@ -8,7 +8,10 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import StarIcon from '@mui/icons-material/Star';
 
-import { useLazyFetchMarketsQuery } from '../../store/features/coins/coinsApi';
+import {
+  useLazyFetchMarketsQuery,
+  useLazyFetchListQuery,
+} from '../../store/features/coins/coinsApi';
 import {
   Box,
   CircularProgress,
@@ -35,12 +38,23 @@ const headCells = [
 ];
 
 export default function BasicTable() {
+  const [
+    fetchList,
+    {
+      isError: isListError,
+      isFetching: isListFetching,
+      isLoading: isListLoading,
+      isSuccess: isListSuccess,
+      data: listData,
+    },
+  ] = useLazyFetchListQuery();
   const [fetchMarkets, { isError, isFetching, isLoading, isSuccess, data }] =
     useLazyFetchMarketsQuery();
   const dispatch = useAppDispatch();
   const portfolio = useAppSelector((state) => state.portfolio.portfolio);
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [totalPagesNumber, setTotalPagesNumber] = useState(100);
 
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,
@@ -55,6 +69,16 @@ export default function BasicTable() {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+
+  useEffect(() => {
+    fetchList();
+  }, []);
+
+  useEffect(() => {
+    if (listData) {
+      setTotalPagesNumber(Math.ceil(listData?.length / rowsPerPage));
+    }
+  }, [listData]);
 
   useEffect(() => {
     const params = {
@@ -185,7 +209,7 @@ export default function BasicTable() {
       <>
         <TablePagination
           component='div'
-          count={100}
+          count={totalPagesNumber}
           page={page}
           onPageChange={handleChangePage}
           rowsPerPage={rowsPerPage}
@@ -280,7 +304,9 @@ export default function BasicTable() {
                       </Box>
                     </Box>
                   </TableCell>
+
                   <TableCell>{formatPrice(el.current_price)}</TableCell>
+
                   <TableCell
                     sx={{
                       color: () => valueColor(el.price_change_24h),
@@ -288,6 +314,7 @@ export default function BasicTable() {
                   >
                     {formatPriceChange(el.price_change_24h)}
                   </TableCell>
+
                   <TableCell
                     sx={{
                       color: () => valueColor(el.price_change_24h),
@@ -295,6 +322,7 @@ export default function BasicTable() {
                   >
                     {formatPriceChangePercent(el.price_change_percentage_24h)}
                   </TableCell>
+
                   <TableCell>{formatVolume(el.total_volume)}</TableCell>
                 </TableRow>
               ))}

@@ -20,6 +20,12 @@ export const coinsApi = createApi({
   // refetchOnReconnect: true,
 
   endpoints: (build) => ({
+    fetchList: build.query<IMarkets[], void>({
+      query: () => ({
+        url: `coins/list`,
+      }),
+    }),
+
     fetchMarkets: build.query<IMarkets[], IMarketsQuery>({
       query: (obj: IMarketsQuery) => ({
         url: `coins/markets`,
@@ -80,6 +86,7 @@ export const coinsApi = createApi({
 });
 
 export const {
+  useLazyFetchListQuery,
   useLazyFetchMarketsQuery,
   useLazyFetchMarketChartQuery,
   useLazySearchCoinQuery,

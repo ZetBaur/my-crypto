@@ -95,4 +95,5 @@ export const {
   useLazyFetchPublicCompaniesQuery,
   useLazyFetchTrendingQuery,
   useFetchTrendingQuery,
+  useFetchListQuery,
 } = coinsApi;

@@ -10,7 +10,7 @@ import StarIcon from '@mui/icons-material/Star';
 
 import {
   useLazyFetchMarketsQuery,
-  useLazyFetchListQuery,
+  useFetchListQuery,
 } from '../../store/features/coins/coinsApi';
 import {
   Box,
@@ -38,9 +38,11 @@ const headCells = [
 ];
 
 export default function BasicTable() {
-  const [fetchList, { data: listData }] = useLazyFetchListQuery();
   const [fetchMarkets, { isError, isFetching, isSuccess, data }] =
     useLazyFetchMarketsQuery();
+  const { data: listData } = useFetchListQuery();
+
+  useFetchListQuery;
   const dispatch = useAppDispatch();
   const portfolio = useAppSelector((state) => state.portfolio.portfolio);
   const [page, setPage] = useState(1);
@@ -60,10 +62,6 @@ export default function BasicTable() {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-
-  useEffect(() => {
-    fetchList();
-  }, []);
 
   useEffect(() => {
     if (listData) {
@@ -157,7 +155,7 @@ export default function BasicTable() {
         }}
       />
 
-      {isSuccess && data && (
+      {!isError && !isFetching && isSuccess && data && (
         <TableContainer
           component={Paper}
           sx={{

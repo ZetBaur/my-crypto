@@ -31,10 +31,10 @@ import { setId } from '../../store/features/coins/marketChartSlice';
 const headCells = [
   '',
   'Coin',
-  'Price / $',
-  'Price change 24h / $',
-  'Price change % 24h',
-  'Volume / $',
+  'Price',
+  'Price change 24h',
+  '% Price change 24h',
+  'Volume',
 ];
 
 export default function BasicTable() {
@@ -103,27 +103,31 @@ export default function BasicTable() {
 
   const formatVolume = (value: number) => {
     const v = value.toLocaleString('en-US', {
+      style: 'currency',
       currency: 'USD',
       maximumFractionDigits: 0,
     });
-
     return v.slice(0, v.length - 8) + ' M';
   };
 
   const formatPrice = (value: number) => {
-    const v = value.toLocaleString('en-US', {
+    return value.toLocaleString('en-US', {
+      style: 'currency',
       currency: 'USD',
       maximumFractionDigits: 2,
     });
-    return v;
   };
 
   const formatPriceChange = (value: number) => {
-    return value.toFixed(4);
+    return value.toLocaleString('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      maximumFractionDigits: 4,
+    });
   };
 
   const formatPriceChangePercent = (value: number) => {
-    return value.toFixed(2);
+    return value.toFixed(2) + ' %';
   };
 
   const valueColor = (value: number) => {

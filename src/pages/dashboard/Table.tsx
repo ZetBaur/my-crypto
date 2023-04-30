@@ -38,16 +38,7 @@ const headCells = [
 ];
 
 export default function BasicTable() {
-  const [
-    fetchList,
-    {
-      isError: isListError,
-      isFetching: isListFetching,
-      isLoading: isListLoading,
-      isSuccess: isListSuccess,
-      data: listData,
-    },
-  ] = useLazyFetchListQuery();
+  const [fetchList, { data: listData }] = useLazyFetchListQuery();
   const [fetchMarkets, { isError, isFetching, isLoading, isSuccess, data }] =
     useLazyFetchMarketsQuery();
   const dispatch = useAppDispatch();

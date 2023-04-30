@@ -137,84 +137,27 @@ export default function BasicTable() {
   };
 
   //---------------------------------------
-  if (isFetching) {
-    return (
-      <Box
-        sx={{
-          height: '200px',
-          background: '#222222',
-          border: `1px solid #222222`,
-          borderRadius: '4px',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <CircularProgress
-          sx={{
-            zIndex: '10',
-            color: 'blue',
-          }}
-        />
-      </Box>
-    );
-  } else if (isLoading) {
-    return (
-      <Box
-        sx={{
-          height: '200px',
-          background: '#222222',
-          border: `1px solid #222222`,
-          borderRadius: '4px',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <CircularProgress
-          sx={{
-            zIndex: '10',
-            color: 'blue',
-          }}
-        />
-      </Box>
-    );
-  } else if (isError) {
-    return (
-      <Box
-        sx={{
-          height: '200px',
-          background: '#222222',
-          border: `1px solid #222222`,
-          borderRadius: '4px',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        Server does not respond. Try later
-      </Box>
-    );
-  } else if (isSuccess && data) {
-    return (
-      <>
-        <TablePagination
-          component='div'
-          count={totalPagesNumber}
-          page={page}
-          onPageChange={handleChangePage}
-          rowsPerPage={rowsPerPage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-          sx={{
-            display: 'flex',
-            alignContent: 'flex-start',
-            color: 'blue',
-            '& .MuiSvgIcon-root': {
-              fill: 'yellow',
-            },
-          }}
-        />
 
+  return (
+    <>
+      <TablePagination
+        component='div'
+        count={totalPagesNumber}
+        page={page}
+        onPageChange={handleChangePage}
+        rowsPerPage={rowsPerPage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+        sx={{
+          display: 'flex',
+          alignContent: 'flex-start',
+          color: 'blue',
+          '& .MuiSvgIcon-root': {
+            fill: 'yellow',
+          },
+        }}
+      />
+
+      {isSuccess && data && (
         <TableContainer
           component={Paper}
           sx={{
@@ -320,7 +263,65 @@ export default function BasicTable() {
             </TableBody>
           </Table>
         </TableContainer>
-      </>
-    );
-  }
+      )}
+
+      {isFetching && (
+        <Box
+          sx={{
+            height: '300px',
+            background: '#222222',
+            border: `1px solid '#222222'`,
+            borderRadius: '4px',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <CircularProgress
+            sx={{
+              zIndex: '10',
+              color: 'blue',
+            }}
+          />
+        </Box>
+      )}
+
+      {isLoading && (
+        <Box
+          sx={{
+            height: '300px',
+            background: '#222222',
+            border: `1px solid '#222222'`,
+            borderRadius: '4px',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <CircularProgress
+            sx={{
+              zIndex: '10',
+              color: 'blue',
+            }}
+          />
+        </Box>
+      )}
+
+      {isError && (
+        <Box
+          sx={{
+            height: '300px',
+            background: '#222222',
+            border: `1px solid '#222222'`,
+            borderRadius: '4px',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          Server does not respond. Try later
+        </Box>
+      )}
+    </>
+  );
 }

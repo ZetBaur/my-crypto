@@ -18,12 +18,8 @@ const Trending = () => {
   const portfolio = useAppSelector((state) => state.portfolio.portfolio);
   const dispatch = useAppDispatch();
 
-  const {
-    isLoading: isTrendingLoading,
-    isFetching: isTrendingFetching,
-    isError: isTrendingError,
-    data: TrendingData,
-  } = useFetchTrendingQuery();
+  const { isLoading, isFetching, isError, isSuccess, data } =
+    useFetchTrendingQuery();
 
   const handleCoinClick = (el: ITrendingCoin) => {
     dispatch(setId(el.item.id));
@@ -49,91 +45,146 @@ const Trending = () => {
     return isInPortfolio ? 'blue' : 'black';
   };
 
-  return (
-    <Box
-      sx={{
-        background: colors.primary.DEFAULT,
-        border: `1px solid ${colors.chartBoderColor}`,
-        borderRadius: '12px',
-        width: '250px',
-        padding: '1rem',
-      }}
-    >
+  //---------------------------------------
+  if (isFetching) {
+    return (
       <Box
         sx={{
-          textAlign: 'center',
-          marginBottom: '1rem',
-          fontWeight: '600',
-          color: colors.blue,
+          height: '400px',
+          background: colors.primary.DEFAULT,
+          border: `1px solid ${colors.chartBoderColor}`,
+          borderRadius: '4px',
+          width: '250px',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
         }}
       >
-        Top 7 Trending
-      </Box>
-
-      {(isTrendingLoading || isTrendingFetching) && (
         <CircularProgress
           sx={{
-            position: 'absolute',
-            top: '40%',
-            left: '45%',
             zIndex: '10',
             color: 'blue',
           }}
         />
-      )}
-
-      {isTrendingError && 'Server does not respond. Try later'}
-
-      {TrendingData?.coins.map((el: ITrendingCoin) => (
-        <Box
-          key={el.item.id}
+      </Box>
+    );
+  } else if (isLoading) {
+    return (
+      <Box
+        sx={{
+          height: '400px',
+          background: colors.primary.DEFAULT,
+          border: `1px solid ${colors.chartBoderColor}`,
+          borderRadius: '4px',
+          width: '250px',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <CircularProgress
           sx={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '1rem',
-            background: colors.secondary.DEFAULT,
+            zIndex: '10',
+            color: 'blue',
+          }}
+        />
+      </Box>
+    );
+  } else if (isError) {
+    return (
+      <Box
+        sx={{
+          background: colors.primary.DEFAULT,
+          height: '400px',
+          border: `1px solid ${colors.chartBoderColor}`,
+          borderRadius: '4px',
+          width: '250px',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        Server does not respond. Try later
+      </Box>
+    );
+  } else if (isSuccess && data) {
+    return (
+      <Box
+        sx={{
+          background: colors.primary.DEFAULT,
+          border: `1px solid ${colors.chartBoderColor}`,
+          borderRadius: '12px',
+          width: '250px',
+          padding: '1rem',
+        }}
+      >
+        <Box
+          sx={{
+            textAlign: 'center',
             marginBottom: '1rem',
-            padding: '4px 1rem',
-            borderRadius: '4px',
+            fontWeight: '600',
+            color: colors.blue,
           }}
         >
-          <Tooltip
-            title={
-              iconColor(el) === 'black'
-                ? 'Add to portfolio'
-                : 'Remove from pertfolio'
-            }
-            placement='left'
+          Top 7 Trending
+        </Box>
+
+        {data?.coins.map((el: ITrendingCoin) => (
+          <Box
+            key={el.item.id}
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '1rem',
+              background: colors.secondary.DEFAULT,
+              marginBottom: '1rem',
+              padding: '4px 1rem',
+              borderRadius: '4px',
+            }}
           >
-            <StarIcon
-              onClick={() => handleIconClick(el)}
+            <Tooltip
+              title={
+                iconColor(el) === 'black'
+                  ? 'Add to portfolio'
+                  : 'Remove from pertfolio'
+              }
+              placement='left'
+            >
+              <StarIcon
+                onClick={() => handleIconClick(el)}
+                sx={{
+                  cursor: 'pointer',
+                  color: () => iconColor(el),
+                }}
+              />
+            </Tooltip>
+
+            <Box
               sx={{
                 cursor: 'pointer',
-                color: () => iconColor(el),
+                flex: '1',
+                fontSize: '13px',
+
+                ':hover': {
+                  color: 'gray',
+                },
               }}
+              onClick={() => handleCoinClick(el)}
+            >
+              {el.item.name}
+            </Box>
+
+            <img
+              width={16}
+              height={16}
+              src={el.item.thumb}
+              alt={el.item.name}
             />
-          </Tooltip>
-
-          <Box
-            sx={{
-              cursor: 'pointer',
-              flex: '1',
-              fontSize: '13px',
-
-              ':hover': {
-                color: 'gray',
-              },
-            }}
-            onClick={() => handleCoinClick(el)}
-          >
-            {el.item.name}
           </Box>
-
-          <img width={16} height={16} src={el.item.thumb} alt={el.item.name} />
-        </Box>
-      ))}
-    </Box>
-  );
+        ))}
+      </Box>
+    );
+  }
 };
 
 export default Trending;

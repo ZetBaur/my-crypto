@@ -35,7 +35,7 @@ const headCells = [
 ];
 
 export default function BasicTable() {
-  const [fetchMarkets, { isError, isFetching, data }] =
+  const [fetchMarkets, { isError, isFetching, isLoading, isSuccess, data }] =
     useLazyFetchMarketsQuery();
   const dispatch = useAppDispatch();
   const portfolio = useAppSelector((state) => state.portfolio.portfolio);
@@ -121,48 +121,85 @@ export default function BasicTable() {
     console.log('sort');
   };
 
-  return (
-    <>
-      <TablePagination
-        component='div'
-        count={100}
-        page={page}
-        onPageChange={handleChangePage}
-        rowsPerPage={rowsPerPage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
+  //---------------------------------------
+  if (isFetching) {
+    return (
+      <Box
         sx={{
+          height: '200px',
+          background: '#222222',
+          border: `1px solid #222222`,
+          borderRadius: '4px',
           display: 'flex',
-          alignContent: 'flex-start',
-          color: 'blue',
-          '& .MuiSvgIcon-root': {
-            fill: 'yellow',
-          },
+          justifyContent: 'center',
+          alignItems: 'center',
         }}
-      />
-
-      {isError && (
-        <Box
-          sx={{
-            textAlign: 'center',
-          }}
-        >
-          Server does not respond. Please try later
-        </Box>
-      )}
-
-      {isFetching && (
+      >
         <CircularProgress
           sx={{
-            position: 'absolute',
-            top: '40%',
-            left: '45%',
             zIndex: '10',
             color: 'blue',
           }}
         />
-      )}
+      </Box>
+    );
+  } else if (isLoading) {
+    return (
+      <Box
+        sx={{
+          height: '200px',
+          background: '#222222',
+          border: `1px solid #222222`,
+          borderRadius: '4px',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <CircularProgress
+          sx={{
+            zIndex: '10',
+            color: 'blue',
+          }}
+        />
+      </Box>
+    );
+  } else if (isError) {
+    return (
+      <Box
+        sx={{
+          height: '200px',
+          background: '#222222',
+          border: `1px solid #222222`,
+          borderRadius: '4px',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        Server does not respond. Try later
+      </Box>
+    );
+  } else if (isSuccess && data) {
+    return (
+      <>
+        <TablePagination
+          component='div'
+          count={100}
+          page={page}
+          onPageChange={handleChangePage}
+          rowsPerPage={rowsPerPage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+          sx={{
+            display: 'flex',
+            alignContent: 'flex-start',
+            color: 'blue',
+            '& .MuiSvgIcon-root': {
+              fill: 'yellow',
+            },
+          }}
+        />
 
-      {!isError && (
         <TableContainer
           component={Paper}
           sx={{
@@ -264,7 +301,7 @@ export default function BasicTable() {
             </TableBody>
           </Table>
         </TableContainer>
-      )}
-    </>
-  );
+      </>
+    );
+  }
 }

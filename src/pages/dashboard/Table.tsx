@@ -77,10 +77,6 @@ export default function BasicTable() {
     fetchMarkets(params);
   }, [page, rowsPerPage]);
 
-  const handleCoinClick = (el: IMarkets) => {
-    dispatch(setId(el.id));
-  };
-
   const handleIconClick = (el: IMarkets) => {
     const coinToAdd: ICoinData = {
       id: el.id,
@@ -88,7 +84,6 @@ export default function BasicTable() {
       name: el.name,
       image: el.image,
     };
-
     const isInPortfolio = useCheckPortfolio(el.id, portfolio);
 
     !isInPortfolio
@@ -235,7 +230,7 @@ export default function BasicTable() {
                             cursor: 'pointer',
                           },
                         }}
-                        onClick={() => handleCoinClick(el)}
+                        onClick={() => dispatch(setId(el.id))}
                       >
                         {el.name}
                       </Box>

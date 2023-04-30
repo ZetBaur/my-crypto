@@ -13,8 +13,8 @@ import {
   Box,
   CircularProgress,
   TablePagination,
+  TableSortLabel,
   Tooltip,
-  Typography,
 } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
 import { ICoinData, IMarkets } from '../../model/coinsTypes';
@@ -46,8 +46,6 @@ export default function BasicTable() {
     event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number
   ) => {
-    console.log('page', page);
-
     setPage(newPage);
   };
 
@@ -65,10 +63,6 @@ export default function BasicTable() {
     };
     fetchMarkets(params);
   }, [page, rowsPerPage]);
-
-  useEffect(() => {
-    console.log('data', data);
-  }, [data]);
 
   const handleCoinClick = (el: IMarkets) => {
     dispatch(setId(el.id));
@@ -121,6 +115,10 @@ export default function BasicTable() {
 
   const valueColor = (value: number) => {
     return Math.sign(value) === -1 ? 'red' : 'green';
+  };
+
+  const handleSort = () => {
+    console.log('sort');
   };
 
   return (
@@ -182,7 +180,13 @@ export default function BasicTable() {
                       color: 'gray',
                     }}
                   >
-                    {el}
+                    <TableSortLabel
+                      active={false}
+                      direction='desc'
+                      onClick={handleSort}
+                    >
+                      {el}
+                    </TableSortLabel>
                   </TableCell>
                 ))}
               </TableRow>

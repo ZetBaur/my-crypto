@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef } from 'react';
 import useWebSocket, { ReadyState } from 'react-use-websocket';
 
 export default function App() {
-  const socketUrl = 'wss://stream.binance.com:9443/stream';
+  const socketUrl = 'wss://stream.binance.com:9443/ws/etheeur@trade';
 
   const { sendJsonMessage, lastJsonMessage, readyState } =
     useWebSocket(socketUrl);

@@ -102,15 +102,6 @@ const BasicTable = () => {
     });
   };
 
-  // const formatMarketCap = (value: number) => {
-  //   const v = value.toLocaleString('en-US', {
-  //     style: 'currency',
-  //     currency: 'USD',
-  //     maximumFractionDigits: 0,
-  //   });
-  //   return v.slice(0, v.length - 12) + ' B';
-  // };
-
   const formatPrice = (value: number) => {
     if (!value) return 'NA';
     return value.toLocaleString('en-US', {

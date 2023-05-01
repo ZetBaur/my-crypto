@@ -9,6 +9,7 @@ import {
   IPublicCompanies,
   IList,
 } from '../../../model/coinsTypes';
+import moment from 'moment';
 
 export const coinsApi = createApi({
   reducerPath: 'coinsApi',
@@ -47,6 +48,18 @@ export const coinsApi = createApi({
           vs_currency: obj.vsCurrency,
           days: obj.days,
           interval: obj.interval,
+        },
+      }),
+    }),
+
+    fetchMarketChartRange: build.query<IMarketChart, string>({
+      query: (id: string) => ({
+        url: `coins/${id}/market_chart/range`,
+        params: {
+          vs_currency: 'usd',
+          from:
+            new Date(moment().subtract(7, 'days').calendar()).getTime() / 1000,
+          to: Date.now() / 1000,
         },
       }),
     }),
@@ -99,4 +112,5 @@ export const {
   useLazyFetchTrendingQuery,
   useFetchTrendingQuery,
   useFetchListQuery,
+  useFetchMarketChartRangeQuery,
 } = coinsApi;

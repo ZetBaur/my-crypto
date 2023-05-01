@@ -108,7 +108,6 @@ const Chart = () => {
             width: '100%',
             flex: '1',
             padding: '1rem 1rem 0 1rem',
-            // position: 'relative',
           }}
         >
           <ResponsiveContainer width='100%' height='100%'>

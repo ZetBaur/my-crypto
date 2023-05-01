@@ -8,10 +8,12 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import StarIcon from '@mui/icons-material/Star';
 import FilterListIcon from '@mui/icons-material/FilterList';
+import moment from 'moment';
 
 import {
   useLazyFetchMarketsQuery,
   useFetchListQuery,
+  useFetchMarketChartRangeQuery,
 } from '../../store/features/coins/coinsApi';
 import {
   Box,
@@ -28,11 +30,18 @@ import {
   removeFromPortfolio,
 } from '../../store/features/coins/portfolioSlice';
 import { setId } from '../../store/features/coins/marketChartSlice';
+import TableChart from './TableChart';
 
 export default function BasicTable() {
   const [fetchMarkets, { isError, isFetching, isSuccess, data }] =
     useLazyFetchMarketsQuery();
   const { data: listData } = useFetchListQuery();
+  const { data: marketChartRangeData } =
+    useFetchMarketChartRangeQuery('bitcoin');
+
+  useEffect(() => {
+    if (marketChartRangeData) console.log(marketChartRangeData);
+  });
 
   useFetchListQuery;
   const dispatch = useAppDispatch();
@@ -148,7 +157,16 @@ export default function BasicTable() {
     if (el !== 'Coin' && el !== 'Market Cap' && el !== 'Volume') return true;
   };
 
-  const headCells = ['', 'Coin', 'Price', '1h', '24h', 'Volume', 'Mkt Cap'];
+  const headCells = [
+    '',
+    'Coin',
+    'Price',
+    '1h',
+    '24h',
+    'Volume',
+    'Mkt Cap',
+    'Last 7 days',
+  ];
   //---------------------------------------
 
   return (
@@ -283,13 +301,14 @@ export default function BasicTable() {
 
                   <TableCell>{formatVolume(el.market_cap)}</TableCell>
 
-                  {/* <TableCell
+                  <TableCell
                     sx={{
-                      color: () => valueColor(el.price_change_24h),
+                      width: '100px',
+                      height: '50px',
                     }}
                   >
-                    {formatVolume(el.market_cap_change_percentage_24h)}
-                  </TableCell> */}
+                    <TableChart />
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

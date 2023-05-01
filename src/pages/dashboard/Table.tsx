@@ -7,6 +7,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import StarIcon from '@mui/icons-material/Star';
+import FilterListIcon from '@mui/icons-material/FilterList';
 
 import {
   useLazyFetchMarketsQuery,
@@ -28,15 +29,6 @@ import {
 } from '../../store/features/coins/portfolioSlice';
 import { setId } from '../../store/features/coins/marketChartSlice';
 
-const headCells = [
-  '',
-  'Coin',
-  'Price',
-  'Price change 24h',
-  '% Price change 24h',
-  'Volume',
-];
-
 export default function BasicTable() {
   const [fetchMarkets, { isError, isFetching, isSuccess, data }] =
     useLazyFetchMarketsQuery();
@@ -48,6 +40,7 @@ export default function BasicTable() {
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [totalPagesNumber, setTotalPagesNumber] = useState(100);
+  const [order, setOrder] = useState('volume_desc');
 
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,
@@ -73,9 +66,10 @@ export default function BasicTable() {
     const params = {
       page,
       rowsPerPage,
+      order,
     };
     fetchMarkets(params);
-  }, [page, rowsPerPage]);
+  }, [page, rowsPerPage, order]);
 
   const handleIconClick = (el: IMarkets) => {
     const coinToAdd: ICoinData = {
@@ -97,23 +91,38 @@ export default function BasicTable() {
   };
 
   const formatVolume = (value: number) => {
+    if (value === null) return 'NA';
+    if (value === 0) return 0;
+
     const v = value.toLocaleString('en-US', {
       style: 'currency',
       currency: 'USD',
       maximumFractionDigits: 0,
     });
-    return v.slice(0, v.length - 8) + ' M';
+    // return v.slice(0, v.length - 8) + ' M';
+    return v;
+  };
+
+  const formatMarketCap = (value: number) => {
+    const v = value.toLocaleString('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      maximumFractionDigits: 0,
+    });
+    return v.slice(0, v.length - 12) + ' B';
   };
 
   const formatPrice = (value: number) => {
+    if (!value) return 'NA';
     return value.toLocaleString('en-US', {
       style: 'currency',
       currency: 'USD',
-      maximumFractionDigits: 2,
+      maximumFractionDigits: 0,
     });
   };
 
   const formatPriceChange = (value: number) => {
+    if (value === null) return 'NA';
     return value.toLocaleString('en-US', {
       style: 'currency',
       currency: 'USD',
@@ -122,17 +131,24 @@ export default function BasicTable() {
   };
 
   const formatPriceChangePercent = (value: number) => {
+    if (value === null) return 'NA';
     return value.toFixed(2) + ' %';
   };
 
   const valueColor = (value: number) => {
-    return Math.sign(value) === -1 ? 'red' : 'green';
+    if (Math.sign(value) === -1) return 'red';
+    if (Math.sign(value) === 1) return 'green';
   };
 
-  const handleSort = () => {
-    console.log('sort');
+  const handleSort = (el: string) => {
+    console.log('sort', el);
   };
 
+  const sortedColumns = (el: string) => {
+    if (el !== 'Coin' && el !== 'Market Cap' && el !== 'Volume') return true;
+  };
+
+  const headCells = ['', 'Coin', 'Price', '1h', '24h', 'Volume', 'Mkt Cap'];
   //---------------------------------------
 
   return (
@@ -173,9 +189,14 @@ export default function BasicTable() {
                     }}
                   >
                     <TableSortLabel
-                      active={false}
-                      direction='desc'
-                      onClick={handleSort}
+                      active={false} // If true, the label will have the active styling (should be true for the sorted column).
+                      direction='asc'
+                      // hideSortIcon={sortedColumns(el)} //	           Hide sort icon when active is false.
+                      IconComponent={FilterListIcon}
+                      onClick={() => handleSort(el)}
+                      sx={{
+                        fontSize: '13px',
+                      }}
                     >
                       {el}
                     </TableSortLabel>
@@ -241,21 +262,34 @@ export default function BasicTable() {
 
                   <TableCell
                     sx={{
-                      color: () => valueColor(el.price_change_24h),
+                      color: () =>
+                        valueColor(el.price_change_percentage_1h_in_currency),
                     }}
                   >
-                    {formatPriceChange(el.price_change_24h)}
+                    {formatPriceChangePercent(
+                      el.price_change_percentage_1h_in_currency
+                    )}
                   </TableCell>
 
                   <TableCell
                     sx={{
-                      color: () => valueColor(el.price_change_24h),
+                      color: () => valueColor(el.price_change_percentage_24h),
                     }}
                   >
                     {formatPriceChangePercent(el.price_change_percentage_24h)}
                   </TableCell>
 
                   <TableCell>{formatVolume(el.total_volume)}</TableCell>
+
+                  <TableCell>{formatVolume(el.market_cap)}</TableCell>
+
+                  {/* <TableCell
+                    sx={{
+                      color: () => valueColor(el.price_change_24h),
+                    }}
+                  >
+                    {formatVolume(el.market_cap_change_percentage_24h)}
+                  </TableCell> */}
                 </TableRow>
               ))}
             </TableBody>

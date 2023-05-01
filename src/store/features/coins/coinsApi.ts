@@ -34,6 +34,8 @@ export const coinsApi = createApi({
           vs_currency: 'usd',
           page: obj.page,
           per_page: obj.rowsPerPage,
+          order: obj.order,
+          price_change_percentage: '1h, 24h',
         },
       }),
     }),

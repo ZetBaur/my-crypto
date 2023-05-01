@@ -73,6 +73,7 @@ const Trending = () => {
         sx={{
           background: colors.primary.DEFAULT,
           height: '400px',
+          padding: '1rem',
           border: `1px solid ${colors.chartBoderColor}`,
           borderRadius: '4px',
           width: '250px',

@@ -8,12 +8,11 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import StarIcon from '@mui/icons-material/Star';
 import FilterListIcon from '@mui/icons-material/FilterList';
-import moment from 'moment';
+import TableChart from './TableChart';
 
 import {
   useLazyFetchMarketsQuery,
   useFetchListQuery,
-  useFetchMarketChartRangeQuery,
 } from '../../store/features/coins/coinsApi';
 import {
   Box,
@@ -30,18 +29,11 @@ import {
   removeFromPortfolio,
 } from '../../store/features/coins/portfolioSlice';
 import { setId } from '../../store/features/coins/marketChartSlice';
-import TableChart from './TableChart';
 
 export default function BasicTable() {
   const [fetchMarkets, { isError, isFetching, isSuccess, data }] =
     useLazyFetchMarketsQuery();
   const { data: listData } = useFetchListQuery();
-  // const { data: marketChartRangeData } =
-  //   useFetchMarketChartRangeQuery('bitcoin');
-
-  // useEffect(() => {
-  //   if (marketChartRangeData) console.log(marketChartRangeData);
-  // });
 
   useFetchListQuery;
   const dispatch = useAppDispatch();
@@ -103,13 +95,11 @@ export default function BasicTable() {
     if (value === null) return 'NA';
     if (value === 0) return 0;
 
-    const v = value.toLocaleString('en-US', {
+    return value.toLocaleString('en-US', {
       style: 'currency',
       currency: 'USD',
       maximumFractionDigits: 0,
     });
-    // return v.slice(0, v.length - 8) + ' M';
-    return v;
   };
 
   const formatMarketCap = (value: number) => {

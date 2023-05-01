@@ -41,7 +41,7 @@ const BasicTable = () => {
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [totalPagesNumber, setTotalPagesNumber] = useState(100);
-  const [order, setOrder] = useState('volume_desc');
+  const [order, setOrder] = useState('market_cap_desc');
 
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,
@@ -91,7 +91,7 @@ const BasicTable = () => {
     return isInPortfolio ? 'blue' : 'black';
   };
 
-  const formatVolume = (value: number) => {
+  const formatValue = (value: number) => {
     if (value === null) return 'NA';
     if (value === 0) return 0;
 
@@ -102,14 +102,14 @@ const BasicTable = () => {
     });
   };
 
-  const formatMarketCap = (value: number) => {
-    const v = value.toLocaleString('en-US', {
-      style: 'currency',
-      currency: 'USD',
-      maximumFractionDigits: 0,
-    });
-    return v.slice(0, v.length - 12) + ' B';
-  };
+  // const formatMarketCap = (value: number) => {
+  //   const v = value.toLocaleString('en-US', {
+  //     style: 'currency',
+  //     currency: 'USD',
+  //     maximumFractionDigits: 0,
+  //   });
+  //   return v.slice(0, v.length - 12) + ' B';
+  // };
 
   const formatPrice = (value: number) => {
     if (!value) return 'NA';
@@ -117,15 +117,6 @@ const BasicTable = () => {
       style: 'currency',
       currency: 'USD',
       maximumFractionDigits: 0,
-    });
-  };
-
-  const formatPriceChange = (value: number) => {
-    if (value === null) return 'NA';
-    return value.toLocaleString('en-US', {
-      style: 'currency',
-      currency: 'USD',
-      maximumFractionDigits: 4,
     });
   };
 
@@ -143,9 +134,9 @@ const BasicTable = () => {
     console.log('sort', el);
   };
 
-  const sortedColumns = (el: string) => {
-    if (el !== 'Coin' && el !== 'Market Cap' && el !== 'Volume') return true;
-  };
+  // const sortedColumns = (el: string) => {
+  //   if (el !== 'Coin' && el !== 'Market Cap' && el !== 'Volume') return true;
+  // };
 
   const headCells = [
     '',
@@ -287,9 +278,9 @@ const BasicTable = () => {
                     {formatPriceChangePercent(el.price_change_percentage_24h)}
                   </TableCell>
 
-                  <TableCell>{formatVolume(el.total_volume)}</TableCell>
+                  <TableCell>{formatValue(el.total_volume)}</TableCell>
 
-                  <TableCell>{formatVolume(el.market_cap)}</TableCell>
+                  <TableCell>{formatValue(el.market_cap)}</TableCell>
 
                   <TableCell
                     sx={{
@@ -337,6 +328,7 @@ const BasicTable = () => {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
+            marginTop: '0 !important',
           }}
         >
           Server does not respond. Try later

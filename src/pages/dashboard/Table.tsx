@@ -130,23 +130,27 @@ const BasicTable = () => {
     if (Math.sign(value) === 1) return 'green';
   };
 
-  const handleSort = (el: string) => {
-    console.log('sort', el);
+  const handleSort = (el: { text: string; type: string }) => {
+    if (order === el.type + '_desc') {
+      setOrder(el.type + '_asc');
+    } else if (order !== el.type + '_desc') {
+      setOrder(el.type + '_desc');
+    }
   };
 
-  // const sortedColumns = (el: string) => {
-  //   if (el !== 'Coin' && el !== 'Market Cap' && el !== 'Volume') return true;
-  // };
+  const sortedColumns = (el: { text: string; type: string }) => {
+    if (!el.type) return true;
+  };
 
   const headCells = [
-    '',
-    'Coin',
-    'Price',
-    '1h',
-    '24h',
-    'Volume',
-    'Mkt Cap',
-    'Last 7 days',
+    { text: 'Portfolio', type: '' },
+    { text: 'Coin', type: 'id' },
+    { text: 'Price', type: 'current_price' },
+    { text: '1h', type: 'price_change_percentage_1h_in_currency' },
+    { text: '24h', type: 'price_change_percentage_24h' },
+    { text: 'Volume', type: 'volume' },
+    { text: 'Mkt Cap', type: 'market_cap' },
+    { text: 'Last 7 days', type: '' },
   ];
   //---------------------------------------
 
@@ -182,22 +186,26 @@ const BasicTable = () => {
               <TableRow>
                 {headCells.map((el) => (
                   <TableCell
-                    key={el}
+                    key={el.text}
                     sx={{
                       color: 'gray',
+                      '& .MuiSvgIcon-root': {
+                        // fill: 'blue',
+                        marginLeft: '8px',
+                      },
                     }}
                   >
                     <TableSortLabel
                       active={false} // If true, the label will have the active styling (should be true for the sorted column).
                       direction='asc'
-                      // hideSortIcon={sortedColumns(el)} //	           Hide sort icon when active is false.
+                      hideSortIcon={sortedColumns(el)} //	           Hide sort icon when active is false.
                       IconComponent={FilterListIcon}
                       onClick={() => handleSort(el)}
                       sx={{
                         fontSize: '13px',
                       }}
                     >
-                      {el}
+                      {el.text}
                     </TableSortLabel>
                   </TableCell>
                 ))}
@@ -307,6 +315,7 @@ const BasicTable = () => {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
+            marginTop: '0 !important',
           }}
         >
           <CircularProgress

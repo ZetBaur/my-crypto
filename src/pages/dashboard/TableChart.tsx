@@ -36,8 +36,6 @@ const TableChart = ({ coin }: IProps) => {
     return (
       <Box
         sx={{
-          width: '200px',
-          height: '100px',
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',

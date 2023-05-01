@@ -18,7 +18,7 @@ export const coinsApi = createApi({
   }),
 
   keepUnusedDataFor: 60,
-  // refetchOnFocus: true,
+  refetchOnFocus: true,
   refetchOnReconnect: true,
 
   endpoints: (build) => ({

@@ -36,12 +36,12 @@ export default function BasicTable() {
   const [fetchMarkets, { isError, isFetching, isSuccess, data }] =
     useLazyFetchMarketsQuery();
   const { data: listData } = useFetchListQuery();
-  const { data: marketChartRangeData } =
-    useFetchMarketChartRangeQuery('bitcoin');
+  // const { data: marketChartRangeData } =
+  //   useFetchMarketChartRangeQuery('bitcoin');
 
-  useEffect(() => {
-    if (marketChartRangeData) console.log(marketChartRangeData);
-  });
+  // useEffect(() => {
+  //   if (marketChartRangeData) console.log(marketChartRangeData);
+  // });
 
   useFetchListQuery;
   const dispatch = useAppDispatch();
@@ -303,11 +303,11 @@ export default function BasicTable() {
 
                   <TableCell
                     sx={{
-                      width: '100px',
-                      height: '50px',
+                      width: '200px',
+                      height: '100px',
                     }}
                   >
-                    <TableChart />
+                    <TableChart coin={el.id} />
                   </TableCell>
                 </TableRow>
               ))}

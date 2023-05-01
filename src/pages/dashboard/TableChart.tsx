@@ -1,79 +1,77 @@
-import React, { PureComponent } from 'react';
-import {
-  LineChart,
-  Line,
-  //   XAxis,
-  //   YAxis,
-  //   CartesianGrid,
-  //   Tooltip,
-  //   Legend,
-  ResponsiveContainer,
-  YAxis,
-} from 'recharts';
+import { useEffect, useState } from 'react';
+import { LineChart, Line, ResponsiveContainer, XAxis, YAxis } from 'recharts';
+import moment from 'moment';
 
-const data = [
-  {
-    name: 'Page A',
-    uv: 4000,
-    pv: 2400,
-    amt: 2400,
-  },
-  {
-    name: 'Page B',
-    uv: 3000,
-    pv: 1398,
-    amt: 2210,
-  },
-  {
-    name: 'Page C',
-    uv: 2000,
-    pv: 9800,
-    amt: 2290,
-  },
-  {
-    name: 'Page D',
-    uv: 2780,
-    pv: 3908,
-    amt: 2000,
-  },
-  {
-    name: 'Page E',
-    uv: 1890,
-    pv: 4800,
-    amt: 2181,
-  },
-  {
-    name: 'Page F',
-    uv: 2390,
-    pv: 3800,
-    amt: 2500,
-  },
-  {
-    name: 'Page G',
-    uv: 3490,
-    pv: 4300,
-    amt: 2100,
-  },
-];
+import { useFetchMarketChartRangeQuery } from '../../store/features/coins/coinsApi';
+import { IHistoricCoinPrices } from '../../model/coinsTypes';
+import { Box, CircularProgress } from '@mui/material';
 
-export default class Example extends PureComponent {
-  static demoUrl = 'https://codesandbox.io/s/simple-line-chart-kec3v';
+interface IProps {
+  coin: string;
+}
 
-  render() {
+const TableChart = ({ coin }: IProps) => {
+  const { isError, isFetching, isSuccess, data } =
+    useFetchMarketChartRangeQuery(coin);
+  const [prices, setPrices] = useState<IHistoricCoinPrices[]>();
+
+  useEffect(() => {
+    const arr = data?.prices.map((el: number[]) => {
+      return {
+        date: moment(el[0]).format('MMM DD'),
+        price: el[1].toFixed(7),
+      };
+    });
+    setPrices(arr);
+  }, [data]);
+
+  if (isSuccess && data) {
     return (
       <ResponsiveContainer width='100%' height='100%'>
-        <LineChart width={500} height={300} data={data}>
-          <Line
-            type='monotone'
-            dataKey='pv'
-            stroke='#8884d8'
-            // activeDot={{ r: 8 }}
-            dot={false}
-          />
+        <LineChart width={500} height={300} data={prices}>
+          <Line type='monotone' dataKey='price' stroke='blue' dot={false} />
 
-          <YAxis hide={true} />
+          <YAxis
+            axisLine={false}
+            tickLine={false}
+            type='number'
+            domain={['dataMin', 'dataMax']}
+            hide={true}
+          />
         </LineChart>
       </ResponsiveContainer>
     );
+  } else if (isFetching) {
+    return (
+      <Box
+        sx={{
+          width: '200px',
+          height: '100px',
+        }}
+      >
+        <CircularProgress
+          sx={{
+            zIndex: '10',
+            color: 'blue',
+          }}
+        />
+      </Box>
+    );
+  } else if (isError) {
+    return (
+      <Box
+        sx={{
+          width: '100%',
+          height: '100%',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        'Server Error'
+      </Box>
+    );
   }
-}
+};
+
+export default TableChart;

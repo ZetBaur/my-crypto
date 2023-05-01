@@ -30,7 +30,7 @@ import {
 } from '../../store/features/coins/portfolioSlice';
 import { setId } from '../../store/features/coins/marketChartSlice';
 
-export default function BasicTable() {
+const BasicTable = () => {
   const [fetchMarkets, { isError, isFetching, isSuccess, data }] =
     useLazyFetchMarketsQuery();
   const { data: listData } = useFetchListQuery();
@@ -344,4 +344,6 @@ export default function BasicTable() {
       )}
     </>
   );
-}
+};
+
+export default BasicTable;

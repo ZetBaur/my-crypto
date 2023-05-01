@@ -80,9 +80,10 @@ const Trending = () => {
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
+          textAlign: 'center',
         }}
       >
-        Server does not respond. Try later
+        Server does not respond. <br /> Try later
       </Box>
     );
   } else if (isSuccess && data) {

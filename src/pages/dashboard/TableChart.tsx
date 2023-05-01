@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react';
 import { LineChart, Line, ResponsiveContainer, XAxis, YAxis } from 'recharts';
-import moment from 'moment';
 import { useFetchMarketChartRangeQuery } from '../../store/features/coins/coinsApi';
-import { IHistoricCoinPrices } from '../../model/coinsTypes';
 import { Box, CircularProgress } from '@mui/material';
 
 interface IProps {
@@ -30,13 +28,7 @@ const TableChart = ({ coin }: IProps) => {
         <LineChart width={500} height={300} data={prices}>
           <Line type='monotone' dataKey='price' stroke='blue' dot={false} />
 
-          <YAxis
-            axisLine={false}
-            tickLine={false}
-            type='number'
-            domain={['dataMin', 'dataMax']}
-            hide={true}
-          />
+          <YAxis domain={['dataMin', 'dataMax']} hide={true} />
         </LineChart>
       </ResponsiveContainer>
     );
@@ -46,6 +38,9 @@ const TableChart = ({ coin }: IProps) => {
         sx={{
           width: '200px',
           height: '100px',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
         }}
       >
         <CircularProgress
@@ -70,6 +65,8 @@ const TableChart = ({ coin }: IProps) => {
         'Server Error'
       </Box>
     );
+  } else {
+    return null;
   }
 };
 

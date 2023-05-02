@@ -31,6 +31,12 @@ const listItems = [
   },
 
   {
+    text: 'BinanceWS',
+    path: 'binancews',
+    icon: <MailIcon />,
+  },
+
+  {
     text: 'Transactions',
     icon: <MailIcon />,
   },

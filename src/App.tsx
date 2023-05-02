@@ -3,6 +3,7 @@ import { Dashboard } from './pages';
 import { MainLayout, AuthLayout } from './components';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { ColorModeContext, useMode } from './contexts/themeContext';
+import Binance from './pages/dashboard/Binance';
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -16,6 +17,7 @@ function App() {
           <Routes>
             <Route path='/' element={<MainLayout />}>
               <Route index element={<Dashboard />} />
+              <Route path='/binance' element={<Binance />} />
             </Route>
 
             <Route path='login' element={<AuthLayout />} />

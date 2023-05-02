@@ -11,6 +11,7 @@ import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import { tokens } from '../../contexts/themeContext';
 import { useTheme } from '@mui/material/styles';
+import { useNavigate } from 'react-router-dom';
 
 interface IProps {
   open: boolean;
@@ -19,7 +20,14 @@ interface IProps {
 const listItems = [
   {
     text: 'Dashboard',
+    path: '',
     icon: <InboxIcon />,
+  },
+
+  {
+    text: 'Binance',
+    path: 'binance',
+    icon: <MailIcon />,
   },
 
   {
@@ -36,6 +44,11 @@ const listItems = [
 const navbar = ({ open }: IProps) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const navigate = useNavigate();
+
+  const handleNavigate = () => {
+    navigate('/binance');
+  };
 
   return (
     <Box
@@ -56,6 +69,7 @@ const navbar = ({ open }: IProps) => {
         {listItems.map((item, index) => (
           <ListItem key={item.text} disablePadding sx={{ display: 'block' }}>
             <ListItemButton
+              onClick={() => navigate(`${item.path}`)}
               sx={{
                 minHeight: 48,
                 justifyContent: open ? 'initial' : 'center',

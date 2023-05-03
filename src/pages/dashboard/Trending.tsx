@@ -163,6 +163,8 @@ const Trending = () => {
         ))}
       </Box>
     );
+  } else {
+    return null;
   }
 };
 

@@ -162,6 +162,8 @@ const Chart = () => {
         </Box>
       </Box>
     );
+  } else {
+    return null;
   }
 };
 

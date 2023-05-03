@@ -34,12 +34,22 @@ export const liveCoinWatchApi = createApi({
       },
     }),
 
-    fetchCoinsList: build.query<ICoinsList, ICoinsListRequest>({
+    // table
+    fetchCoinsList: build.query<ICoinsList[], ICoinsListRequest>({
       query: (body: ICoinsListRequest) => {
         return {
           url: `coins/list`,
           method: 'POST',
           body,
+        };
+      },
+    }),
+
+    fetchPlatformsAll: build.query<ICoinsList[], void>({
+      query: () => {
+        return {
+          url: `platforms/all`,
+          method: 'POST',
         };
       },
     }),
@@ -50,4 +60,5 @@ export const {
   useLazyFetchOverviewHistoryQuery,
   useFetchOverviewHistoryQuery,
   useLazyFetchCoinsListQuery,
+  useFetchPlatformsAllQuery,
 } = liveCoinWatchApi;

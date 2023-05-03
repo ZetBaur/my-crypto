@@ -11,11 +11,9 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import TableChart from './TableChart';
 
 import {
-  useLazyFetchMarketsQuery,
-  useFetchListQuery,
-} from '../../store/features/coins/coinsApi';
-
-import { useLazyFetchCoinsListQuery } from '../../store/features/livecoinwatch/liveCoinWatchApi';
+  useLazyFetchCoinsListQuery,
+  useFetchPlatformsAllQuery,
+} from '../../store/features/livecoinwatch/liveCoinWatchApi';
 
 import {
   Box,
@@ -25,36 +23,49 @@ import {
   Tooltip,
 } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
-import { ICoinData, IMarkets } from '../../model/coinsTypes';
+import { ICoinsList } from '../../model/liveCoinWatchTypes';
 import { useCheckPortfolio } from '../../hooks/checkPortfolio';
 import {
   addToPortfolio,
   removeFromPortfolio,
 } from '../../store/features/coins/portfolioSlice';
 import { setId } from '../../store/features/coins/marketChartSlice';
+import { ICoinData } from '../../model/coinsTypes';
 
 const BasicTable = () => {
-  const [fetchMarkets, { isError, isFetching, isSuccess, data }] =
-    useLazyFetchMarketsQuery();
-
-  const { data: listData } = useFetchListQuery();
-
   const dispatch = useAppDispatch();
   const portfolio = useAppSelector((state) => state.portfolio.portfolio);
-  const [page, setPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [totalPagesNumber, setTotalPagesNumber] = useState(100);
-  // const [order, setOrder] = useState('market_cap_desc');
+
+  //   const [page, setPage] = useState(1);
+  //   const [rowsPerPage, setRowsPerPage] = useState(10);
+  //   const [totalPagesNumber, setTotalPagesNumber] = useState(100);
+  //   const [order, setOrder] = useState('market_cap_desc');
 
   //=================================================
 
-  const [fetchCoinsList, { data: coinsListData }] =
-    useLazyFetchCoinsListQuery();
+  const [
+    fetchCoinsList,
+    {
+      isError: isCoinsListError,
+      isFetching: isCoinsListFetching,
+      isSuccess: isCoinsListSuccess,
+      data: coinsListData,
+    },
+  ] = useLazyFetchCoinsListQuery();
+
+  const { data: platformsAllData } = useFetchPlatformsAllQuery();
+
+  const [page, setPage] = useState(1);
+  const [totalPagesNumber, setTotalPagesNumber] = useState(100);
 
   const [offset, setOffset] = useState(0);
   const [limit, setLimit] = useState(10);
   const [order, setOrder] = useState('descending');
   const [sort, setSort] = useState('price');
+
+  useEffect(() => {
+    if (platformsAllData) console.log(platformsAllData);
+  }, [platformsAllData]);
 
   useEffect(() => {
     const body = {
@@ -89,36 +100,33 @@ const BasicTable = () => {
   };
 
   useEffect(() => {
-    if (listData) {
-      setTotalPagesNumber(Math.ceil(listData?.length / rowsPerPage));
+    if (platformsAllData) {
+      setTotalPagesNumber(Math.ceil(platformsAllData?.length / rowsPerPage));
     }
-  }, [listData]);
+  }, [platformsAllData]);
 
-  useEffect(() => {
-    const params = {
-      page,
-      rowsPerPage,
-      order,
-    };
-    fetchMarkets(params);
-  }, [page, rowsPerPage, order]);
+  //   useEffect(() => {
+  //     const params = {
+  //       page,
+  //       rowsPerPage,
+  //       order,
+  //     };
+  //     fetchMarkets(params);
+  //   }, [page, rowsPerPage, order]);
 
-  const handleIconClick = (el: IMarkets) => {
+  const handleIconClick = (el: ICoinsList) => {
     const coinToAdd: ICoinData = {
-      id: el.id,
-      symbol: el.symbol,
       name: el.name,
-      image: el.image,
     };
-    const isInPortfolio = useCheckPortfolio(el.id, portfolio);
+    const isInPortfolio = useCheckPortfolio(el.name, portfolio);
 
     !isInPortfolio
       ? dispatch(addToPortfolio(coinToAdd))
       : dispatch(removeFromPortfolio(coinToAdd));
   };
 
-  const iconColor = (el: IMarkets) => {
-    const isInPortfolio = useCheckPortfolio(el.id, portfolio);
+  const iconColor = (el: ICoinsList) => {
+    const isInPortfolio = useCheckPortfolio(el.name, portfolio);
     return isInPortfolio ? 'blue' : 'black';
   };
 
@@ -166,12 +174,12 @@ const BasicTable = () => {
 
   const headCells = [
     { text: 'Portfolio', type: '' },
-    { text: 'Coin', type: 'id' },
-    { text: 'Price', type: 'current_price' },
-    { text: '1h', type: 'price_change_percentage_1h_in_currency' },
-    { text: '24h', type: 'price_change_percentage_24h' },
+    { text: 'Coin', type: 'name' },
+    { text: 'Price', type: 'rate' },
+    { text: '1h', type: 'hour' },
+    { text: '24h', type: 'day' },
     { text: 'Volume', type: 'volume' },
-    { text: 'Mkt Cap', type: 'market_cap' },
+    { text: 'Mkt Cap', type: 'cap' },
     { text: 'Last 7 days', type: '' },
   ];
   //---------------------------------------
@@ -195,139 +203,139 @@ const BasicTable = () => {
         }}
       />
 
-      {!isError && !isFetching && isSuccess && data && (
-        <TableContainer
-          component={Paper}
-          sx={{
-            padding: '1rem',
-            marginTop: '0 !important',
-          }}
-        >
-          <Table sx={{ minWidth: 650 }} aria-label='simple table'>
-            <TableHead>
-              <TableRow>
-                {headCells.map((el) => (
-                  <TableCell
-                    key={el.text}
-                    sx={{
-                      color: 'gray',
-                      '& .MuiSvgIcon-root': {
-                        // fill: 'blue',
-                        marginLeft: '8px',
-                      },
-                    }}
-                  >
-                    <TableSortLabel
-                      active={false} // If true, the label will have the active styling (should be true for the sorted column).
-                      direction='asc'
-                      hideSortIcon={sortedColumns(el)} //	           Hide sort icon when active is false.
-                      IconComponent={FilterListIcon}
-                      onClick={() => handleSort(el)}
+      {!isCoinsListError &&
+        !isCoinsListFetching &&
+        isCoinsListSuccess &&
+        coinsListData && (
+          <TableContainer
+            component={Paper}
+            sx={{
+              padding: '1rem',
+              marginTop: '0 !important',
+            }}
+          >
+            <Table sx={{ minWidth: 650 }} aria-label='simple table'>
+              <TableHead>
+                <TableRow>
+                  {headCells.map((el) => (
+                    <TableCell
+                      key={el.text}
                       sx={{
-                        fontSize: '13px',
+                        color: 'gray',
+                        '& .MuiSvgIcon-root': {
+                          // fill: 'blue',
+                          marginLeft: '8px',
+                        },
                       }}
                     >
-                      {el.text}
-                    </TableSortLabel>
-                  </TableCell>
-                ))}
-              </TableRow>
-            </TableHead>
-
-            <TableBody>
-              {data?.map((el: IMarkets) => (
-                <TableRow
-                  key={el.name}
-                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                >
-                  <TableCell component='th' scope='row'>
-                    <Tooltip
-                      title={
-                        iconColor(el) === 'black'
-                          ? 'Add to portfolio'
-                          : 'Remove from pertfolio'
-                      }
-                      placement='left'
-                    >
-                      <StarIcon
-                        onClick={() => handleIconClick(el)}
+                      <TableSortLabel
+                        active={false} // If true, the label will have the active styling (should be true for the sorted column).
+                        direction='asc'
+                        hideSortIcon={sortedColumns(el)} //	           Hide sort icon when active is false.
+                        IconComponent={FilterListIcon}
+                        onClick={() => handleSort(el)}
                         sx={{
-                          cursor: 'pointer',
-                          color: () => iconColor(el),
+                          fontSize: '13px',
                         }}
-                      />
-                    </Tooltip>
-                  </TableCell>
+                      >
+                        {el.text}
+                      </TableSortLabel>
+                    </TableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
 
-                  <TableCell>
-                    <Box
-                      sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '1rem',
-                      }}
-                    >
-                      <img
-                        width='24'
-                        height='24'
-                        src={el.image}
-                        alt={el.name}
-                      />
+              <TableBody>
+                {coinsListData?.map((el) => (
+                  <TableRow
+                    key={el.name}
+                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                  >
+                    <TableCell component='th' scope='row'>
+                      <Tooltip
+                        title={
+                          iconColor(el) === 'black'
+                            ? 'Add to portfolio'
+                            : 'Remove from pertfolio'
+                        }
+                        placement='left'
+                      >
+                        <StarIcon
+                          onClick={() => handleIconClick(el)}
+                          sx={{
+                            cursor: 'pointer',
+                            color: () => iconColor(el),
+                          }}
+                        />
+                      </Tooltip>
+                    </TableCell>
+
+                    <TableCell>
                       <Box
                         sx={{
-                          ':hover': {
-                            color: 'gray',
-                            cursor: 'pointer',
-                          },
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '1rem',
                         }}
-                        onClick={() => dispatch(setId(el.id))}
                       >
-                        {el.name}
+                        <img
+                          width='24'
+                          height='24'
+                          src={el.webp64}
+                          alt={el.name}
+                        />
+                        <Box
+                          sx={{
+                            ':hover': {
+                              color: 'gray',
+                              cursor: 'pointer',
+                            },
+                          }}
+                          onClick={() => dispatch(setId(el.name))}
+                        >
+                          {el.name}
+                        </Box>
                       </Box>
-                    </Box>
-                  </TableCell>
+                    </TableCell>
 
-                  <TableCell>{formatPrice(el.current_price)}</TableCell>
+                    <TableCell>{el.rate}</TableCell>
 
-                  <TableCell
-                    sx={{
-                      color: () =>
-                        valueColor(el.price_change_percentage_1h_in_currency),
-                    }}
-                  >
-                    {formatPriceChangePercent(
-                      el.price_change_percentage_1h_in_currency
-                    )}
-                  </TableCell>
+                    <TableCell
+                      sx={{
+                        color: () => valueColor(el.delta.hour),
+                      }}
+                    >
+                      {el.delta.hour}
+                    </TableCell>
 
-                  <TableCell
-                    sx={{
-                      color: () => valueColor(el.price_change_percentage_24h),
-                    }}
-                  >
-                    {formatPriceChangePercent(el.price_change_percentage_24h)}
-                  </TableCell>
+                    <TableCell
+                      sx={{
+                        color: () => valueColor(el.delta.day),
+                      }}
+                    >
+                      {el.delta.day}
+                    </TableCell>
 
-                  <TableCell>{formatValue(el.total_volume)}</TableCell>
+                    <TableCell>{el.volume}</TableCell>
 
-                  <TableCell>{formatValue(el.market_cap)}</TableCell>
+                    <TableCell>{el.cap}</TableCell>
 
-                  <TableCell
-                    sx={{
-                      width: '200px',
-                      height: '100px',
-                    }}
-                  >
-                    <TableChart coin={el.symbol.toUpperCase()} />
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      )}
+                    <TableCell
+                      sx={{
+                        width: '200px',
+                        height: '100px',
+                      }}
+                    >
+                      <TableChart coin={el.code} />
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        )}
 
-      {isFetching && (
+      {isCoinsListFetching && (
         <Box
           sx={{
             height: '300px',
@@ -349,7 +357,7 @@ const BasicTable = () => {
         </Box>
       )}
 
-      {isError && (
+      {isCoinsListError && (
         <Box
           sx={{
             height: '300px',

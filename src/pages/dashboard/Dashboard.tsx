@@ -5,6 +5,7 @@ import { tokens } from '../../contexts/themeContext';
 import Chart from './Chart';
 import Trending from './Trending';
 import Table from './Table';
+import TableLiveCoin from './TableLiveCoin';
 
 const Dashboard = () => {
   const theme = useTheme();
@@ -21,6 +22,8 @@ const Dashboard = () => {
         <Chart />
         <Trending />
       </Box>
+
+      <TableLiveCoin />
 
       <Table />
     </Stack>

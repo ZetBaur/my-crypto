@@ -19,7 +19,7 @@ export const coinsSlice = createSlice({
 
     removeFromPortfolio(state, action: PayloadAction<ICoinData>) {
       state.portfolio = state.portfolio.filter(
-        (el) => el.id !== action.payload.id
+        (el) => el.name !== action.payload.name
       );
     },
   },

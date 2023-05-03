@@ -244,10 +244,7 @@ export interface Item {
 // ---------- coin data -----
 
 export interface ICoinData {
-  id: string | undefined;
-  symbol: string | undefined;
   name: string | undefined;
-  image: string | undefined;
 }
 
 //--------------

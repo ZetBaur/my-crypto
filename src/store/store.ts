@@ -3,6 +3,7 @@ import { setupListeners } from '@reduxjs/toolkit/query';
 
 import { coinsApi } from './features/coins/coinsApi';
 import { binanceApi } from './features/binance/binanceApi';
+import { liveCoinWatchApi } from './features/livecoinwatch/liveCoinWatchApi';
 
 import marketChartSlice from './features/coins/marketChartSlice';
 import marketsSlice from './features/coins/marketsSlice';
@@ -13,6 +14,7 @@ export const store = configureStore({
   reducer: {
     [coinsApi.reducerPath]: coinsApi.reducer,
     [binanceApi.reducerPath]: binanceApi.reducer,
+    [liveCoinWatchApi.reducerPath]: liveCoinWatchApi.reducer,
 
     marketChart: marketChartSlice,
     markets: marketsSlice,
@@ -23,8 +25,8 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
       .concat(coinsApi.middleware)
-      .concat(binanceApi.middleware),
-  // getDefaultMiddleware().concat(binanceApi.middleware),
+      .concat(binanceApi.middleware)
+      .concat(liveCoinWatchApi.middleware),
 });
 
 setupListeners(store.dispatch);

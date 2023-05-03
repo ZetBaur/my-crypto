@@ -6,6 +6,7 @@ import { ColorModeContext, useMode } from './contexts/themeContext';
 import Binance from './pages/dashboard/Binance';
 import BinanceWS from './pages/binance/BinanceWS';
 import BinanceRest from './pages/binance/BinanceRest';
+import LiveCoinWatchRest from './pages/livecoinwatch/LiveCoinWatchRest';
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -22,6 +23,10 @@ function App() {
               <Route path='/binance' element={<Binance />} />
               <Route path='/binancews' element={<BinanceWS />} />
               <Route path='/binancerest' element={<BinanceRest />} />
+              <Route
+                path='/livecoinwatchrest'
+                element={<LiveCoinWatchRest />}
+              />
             </Route>
 
             <Route path='login' element={<AuthLayout />} />

@@ -37,6 +37,12 @@ const listItems = [
   },
 
   {
+    text: 'Live Coin Watch',
+    path: 'livecoinwatchrest',
+    icon: <MailIcon />,
+  },
+
+  {
     text: 'BinanceRest',
     path: 'binancerest',
     icon: <MailIcon />,

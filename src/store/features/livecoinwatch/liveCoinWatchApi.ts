@@ -31,4 +31,7 @@ export const liveCoinWatchApi = createApi({
   }),
 });
 
-export const { useFetchOverviewHistoryQuery } = liveCoinWatchApi;
+export const {
+  useFetchOverviewHistoryQuery,
+  useLazyFetchOverviewHistoryQuery,
+} = liveCoinWatchApi;

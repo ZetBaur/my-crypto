@@ -287,7 +287,7 @@ const BasicTable = () => {
                       height: '100px',
                     }}
                   >
-                    <TableChart coin={el.id} />
+                    <TableChart coin={el.symbol.toUpperCase()} />
                   </TableCell>
                 </TableRow>
               ))}

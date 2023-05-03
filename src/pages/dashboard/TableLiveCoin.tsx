@@ -32,14 +32,9 @@ import {
 import { setId } from '../../store/features/coins/marketChartSlice';
 import { ICoinData } from '../../model/coinsTypes';
 
-const BasicTable = () => {
+const TableLiveCoin = () => {
   const dispatch = useAppDispatch();
   const portfolio = useAppSelector((state) => state.portfolio.portfolio);
-
-  //   const [page, setPage] = useState(1);
-  //   const [rowsPerPage, setRowsPerPage] = useState(10);
-  //   const [totalPagesNumber, setTotalPagesNumber] = useState(100);
-  //   const [order, setOrder] = useState('market_cap_desc');
 
   //=================================================
 
@@ -55,16 +50,16 @@ const BasicTable = () => {
 
   const { data: platformsAllData } = useFetchPlatformsAllQuery();
 
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   const [page, setPage] = useState(1);
   const [totalPagesNumber, setTotalPagesNumber] = useState(100);
 
-  const [offset, setOffset] = useState(0);
-  const [limit, setLimit] = useState(10);
   const [order, setOrder] = useState('descending');
   const [sort, setSort] = useState('price');
 
   useEffect(() => {
-    if (platformsAllData) console.log(platformsAllData);
+    if (platformsAllData)
+      setTotalPagesNumber(platformsAllData.length / rowsPerPage);
   }, [platformsAllData]);
 
   useEffect(() => {
@@ -72,12 +67,12 @@ const BasicTable = () => {
       currency: 'USD',
       sort,
       order,
-      offset,
-      limit,
+      offset: (page - 1) * rowsPerPage,
+      limit: rowsPerPage,
       meta: true,
     };
     fetchCoinsList(body);
-  }, []);
+  }, [sort, order, page, rowsPerPage]);
 
   useEffect(() => {
     console.log('coinsListData', coinsListData);
@@ -87,16 +82,15 @@ const BasicTable = () => {
 
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,
-    newPage: number
+    value: number
   ) => {
-    setPage(newPage);
+    setPage(value);
   };
 
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+    setRowsPerPage(parseInt(event.target.value));
   };
 
   useEffect(() => {
@@ -104,15 +98,6 @@ const BasicTable = () => {
       setTotalPagesNumber(Math.ceil(platformsAllData?.length / rowsPerPage));
     }
   }, [platformsAllData]);
-
-  //   useEffect(() => {
-  //     const params = {
-  //       page,
-  //       rowsPerPage,
-  //       order,
-  //     };
-  //     fetchMarkets(params);
-  //   }, [page, rowsPerPage, order]);
 
   const handleIconClick = (el: ICoinsList) => {
     const coinToAdd: ICoinData = {
@@ -188,6 +173,7 @@ const BasicTable = () => {
     <>
       <TablePagination
         component='div'
+        rowsPerPageOptions={[5, 10, { value: -1, label: 'All' }]}
         count={totalPagesNumber}
         page={page}
         onPageChange={handleChangePage}
@@ -377,4 +363,4 @@ const BasicTable = () => {
   );
 };
 
-export default BasicTable;
+export default TableLiveCoin;

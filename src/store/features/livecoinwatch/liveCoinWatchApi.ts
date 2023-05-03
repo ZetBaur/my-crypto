@@ -4,6 +4,11 @@ import {
   ICoinsSingleHistoryRequest,
 } from '../../../model/liveCoinWatchTypes';
 
+import {
+  ICoinsListRequest,
+  ICoinsList,
+} from '../../../model/liveCoinWatchTypes';
+
 export const liveCoinWatchApi = createApi({
   reducerPath: 'liveCoinWatchApi',
   baseQuery: fetchBaseQuery({
@@ -28,10 +33,21 @@ export const liveCoinWatchApi = createApi({
         };
       },
     }),
+
+    fetchCoinsList: build.query<ICoinsList, ICoinsListRequest>({
+      query: (body: ICoinsListRequest) => {
+        return {
+          url: `coins/list`,
+          method: 'POST',
+          body,
+        };
+      },
+    }),
   }),
 });
 
 export const {
-  useFetchOverviewHistoryQuery,
   useLazyFetchOverviewHistoryQuery,
+  useFetchOverviewHistoryQuery,
+  useLazyFetchCoinsListQuery,
 } = liveCoinWatchApi;

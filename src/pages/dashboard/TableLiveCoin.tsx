@@ -15,6 +15,8 @@ import {
   useFetchListQuery,
 } from '../../store/features/coins/coinsApi';
 
+import { useLazyFetchCoinsListQuery } from '../../store/features/livecoinwatch/liveCoinWatchApi';
+
 import {
   Box,
   CircularProgress,
@@ -22,19 +24,14 @@ import {
   TableSortLabel,
   Tooltip,
 } from '@mui/material';
-
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
 import { ICoinData, IMarkets } from '../../model/coinsTypes';
 import { useCheckPortfolio } from '../../hooks/checkPortfolio';
-
 import {
   addToPortfolio,
   removeFromPortfolio,
 } from '../../store/features/coins/portfolioSlice';
-
 import { setId } from '../../store/features/coins/marketChartSlice';
-
-//------------------------------------------------------------------------------
 
 const BasicTable = () => {
   const [fetchMarkets, { isError, isFetching, isSuccess, data }] =
@@ -47,7 +44,35 @@ const BasicTable = () => {
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [totalPagesNumber, setTotalPagesNumber] = useState(100);
-  const [order, setOrder] = useState('market_cap_desc');
+  // const [order, setOrder] = useState('market_cap_desc');
+
+  //=================================================
+
+  const [fetchCoinsList, { data: coinsListData }] =
+    useLazyFetchCoinsListQuery();
+
+  const [offset, setOffset] = useState(0);
+  const [limit, setLimit] = useState(10);
+  const [order, setOrder] = useState('descending');
+  const [sort, setSort] = useState('price');
+
+  useEffect(() => {
+    const body = {
+      currency: 'USD',
+      sort,
+      order,
+      offset,
+      limit,
+      meta: true,
+    };
+    fetchCoinsList(body);
+  }, []);
+
+  useEffect(() => {
+    console.log('coinsListData', coinsListData);
+  }, [coinsListData]);
+
+  //=================================================
 
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,
@@ -149,7 +174,6 @@ const BasicTable = () => {
     { text: 'Mkt Cap', type: 'market_cap' },
     { text: 'Last 7 days', type: '' },
   ];
-
   //---------------------------------------
 
   return (

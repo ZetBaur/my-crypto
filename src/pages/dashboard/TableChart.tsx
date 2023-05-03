@@ -54,7 +54,7 @@ const TableChart = ({ coin }: IProps) => {
       }
     );
 
-    console.log(arr);
+    // console.log(arr);
 
     setPrices(arr);
   }, [isSuccess, data]);

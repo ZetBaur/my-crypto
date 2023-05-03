@@ -1,4 +1,5 @@
 // /coins/single/history ----------------------------------------
+
 export interface ICoinsSingleHistoryRequest {
   currency: string;
   code: string;
@@ -47,4 +48,30 @@ export interface History {
   volume: number;
   cap: number;
   liquidity: number;
+}
+
+// coins/list ----------------------------------------------------
+
+export interface ICoinsListRequest {
+  currency: string;
+  sort: string;
+  order: string;
+  offset: number;
+  limit: number;
+  meta: boolean;
+}
+
+export interface ICoinsList {
+  code: string;
+  rate: number;
+  volume: number;
+  cap: number;
+  delta: {
+    hour: number;
+    day: number;
+    week: number;
+    month: number;
+    quarter: number;
+    year: number;
+  };
 }

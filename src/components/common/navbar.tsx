@@ -37,6 +37,12 @@ const listItems = [
   },
 
   {
+    text: 'BinanceRest',
+    path: 'binancerest',
+    icon: <MailIcon />,
+  },
+
+  {
     text: 'Transactions',
     icon: <MailIcon />,
   },

@@ -36,8 +36,6 @@ const TableLiveCoin = () => {
   const dispatch = useAppDispatch();
   const portfolio = useAppSelector((state) => state.portfolio.portfolio);
 
-  //=================================================
-
   const [
     fetchCoinsList,
     {
@@ -50,24 +48,24 @@ const TableLiveCoin = () => {
 
   const { data: platformsAllData } = useFetchPlatformsAllQuery();
 
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [page, setPage] = useState(1);
-  const [totalPagesNumber, setTotalPagesNumber] = useState(100);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [page, setPage] = useState(0);
+  const [totalCoins, setTotalCoins] = useState(100);
 
   const [order, setOrder] = useState('descending');
   const [sort, setSort] = useState('price');
 
   useEffect(() => {
-    if (platformsAllData)
-      setTotalPagesNumber(platformsAllData.length / rowsPerPage);
-  }, [platformsAllData]);
+    console.log('rowsPerPage', rowsPerPage);
+    if (platformsAllData) setTotalCoins(platformsAllData?.length);
+  }, [platformsAllData, rowsPerPage]);
 
   useEffect(() => {
     const body = {
       currency: 'USD',
       sort,
       order,
-      offset: (page - 1) * rowsPerPage,
+      offset: page * rowsPerPage,
       limit: rowsPerPage,
       meta: true,
     };
@@ -77,8 +75,6 @@ const TableLiveCoin = () => {
   useEffect(() => {
     console.log('coinsListData', coinsListData);
   }, [coinsListData]);
-
-  //=================================================
 
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,
@@ -92,12 +88,6 @@ const TableLiveCoin = () => {
   ) => {
     setRowsPerPage(parseInt(event.target.value));
   };
-
-  useEffect(() => {
-    if (platformsAllData) {
-      setTotalPagesNumber(Math.ceil(platformsAllData?.length / rowsPerPage));
-    }
-  }, [platformsAllData]);
 
   const handleIconClick = (el: ICoinsList) => {
     const coinToAdd: ICoinData = {
@@ -126,18 +116,30 @@ const TableLiveCoin = () => {
     });
   };
 
+  // const parseInt = (value: number): number => {
+  //   let newValue = value.toString();
+  //   let price = newValue.slice(0, newValue.length - 4)
+  //   // return parseInt(newValue.slice(0, newValue.length - 4));
+
+  //   return parseInt(price)
+  // };
+
   const formatPrice = (value: number) => {
-    if (!value) return 'NA';
-    return value.toLocaleString('en-US', {
+    let newValue = value.toString();
+    let price = parseInt(newValue.slice(0, newValue.length - 4));
+
+    return price.toLocaleString('en-US', {
       style: 'currency',
       currency: 'USD',
-      maximumFractionDigits: 0,
     });
   };
 
-  const formatPriceChangePercent = (value: number) => {
-    if (value === null) return 'NA';
-    return value.toFixed(2) + ' %';
+  const formatPriceChangePercent = (change: number, price: number) => {
+    console.log(' (price/100)*change', (change * 100) / price);
+    // price=100%
+    // change=?
+    return change;
+    // return price.toFixed(2) + ' %';
   };
 
   const valueColor = (value: number) => {
@@ -146,11 +148,8 @@ const TableLiveCoin = () => {
   };
 
   const handleSort = (el: { text: string; type: string }) => {
-    if (order === el.type + '_desc') {
-      setOrder(el.type + '_asc');
-    } else if (order !== el.type + '_desc') {
-      setOrder(el.type + '_desc');
-    }
+    setOrder(order === 'descending' ? 'ascending' : 'descending');
+    setSort(el.type);
   };
 
   const sortedColumns = (el: { text: string; type: string }) => {
@@ -160,9 +159,9 @@ const TableLiveCoin = () => {
   const headCells = [
     { text: 'Portfolio', type: '' },
     { text: 'Coin', type: 'name' },
-    { text: 'Price', type: 'rate' },
-    { text: '1h', type: 'hour' },
-    { text: '24h', type: 'day' },
+    { text: 'Price', type: 'price' },
+    { text: '1h', type: 'delta.hour' },
+    { text: '24h', type: 'delta.day' },
     { text: 'Volume', type: 'volume' },
     { text: 'Mkt Cap', type: 'cap' },
     { text: 'Last 7 days', type: '' },
@@ -173,8 +172,8 @@ const TableLiveCoin = () => {
     <>
       <TablePagination
         component='div'
-        rowsPerPageOptions={[5, 10, { value: -1, label: 'All' }]}
-        count={totalPagesNumber}
+        rowsPerPageOptions={[5, 10, 25, { value: totalCoins, label: 'All' }]}
+        count={totalCoins}
         page={page}
         onPageChange={handleChangePage}
         rowsPerPage={rowsPerPage}
@@ -284,14 +283,14 @@ const TableLiveCoin = () => {
                       </Box>
                     </TableCell>
 
-                    <TableCell>{el.rate}</TableCell>
+                    <TableCell>{formatPrice(el.rate)}</TableCell>
 
                     <TableCell
                       sx={{
                         color: () => valueColor(el.delta.hour),
                       }}
                     >
-                      {el.delta.hour}
+                      {formatPriceChangePercent(el.delta.hour, el.rate)}
                     </TableCell>
 
                     <TableCell

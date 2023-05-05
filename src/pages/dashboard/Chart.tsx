@@ -49,60 +49,20 @@ const Chart = () => {
     setPrices(arr);
   }, [data]);
 
-  //---------------------------------------
-  if (isFetching) {
-    return (
-      <Box
-        sx={{
-          height: '400px',
-          background: colors.primary.DEFAULT,
-          border: `1px solid ${colors.chartBoderColor}`,
-          borderRadius: '4px',
-          flex: '1',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <CircularProgress
-          sx={{
-            zIndex: '10',
-            color: 'blue',
-          }}
-        />
-      </Box>
-    );
-  } else if (isError) {
-    return (
-      <Box
-        sx={{
-          background: colors.primary.DEFAULT,
-          height: '400px',
-          border: `1px solid ${colors.chartBoderColor}`,
-          borderRadius: '4px',
-          flex: '1',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        Server does not respond. Try later
-      </Box>
-    );
-  } else if (isSuccess && data) {
-    return (
-      <Box
-        sx={{
-          background: colors.primary.DEFAULT,
-          border: `1px solid ${colors.chartBoderColor}`,
-          borderRadius: '4px',
-          flex: '1',
-          display: 'flex',
-          flexDirection: 'column',
-        }}
-      >
-        <ChartHeader />
+  return (
+    <Box
+      sx={{
+        background: colors.primary.DEFAULT,
+        border: `1px solid ${colors.chartBoderColor}`,
+        borderRadius: '4px',
+        flex: '1',
+        display: 'flex',
+        flexDirection: 'column',
+      }}
+    >
+      <ChartHeader />
 
+      {!isError && !isFetching && isSuccess && data && (
         <Box
           sx={{
             width: '100%',
@@ -160,11 +120,48 @@ const Chart = () => {
             </AreaChart>
           </ResponsiveContainer>
         </Box>
-      </Box>
-    );
-  } else {
-    return null;
-  }
+      )}
+
+      {isFetching && (
+        <Box
+          sx={{
+            height: '400px',
+            background: colors.primary.DEFAULT,
+            border: `1px solid ${colors.chartBoderColor}`,
+            borderRadius: '4px',
+            flex: '1',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <CircularProgress
+            sx={{
+              zIndex: '10',
+              color: 'blue',
+            }}
+          />
+        </Box>
+      )}
+
+      {isError && (
+        <Box
+          sx={{
+            background: colors.primary.DEFAULT,
+            height: '400px',
+            border: `1px solid ${colors.chartBoderColor}`,
+            borderRadius: '4px',
+            flex: '1',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          Server does not respond. Try later
+        </Box>
+      )}
+    </Box>
+  );
 };
 
 export default Chart;

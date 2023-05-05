@@ -3,8 +3,11 @@ import useWebSocket, { ReadyState } from 'react-use-websocket';
 
 const Binance = () => {
   const [socketUrl, setSocketUrl] = useState(
-    'wss://stream.binance.com:9443/ws/btcusd@trade'
+    'wss://ws-api.livecoinwatch.com/socket.io/?EIO=3&transport=websocket'
   );
+
+  // 'wss://stream.binance.com:9443/ws/btcusd@trade'
+  // 'wss://ws-api.livecoinwatch.com/socket.io/?EIO=3&transport=websocket'
   const [messageHistory, setMessageHistory] = useState([]);
 
   const { sendMessage, lastMessage, readyState } = useWebSocket(socketUrl);

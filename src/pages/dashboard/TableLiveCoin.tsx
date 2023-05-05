@@ -31,6 +31,7 @@ import {
 } from '../../store/features/coins/portfolioSlice';
 import { setId } from '../../store/features/coins/marketChartSlice';
 import { ICoinData } from '../../model/coinsTypes';
+import Binance from './Binance';
 
 const TableLiveCoin = () => {
   const dispatch = useAppDispatch();
@@ -56,7 +57,6 @@ const TableLiveCoin = () => {
   const [sort, setSort] = useState('price');
 
   useEffect(() => {
-    console.log('rowsPerPage', rowsPerPage);
     if (platformsAllData) setTotalCoins(platformsAllData?.length);
   }, [platformsAllData, rowsPerPage]);
 
@@ -105,41 +105,44 @@ const TableLiveCoin = () => {
     return isInPortfolio ? 'blue' : 'black';
   };
 
-  const formatValue = (value: number) => {
-    if (value === null) return 'NA';
-    if (value === 0) return 0;
+  const formatValue = (value: number): number => {
+    let newValue = value.toString();
+    return parseFloat(newValue.slice(0, newValue.length - 4));
+  };
+
+  const formatPrice = (value: number) => {
+    const price = formatValue(value);
+
+    // console.log(price);
+
+    const isZero = price < 1;
+
+    return price.toLocaleString('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      // maximumFractionDigits: 7,
+      minimumFractionDigits: isZero ? 4 : 2,
+    });
+  };
+
+  const formatPriceChangePercent = (change: number, price: number) => {
+    let rate = formatValue(price);
+
+    let percenChange = (change * 100) / rate;
+
+    let isZero = percenChange < 1;
+
+    return isZero ? percenChange.toFixed(4) : percenChange.toFixed(0);
+  };
+
+  const formatVolume = (value: number) => {
+    if (!value) return 'NA';
 
     return value.toLocaleString('en-US', {
       style: 'currency',
       currency: 'USD',
       maximumFractionDigits: 0,
     });
-  };
-
-  // const parseInt = (value: number): number => {
-  //   let newValue = value.toString();
-  //   let price = newValue.slice(0, newValue.length - 4)
-  //   // return parseInt(newValue.slice(0, newValue.length - 4));
-
-  //   return parseInt(price)
-  // };
-
-  const formatPrice = (value: number) => {
-    let newValue = value.toString();
-    let price = parseInt(newValue.slice(0, newValue.length - 4));
-
-    return price.toLocaleString('en-US', {
-      style: 'currency',
-      currency: 'USD',
-    });
-  };
-
-  const formatPriceChangePercent = (change: number, price: number) => {
-    console.log(' (price/100)*change', (change * 100) / price);
-    // price=100%
-    // change=?
-    return change;
-    // return price.toFixed(2) + ' %';
   };
 
   const valueColor = (value: number) => {
@@ -172,7 +175,7 @@ const TableLiveCoin = () => {
     <>
       <TablePagination
         component='div'
-        rowsPerPageOptions={[5, 10, 25, { value: totalCoins, label: 'All' }]}
+        rowsPerPageOptions={[5, 10, 25, 50]}
         count={totalCoins}
         page={page}
         onPageChange={handleChangePage}
@@ -233,7 +236,7 @@ const TableLiveCoin = () => {
               <TableBody>
                 {coinsListData?.map((el) => (
                   <TableRow
-                    key={el.name}
+                    key={el.code}
                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                   >
                     <TableCell component='th' scope='row'>
@@ -266,7 +269,7 @@ const TableLiveCoin = () => {
                         <img
                           width='24'
                           height='24'
-                          src={el.webp64}
+                          src={el.png64}
                           alt={el.name}
                         />
                         <Box
@@ -290,7 +293,7 @@ const TableLiveCoin = () => {
                         color: () => valueColor(el.delta.hour),
                       }}
                     >
-                      {formatPriceChangePercent(el.delta.hour, el.rate)}
+                      {formatPriceChangePercent(el.delta.hour, el.rate)} %
                     </TableCell>
 
                     <TableCell
@@ -298,10 +301,10 @@ const TableLiveCoin = () => {
                         color: () => valueColor(el.delta.day),
                       }}
                     >
-                      {el.delta.day}
+                      {formatPriceChangePercent(el.delta.day, el.rate)} %
                     </TableCell>
 
-                    <TableCell>{el.volume}</TableCell>
+                    <TableCell>{formatVolume(el.volume)}</TableCell>
 
                     <TableCell>{el.cap}</TableCell>
 

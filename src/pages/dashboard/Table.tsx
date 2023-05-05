@@ -112,10 +112,11 @@ const BasicTable = () => {
 
   const formatPrice = (value: number | undefined) => {
     if (!value) return 'NA';
-    return value.toLocaleString('en-US', {
+    const isZero = value < 1;
+    return value.toLocaleString('fi-FI', {
       style: 'currency',
       currency: 'USD',
-      maximumFractionDigits: 0,
+      maximumFractionDigits: isZero ? 2 : 0,
     });
   };
 

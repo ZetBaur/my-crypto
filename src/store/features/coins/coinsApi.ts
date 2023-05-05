@@ -16,6 +16,8 @@ export const coinsApi = createApi({
     baseUrl: 'https://api.coingecko.com/api/v3/',
   }),
 
+  keepUnusedDataFor: 30,
+
   endpoints: (build) => ({
     fetchList: build.query<IList[], void>({
       query: () => ({

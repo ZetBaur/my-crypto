@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ICoinData } from '../../../model/coinsTypes';
+import { ICoinData, IMarkets } from '../../../model/coinsTypes';
 
 interface IInitialState {
-  currentCoin: ICoinData | undefined;
+  currentCoin: IMarkets | undefined;
 }
 
 const initialState: IInitialState = {
@@ -19,7 +19,7 @@ export const coinByIdSlice = createSlice({
   name: 'coins',
   initialState,
   reducers: {
-    setCurrentCoin(state, action: PayloadAction<ICoinData | undefined>) {
+    setCurrentCoin(state, action: PayloadAction<IMarkets | undefined>) {
       state.currentCoin = action.payload;
     },
   },

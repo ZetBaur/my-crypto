@@ -19,32 +19,32 @@ import {
 } from '../../store/features/coins/marketChartSlice';
 import SelectPeriod from './SelectPeriod';
 import SelectInterval from './SelectInterval';
-import { useLazyFetchCoinByIdQuery } from '../../store/features/coins/coinsApi';
-import { setCurrentCoin } from '../../store/features/coins/coinByIdSlice';
+// import { useLazyFetchCoinByIdQuery } from '../../store/features/coins/coinsApi';
+import { setCurrentCoin } from '../../store/features/coins/currentCoinSlice';
 
 const ChartHeader = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const id = useAppSelector((state) => state.marketChart.id);
   const vsCurrency = useAppSelector((state) => state.marketChart.vsCurrency);
-  const currentCoin = useAppSelector((state) => state.coinById.currentCoin);
+  const currentCoin = useAppSelector((state) => state.currentCoin.currentCoin);
   const dispatch = useAppDispatch();
 
-  const [fetchCoinById, { data: coinByIdData }] = useLazyFetchCoinByIdQuery();
+  // const [fetchCoinById, { data: coinByIdData }] = useLazyFetchCoinByIdQuery();
 
-  useEffect(() => {
-    if (id) fetchCoinById(id);
-  }, [id]);
+  // useEffect(() => {
+  //   if (id) fetchCoinById(id);
+  // }, [id]);
 
-  useEffect(() => {
-    const newCurrentCoin = {
-      id: coinByIdData?.id,
-      symbol: coinByIdData?.symbol,
-      name: coinByIdData?.name,
-      image: coinByIdData?.image.thumb,
-    };
-    dispatch(setCurrentCoin(newCurrentCoin));
-  }, [coinByIdData]);
+  // useEffect(() => {
+  //   const newCurrentCoin = {
+  //     id: coinByIdData?.id,
+  //     symbol: coinByIdData?.symbol,
+  //     name: coinByIdData?.name,
+  //     image: coinByIdData?.image.thumb,
+  //   };
+  //   dispatch(setCurrentCoin(newCurrentCoin));
+  // }, [coinByIdData]);
 
   return (
     <Box
@@ -64,14 +64,20 @@ const ChartHeader = () => {
           sx={{
             display: 'flex',
             alignItems: 'center',
-            gap: '8px',
+            gap: '1rem',
             background: colors.secondary.DEFAULT,
             borderRadius: '4px',
             padding: '8px 16px',
             position: 'relative',
           }}
         >
-          <img src={currentCoin?.image} alt={currentCoin?.symbol} />
+          <img
+            width={25}
+            height={25}
+            src={currentCoin?.image}
+            alt={currentCoin?.symbol}
+          />
+
           <span>{currentCoin?.name}</span>
         </Box>
 

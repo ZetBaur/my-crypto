@@ -73,19 +73,19 @@ export const coinsApi = createApi({
       }),
     }),
 
-    fetchCoinById: build.query<ICoinById, string | null>({
-      query: (id: string) => ({
-        url: `coins/${id}`,
-        params: {
-          localization: false,
-          tickers: false,
-          market_data: false,
-          community_data: false,
-          developer_data: false,
-          sparkline: false,
-        },
-      }),
-    }),
+    // fetchCoinById: build.query<ICoinById, string | null>({
+    //   query: (id: string) => ({
+    //     url: `coins/${id}`,
+    //     params: {
+    //       localization: false,
+    //       tickers: false,
+    //       market_data: false,
+    //       community_data: false,
+    //       developer_data: false,
+    //       sparkline: false,
+    //     },
+    //   }),
+    // }),
 
     fetchPublicCompanies: build.query<IPublicCompanies, string | null>({
       query: (id: string) => ({
@@ -107,7 +107,7 @@ export const {
   useLazyFetchMarketChartQuery,
   useLazySearchCoinQuery,
   useFetchMarketChartQuery,
-  useLazyFetchCoinByIdQuery,
+  // useLazyFetchCoinByIdQuery,
   useLazyFetchPublicCompaniesQuery,
   useLazyFetchTrendingQuery,
   useFetchTrendingQuery,

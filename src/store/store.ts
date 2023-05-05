@@ -6,8 +6,8 @@ import { binanceApi } from './features/binance/binanceApi';
 import { liveCoinWatchApi } from './features/livecoinwatch/liveCoinWatchApi';
 
 import marketChartSlice from './features/coins/marketChartSlice';
-import marketsSlice from './features/coins/marketsSlice';
-import coinByIdSlice from './features/coins/coinByIdSlice';
+// import marketsSlice from './features/coins/marketsSlice';
+import currentCoinSlice from './features/coins/currentCoinSlice';
 import portfolioSlice from './features/coins/portfolioSlice';
 
 export const store = configureStore({
@@ -17,8 +17,8 @@ export const store = configureStore({
     [liveCoinWatchApi.reducerPath]: liveCoinWatchApi.reducer,
 
     marketChart: marketChartSlice,
-    markets: marketsSlice,
-    coinById: coinByIdSlice,
+    // markets: marketsSlice,
+    currentCoin: currentCoinSlice,
     portfolio: portfolioSlice,
   },
 

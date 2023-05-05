@@ -33,6 +33,7 @@ import {
 } from '../../store/features/coins/portfolioSlice';
 
 import { setId } from '../../store/features/coins/marketChartSlice';
+import { setCurrentCoin } from '../../store/features/coins/currentCoinSlice';
 
 //------------------------------------------------------------------------------
 
@@ -79,17 +80,17 @@ const BasicTable = () => {
   }, [page, rowsPerPage, order]);
 
   const handleIconClick = (el: IMarkets) => {
-    const coinToAdd: ICoinData = {
-      id: el.id,
-      symbol: el.symbol,
-      name: el.name,
-      image: el.image,
-    };
+    // const coinToAdd: ICoinData = {
+    //   id: el.id,
+    //   symbol: el.symbol,
+    //   name: el.name,
+    //   image: el.image,
+    // };
     const isInPortfolio = useCheckPortfolio(el.id, portfolio);
 
     !isInPortfolio
-      ? dispatch(addToPortfolio(coinToAdd))
-      : dispatch(removeFromPortfolio(coinToAdd));
+      ? dispatch(addToPortfolio(el))
+      : dispatch(removeFromPortfolio(el));
   };
 
   const iconColor = (el: IMarkets) => {
@@ -97,7 +98,7 @@ const BasicTable = () => {
     return isInPortfolio ? 'blue' : 'black';
   };
 
-  const formatValue = (value: number) => {
+  const formatValue = (value: number | undefined) => {
     if (value === null) return 'NA';
     if (value === 0) return 0;
 
@@ -108,7 +109,7 @@ const BasicTable = () => {
     });
   };
 
-  const formatPrice = (value: number) => {
+  const formatPrice = (value: number | undefined) => {
     if (!value) return 'NA';
     return value.toLocaleString('en-US', {
       style: 'currency',
@@ -117,12 +118,12 @@ const BasicTable = () => {
     });
   };
 
-  const formatPriceChangePercent = (value: number) => {
+  const formatPriceChangePercent = (value: number | undefined) => {
     if (value === null) return 'NA';
     return value.toFixed(2) + ' %';
   };
 
-  const valueColor = (value: number) => {
+  const valueColor = (value: number | undefined) => {
     if (Math.sign(value) === -1) return 'red';
     if (Math.sign(value) === 1) return 'green';
   };
@@ -142,13 +143,18 @@ const BasicTable = () => {
   const headCells = [
     { text: 'Portfolio', type: '' },
     { text: 'Coin', type: 'id' },
-    { text: 'Price', type: 'current_price' },
-    { text: '1h', type: 'price_change_percentage_1h_in_currency' },
-    { text: '24h', type: 'price_change_percentage_24h' },
+    { text: 'Price', type: 'price' },
+    { text: '1h', type: '' },
+    { text: '24h', type: '' },
     { text: 'Volume', type: 'volume' },
     { text: 'Mkt Cap', type: 'market_cap' },
     { text: 'Last 7 days', type: '' },
   ];
+
+  const handleCoinClick = (el: IMarkets) => {
+    dispatch(setId(el.id));
+    dispatch(setCurrentCoin(el));
+  };
 
   //---------------------------------------
 
@@ -185,6 +191,7 @@ const BasicTable = () => {
                 {headCells.map((el) => (
                   <TableCell
                     key={el.text}
+                    // sortDirection={orderBy === el.type ? order : false}
                     sx={{
                       color: 'gray',
                       '& .MuiSvgIcon-root': {
@@ -194,7 +201,7 @@ const BasicTable = () => {
                     }}
                   >
                     <TableSortLabel
-                      active={false} // If true, the label will have the active styling (should be true for the sorted column).
+                      active={true} // If true, the label will have the active styling (should be true for the sorted column).
                       direction='asc'
                       hideSortIcon={sortedColumns(el)} //	           Hide sort icon when active is false.
                       IconComponent={FilterListIcon}
@@ -256,7 +263,7 @@ const BasicTable = () => {
                             cursor: 'pointer',
                           },
                         }}
-                        onClick={() => dispatch(setId(el.id))}
+                        onClick={() => handleCoinClick(el)}
                       >
                         {el.name}
                       </Box>

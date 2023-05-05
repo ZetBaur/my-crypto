@@ -13,6 +13,10 @@ const TableChart = ({ coin }: IProps) => {
   // const { isError, isFetching, isSuccess, data } =
   //   useFetchMarketChartRangeQuery(coin);
 
+  console.log(new Date(moment().subtract(7, 'days').calendar()).getTime());
+
+  console.log(Date.parse(moment().format('LL')));
+
   const [prices, setPrices] = useState<{ date: number; price: number }[]>();
 
   const [fetchHistory, { isError, isFetching, isSuccess, data }] =
@@ -23,7 +27,9 @@ const TableChart = ({ coin }: IProps) => {
       currency: 'USD',
       code: coin,
       start: new Date(moment().subtract(7, 'days').calendar()).getTime(),
-      end: Date.now(),
+      // end: Date.now(),
+      end: Date.parse(moment().format('LL')),
+
       meta: true,
     });
   }, []);

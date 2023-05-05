@@ -55,11 +55,12 @@ const BasicTable = () => {
     event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number
   ) => {
-    if (page === 0) {
-      setPage(2);
-    } else {
-      setPage(newPage);
-    }
+    page === 0 ? setPage(2) : setPage(newPage);
+    // if (page === 0) {
+    //   setPage(2);
+    // } else {
+    //   setPage(newPage);
+    // }
   };
 
   const handleChangeRowsPerPage = (

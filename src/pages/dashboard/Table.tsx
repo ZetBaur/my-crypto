@@ -48,7 +48,8 @@ const BasicTable = () => {
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [totalPagesNumber, setTotalPagesNumber] = useState(100);
-  const [order, setOrder] = useState('market_cap_desc');
+  const [order, setOrder] = useState('desc');
+  const [orderBy, setOrderBy] = useState('market_cap_desc');
 
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,
@@ -74,10 +75,10 @@ const BasicTable = () => {
     const params = {
       page,
       rowsPerPage,
-      order,
+      order: orderBy,
     };
     fetchMarkets(params);
-  }, [page, rowsPerPage, order]);
+  }, [page, rowsPerPage, orderBy]);
 
   const handleIconClick = (el: IMarkets) => {
     // const coinToAdd: ICoinData = {
@@ -129,14 +130,16 @@ const BasicTable = () => {
   };
 
   const handleSort = (el: { text: string; type: string }) => {
-    if (order === el.type + '_desc') {
-      setOrder(el.type + '_asc');
-    } else if (order !== el.type + '_desc') {
-      setOrder(el.type + '_desc');
+    console.log('el', el);
+
+    if (el.type) {
+      setOrder(order === 'asc' ? 'desc' : 'asc');
+
+      setOrderBy(el.type + '_' + order);
     }
   };
 
-  const sortedColumns = (el: { text: string; type: string }) => {
+  const sortingColumns = (el: { text: string; type: string }) => {
     if (!el.type) return true;
   };
 
@@ -191,23 +194,25 @@ const BasicTable = () => {
                 {headCells.map((el) => (
                   <TableCell
                     key={el.text}
-                    // sortDirection={orderBy === el.type ? order : false}
                     sx={{
                       color: 'gray',
                       '& .MuiSvgIcon-root': {
-                        // fill: 'blue',
                         marginLeft: '8px',
                       },
                     }}
                   >
                     <TableSortLabel
-                      active={true} // If true, the label will have the active styling (should be true for the sorted column).
+                      active={el.type !== '' && orderBy.includes(el.type)}
                       direction='asc'
-                      hideSortIcon={sortedColumns(el)} //	           Hide sort icon when active is false.
+                      hideSortIcon={sortingColumns(el)} //	           Hide sort icon when active is false.
                       IconComponent={FilterListIcon}
                       onClick={() => handleSort(el)}
                       sx={{
                         fontSize: '13px',
+                        ':hover': {
+                          color: el.type !== '' ? 'white' : 'gray',
+                          cursor: el.type !== '' ? 'pointer' : 'default',
+                        },
                       }}
                     >
                       {el.text}

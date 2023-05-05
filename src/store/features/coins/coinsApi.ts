@@ -5,7 +5,6 @@ import {
   IMarketChart,
   IMarketChartQuery,
   ISearchCoin,
-  ICoinById,
   IPublicCompanies,
   IList,
 } from '../../../model/coinsTypes';
@@ -16,10 +15,6 @@ export const coinsApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: 'https://api.coingecko.com/api/v3/',
   }),
-
-  // keepUnusedDataFor: 60,
-  // refetchOnFocus: true,
-  // refetchOnReconnect: true,
 
   endpoints: (build) => ({
     fetchList: build.query<IList[], void>({
@@ -39,6 +34,8 @@ export const coinsApi = createApi({
           price_change_percentage: '1h, 24h',
         },
       }),
+
+      keepUnusedDataFor: 15,
     }),
 
     fetchMarketChart: build.query<IMarketChart, IMarketChartQuery>({

@@ -45,7 +45,7 @@ const BasicTable = () => {
 
   const dispatch = useAppDispatch();
   const portfolio = useAppSelector((state) => state.portfolio.portfolio);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [totalPagesNumber, setTotalPagesNumber] = useState(100);
   const [order, setOrder] = useState('desc');
@@ -55,14 +55,18 @@ const BasicTable = () => {
     event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number
   ) => {
-    setPage(newPage);
+    if (page === 0) {
+      setPage(2);
+    } else {
+      setPage(newPage);
+    }
   };
 
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+    setRowsPerPage(parseInt(event.target.value));
+    // setPage(0);
   };
 
   useEffect(() => {

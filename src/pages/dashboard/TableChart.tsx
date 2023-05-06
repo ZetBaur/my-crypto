@@ -18,6 +18,11 @@ const TableChart = ({ coin }: IProps) => {
     useLazyFetchOverviewHistoryQuery();
 
   useEffect(() => {
+    console.log('error', error);
+    console.log('isError', isError);
+  }, [error]);
+
+  useEffect(() => {
     const coinExist = !!localStorage.getItem(coin);
     if (coinExist) {
       setHistory(JSON.parse(localStorage.getItem(coin) || ''));
@@ -49,6 +54,10 @@ const TableChart = ({ coin }: IProps) => {
 
     setPrices(arr);
   }, [history]);
+
+  if (error) {
+    <Box>{error}</Box>;
+  }
 
   if (prices?.length !== 0) {
     return (
@@ -100,13 +109,11 @@ const TableChart = ({ coin }: IProps) => {
         'Server Error'
       </Box>
     );
-  } else if (error) {
-    <Box>error</Box>;
   } else {
     return null;
   }
 };
 
-// export default TableChart;
+export default TableChart;
 
-export default memo(TableChart);
+// export default memo(TableChart);

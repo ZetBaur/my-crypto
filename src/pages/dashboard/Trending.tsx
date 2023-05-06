@@ -11,6 +11,7 @@ import {
   addToPortfolio,
   removeFromPortfolio,
 } from '../../store/features/coins/portfolioSlice';
+import { setCurrentCoin } from '../../store/features/coins/currentCoinSlice';
 
 const Trending = () => {
   const theme = useTheme();
@@ -22,6 +23,7 @@ const Trending = () => {
 
   const handleCoinClick = (el: ITrendingCoin) => {
     dispatch(setId(el.item.id));
+    dispatch(setCurrentCoin(el.item.id));
   };
 
   const handleIconClick = (el: ITrendingCoin) => {

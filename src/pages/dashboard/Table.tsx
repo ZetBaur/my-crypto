@@ -24,7 +24,7 @@ import {
 } from '@mui/material';
 
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
-import { ICoinData, IMarkets } from '../../model/coinsTypes';
+import { IMarkets } from '../../model/coinsTypes';
 import { useCheckPortfolio } from '../../hooks/checkPortfolio';
 
 import {
@@ -55,23 +55,20 @@ const BasicTable = () => {
     event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number
   ) => {
-    page === 0 ? setPage(2) : setPage(newPage);
-    // if (page === 0) {
-    //   setPage(2);
-    // } else {
-    //   setPage(newPage);
-    // }
+    // page === 0 ? setPage(2) : setPage(newPage);
+
+    setPage(newPage);
   };
 
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setRowsPerPage(parseInt(event.target.value));
-    // setPage(0);
   };
 
   useEffect(() => {
     if (listData) {
+      console.log('listData');
       setTotalPagesNumber(Math.ceil(listData?.length / rowsPerPage));
     }
   }, [listData]);
@@ -136,11 +133,8 @@ const BasicTable = () => {
   };
 
   const handleSort = (el: { text: string; type: string }) => {
-    console.log('el', el);
-
     if (el.type) {
       setOrder(order === 'asc' ? 'desc' : 'asc');
-
       setOrderBy(el.type + '_' + order);
     }
   };

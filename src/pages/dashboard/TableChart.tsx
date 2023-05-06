@@ -1,7 +1,6 @@
-import { useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { Box, CircularProgress } from '@mui/material';
 import { LineChart, Line, ResponsiveContainer, XAxis, YAxis } from 'recharts';
-import { useFetchMarketChartRangeQuery } from '../../store/features/coins/coinsApi';
 import { useLazyFetchOverviewHistoryQuery } from '../../store/features/livecoinwatch/liveCoinWatchApi';
 import moment from 'moment';
 
@@ -10,39 +9,28 @@ interface IProps {
 }
 
 const TableChart = ({ coin }: IProps) => {
-  // const { isError, isFetching, isSuccess, data } =
-  //   useFetchMarketChartRangeQuery(coin);
+  // console.log(new Date(moment().subtract(7, 'days').calendar()).getTime());
 
-  console.log(new Date(moment().subtract(7, 'days').calendar()).getTime());
-
-  console.log(Date.parse(moment().format('LL')));
+  // console.log(Date.parse(moment().format('LL')));
 
   const [prices, setPrices] = useState<{ date: number; price: number }[]>();
 
   const [fetchHistory, { isError, isFetching, isSuccess, data }] =
     useLazyFetchOverviewHistoryQuery();
 
+  // useEffect(() => {
+  //   localStorage.setItem(`${coin}`, 'true');
+  // }, []);
+
   useEffect(() => {
     fetchHistory({
       currency: 'USD',
       code: coin,
       start: new Date(moment().subtract(7, 'days').calendar()).getTime(),
-      // end: Date.now(),
       end: Date.parse(moment().format('LL')),
-
       meta: true,
     });
   }, []);
-
-  // useEffect(() => {
-  //   const arr = data?.prices.map((el: number[]) => {
-  //     return {
-  //       date: el[0],
-  //       price: el[1],
-  //     };
-  //   });
-  //   setPrices(arr);
-  // }, [data]);
 
   useEffect(() => {
     const arr = data?.history.map(
@@ -60,20 +48,27 @@ const TableChart = ({ coin }: IProps) => {
       }
     );
 
-    // console.log(arr);
-
     setPrices(arr);
   }, [isSuccess, data]);
 
-  if (isSuccess && data) {
+  if (isSuccess && data && prices?.length !== 0) {
     return (
       <ResponsiveContainer width='100%' height='100%'>
         <LineChart width={500} height={300} data={prices}>
           <Line type='monotone' dataKey='price' stroke='blue' dot={false} />
-
           <YAxis domain={['dataMin', 'dataMax']} hide={true} />
         </LineChart>
       </ResponsiveContainer>
+    );
+  } else if (prices?.length === 0) {
+    return (
+      <Box
+        sx={{
+          textAlign: 'center',
+        }}
+      >
+        NA
+      </Box>
     );
   } else if (isFetching) {
     return (
@@ -111,4 +106,6 @@ const TableChart = ({ coin }: IProps) => {
   }
 };
 
-export default TableChart;
+// export default TableChart;
+
+export default memo(TableChart);

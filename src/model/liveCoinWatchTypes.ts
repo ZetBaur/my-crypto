@@ -28,7 +28,7 @@ export interface ICoinsSingleHistory {
   totalSupply: number;
   maxSupply: number;
   links: Links;
-  history: History[];
+  history: IHistory[];
 }
 
 export interface Links {
@@ -42,7 +42,7 @@ export interface Links {
   instagram: any;
 }
 
-export interface History {
+export interface IHistory {
   date: number;
   rate: number;
   volume: number;

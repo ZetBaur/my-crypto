@@ -3,55 +3,54 @@ import { Box, CircularProgress } from '@mui/material';
 import { LineChart, Line, ResponsiveContainer, XAxis, YAxis } from 'recharts';
 import { useLazyFetchOverviewHistoryQuery } from '../../store/features/livecoinwatch/liveCoinWatchApi';
 import moment from 'moment';
+import { ICoinsSingleHistory, IHistory } from '../../model/liveCoinWatchTypes';
 
 interface IProps {
   coin: string;
 }
 
 const TableChart = ({ coin }: IProps) => {
-  // console.log(new Date(moment().subtract(7, 'days').calendar()).getTime());
-
-  // console.log(Date.parse(moment().format('LL')));
+  const [history, setHistory] = useState<ICoinsSingleHistory>();
 
   const [prices, setPrices] = useState<{ date: number; price: number }[]>();
 
-  const [fetchHistory, { isError, isFetching, isSuccess, data }] =
+  const [fetchHistory, { isError, error, isFetching, isSuccess, data }] =
     useLazyFetchOverviewHistoryQuery();
 
-  // useEffect(() => {
-  //   localStorage.setItem(`${coin}`, 'true');
-  // }, []);
-
   useEffect(() => {
-    fetchHistory({
-      currency: 'USD',
-      code: coin,
-      start: new Date(moment().subtract(7, 'days').calendar()).getTime(),
-      end: Date.parse(moment().format('LL')),
-      meta: true,
-    });
+    const coinExist = !!localStorage.getItem(coin);
+    if (coinExist) {
+      setHistory(JSON.parse(localStorage.getItem(coin) || ''));
+    } else {
+      fetchHistory({
+        currency: 'USD',
+        code: coin,
+        start: new Date(moment().subtract(7, 'days').calendar()).getTime(),
+        end: Date.parse(moment().format('LL')),
+        meta: true,
+      });
+    }
   }, []);
 
   useEffect(() => {
-    const arr = data?.history.map(
-      (el: {
-        cap: number;
-        date: number;
-        liquidity: number;
-        rate: number;
-        volume: number;
-      }) => {
-        return {
-          date: el.date,
-          price: el.rate,
-        };
-      }
-    );
+    if (data) {
+      localStorage.setItem(`${data?.code}`, JSON.stringify(data));
+      setHistory(data);
+    }
+  }, [isSuccess]);
+
+  useEffect(() => {
+    const arr = history?.history.map((el: IHistory) => {
+      return {
+        date: el.date,
+        price: el.rate,
+      };
+    });
 
     setPrices(arr);
-  }, [isSuccess, data]);
+  }, [history]);
 
-  if (isSuccess && data && prices?.length !== 0) {
+  if (prices?.length !== 0) {
     return (
       <ResponsiveContainer width='100%' height='100%'>
         <LineChart width={500} height={300} data={prices}>
@@ -101,6 +100,8 @@ const TableChart = ({ coin }: IProps) => {
         'Server Error'
       </Box>
     );
+  } else if (error) {
+    <Box>error</Box>;
   } else {
     return null;
   }

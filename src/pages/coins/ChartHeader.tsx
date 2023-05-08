@@ -18,7 +18,7 @@ import {
   setVsCurrency,
 } from '../../store/features/coins/marketChartSlice';
 import SelectPeriod from './SelectPeriod';
-import SelectInterval from './SelectInterval';
+// import SelectInterval from './SelectInterval';
 // import { useLazyFetchCoinByIdQuery } from '../../store/features/coins/coinsApi';
 import { setCurrentCoin } from '../../store/features/coins/currentCoinSlice';
 
@@ -29,22 +29,6 @@ const ChartHeader = () => {
   const vsCurrency = useAppSelector((state) => state.marketChart.vsCurrency);
   const currentCoin = useAppSelector((state) => state.currentCoin.currentCoin);
   const dispatch = useAppDispatch();
-
-  // const [fetchCoinById, { data: coinByIdData }] = useLazyFetchCoinByIdQuery();
-
-  // useEffect(() => {
-  //   if (id) fetchCoinById(id);
-  // }, [id]);
-
-  // useEffect(() => {
-  //   const newCurrentCoin = {
-  //     id: coinByIdData?.id,
-  //     symbol: coinByIdData?.symbol,
-  //     name: coinByIdData?.name,
-  //     image: coinByIdData?.image.thumb,
-  //   };
-  //   dispatch(setCurrentCoin(newCurrentCoin));
-  // }, [coinByIdData]);
 
   return (
     <Box
@@ -81,7 +65,7 @@ const ChartHeader = () => {
           <span>{currentCoin?.name}</span>
         </Box>
 
-        <Box
+        {/* <Box
           component='form'
           sx={{
             background: theme.palette.background.paper,
@@ -106,7 +90,7 @@ const ChartHeader = () => {
               <TextField {...params} placeholder='Search Coin' />
             )}
           />
-        </Box>
+        </Box> */}
 
         <FormControl size='small' variant='outlined'>
           <Select
@@ -152,7 +136,7 @@ const ChartHeader = () => {
         }}
       >
         <SelectPeriod />
-        <SelectInterval />
+        {/* <SelectInterval /> */}
       </Box>
     </Box>
   );

@@ -17,10 +17,10 @@ const TableChart = ({ coin }: IProps) => {
   const [fetchHistory, { isError, error, isFetching, isSuccess, data }] =
     useLazyFetchOverviewHistoryQuery();
 
-  useEffect(() => {
-    console.log('error', error);
-    console.log('isError', isError);
-  }, [error]);
+  // useEffect(() => {
+  //   console.log('error', error);
+  //   console.log('isError', isError);
+  // }, [error]);
 
   useEffect(() => {
     const coinExist = !!localStorage.getItem(coin);

@@ -11,24 +11,24 @@ export interface ICoinsSingleHistoryRequest {
 export interface ICoinsSingleHistory {
   code: string;
   name: string;
-  symbol: string;
-  rank: number;
-  age: number;
-  color: string;
-  png32: string;
-  png64: string;
-  webp32: string;
+  symbol?: string;
+  rank?: number;
+  age?: number;
+  color?: string;
+  png32?: string;
+  png64?: string;
+  webp32?: string;
   webp64: string;
-  exchanges: number;
-  markets: number;
-  pairs: number;
-  categories: any[];
-  allTimeHighUSD: number;
-  circulatingSupply: number;
-  totalSupply: number;
-  maxSupply: number;
-  links: Links;
-  history: IHistory[];
+  exchanges?: number;
+  markets?: number;
+  pairs?: number;
+  categories?: any[];
+  allTimeHighUSD?: number;
+  circulatingSupply?: number;
+  totalSupply?: number;
+  maxSupply?: number;
+  links?: Links;
+  history?: IHistory[];
 }
 
 export interface Links {
@@ -94,4 +94,10 @@ export interface Delta {
   month: number;
   quarter?: number;
   year?: number;
+}
+
+//-----------------------
+export interface IHistoricCoinPrices {
+  date: string;
+  price: string;
 }

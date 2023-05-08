@@ -17,18 +17,23 @@ import {
   setId,
   setVsCurrency,
 } from '../../store/features/coins/marketChartSlice';
+
+import { setCurrentCoin } from '../../store/features/coinsFeature/coinsSlice';
 import SelectPeriod from './SelectPeriod';
 import StarIcon from '@mui/icons-material/Star';
 
-import { setCurrentCoin } from '../../store/features/coins/currentCoinSlice';
 import Period from './Period';
 
 const ChartHeader = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const id = useAppSelector((state) => state.marketChart.id);
-  const vsCurrency = useAppSelector((state) => state.marketChart.vsCurrency);
-  const currentCoin = useAppSelector((state) => state.currentCoin.currentCoin);
+
+  const code = useAppSelector((state) => state.coins.code);
+  const currency = useAppSelector((state) => state.coins.currency);
+  const start = useAppSelector((state) => state.coins.start);
+  const end = useAppSelector((state) => state.coins.end);
+  const currentCoin = useAppSelector((state) => state.coins.currentCoin);
+
   const dispatch = useAppDispatch();
 
   return (
@@ -69,8 +74,8 @@ const ChartHeader = () => {
           <img
             width={25}
             height={25}
-            src={currentCoin?.image}
-            alt={currentCoin?.symbol}
+            src={currentCoin?.webp64}
+            alt={currentCoin?.name}
           />
 
           <span>{currentCoin?.name}</span>

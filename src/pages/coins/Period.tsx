@@ -31,6 +31,10 @@ const periods = [
 const Period = () => {
   const [activeItem, setActiveItem] = useState('D');
 
+  const handleItemClick = (text: string) => {
+    setActiveItem(text);
+  };
+
   return (
     <List
       sx={{
@@ -54,7 +58,7 @@ const Period = () => {
           }}
           key={el.text}
           disablePadding
-          onClick={() => setActiveItem(el.text)}
+          onClick={() => handleItemClick(el.text)}
         >
           {el.text}
         </ListItem>

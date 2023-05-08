@@ -18,10 +18,9 @@ const Coins = () => {
         }}
       >
         <Chart />
-        {/* <Trending /> */}
       </Box>
 
-      <BasicTable />
+      {/* <BasicTable /> */}
     </Stack>
   );
 };

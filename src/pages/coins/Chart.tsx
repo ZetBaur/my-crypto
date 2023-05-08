@@ -14,40 +14,49 @@ import { Box, CircularProgress } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { tokens } from '../../contexts/themeContext';
 import { useAppSelector } from '../../hooks/reduxHook';
-import { useLazyFetchMarketChartQuery } from '../../store/features/coins/coinsApi';
-import { IHistoricCoinPrices } from '../../model/coinsTypes';
+import { useLazyFetchCoinsSingleHistoryQuery } from '../../store/features/coinsFeature/coinsApi';
+import { IHistoricCoinPrices, IHistory } from '../../model/liveCoinWatchTypes';
+import { setCurrentCoin } from '../../store/features/coinsFeature/coinsSlice';
 
 const Chart = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const id = useAppSelector((state) => state.marketChart.id);
-  const vsCurrency = useAppSelector((state) => state.marketChart.vsCurrency);
-  const days = useAppSelector((state) => state.marketChart.days);
-  const interval = useAppSelector((state) => state.marketChart.interval);
+
+  const code = useAppSelector((state) => state.coins.code);
+  const currency = useAppSelector((state) => state.coins.currency);
+  const start = useAppSelector((state) => state.coins.start);
+  const end = useAppSelector((state) => state.coins.end);
+
   const [prices, setPrices] = useState<IHistoricCoinPrices[]>();
 
-  const [fetchMarketChart, { isError, isFetching, isSuccess, data }] =
-    useLazyFetchMarketChartQuery();
+  const [fetchChart, { isError, isFetching, isSuccess, data }] =
+    useLazyFetchCoinsSingleHistoryQuery();
 
   useEffect(() => {
     const params = {
-      id,
-      vsCurrency,
-      days,
-      interval,
+      code,
+      currency,
+      start,
+      end,
+      meta: true,
     };
-    if (id) fetchMarketChart(params);
-  }, [id, vsCurrency, days, interval]);
+    if (code) fetchChart(params);
+  }, [currency, code, start, end]);
 
   useEffect(() => {
-    const arr = data?.prices.map((el: number[]) => {
-      return {
-        date: moment(el[0]).format('MMM DD'),
-        price: el[1].toFixed(7),
-      };
-    });
-    setPrices(arr);
-  }, [data]);
+    console.log('data', data);
+
+    if (data) {
+      const arr = data.history?.map((el: IHistory) => {
+        return {
+          date: moment(el.date).format('MMM DD'),
+          price: el.rate.toFixed(7),
+        };
+      });
+      setCurrentCoin(data);
+      setPrices(arr);
+    }
+  }, [isSuccess]);
 
   return (
     <Box
@@ -59,6 +68,7 @@ const Chart = () => {
         display: 'flex',
         flexDirection: 'column',
         padding: '1rem',
+        minHeight: '400px',
       }}
     >
       <ChartHeader />

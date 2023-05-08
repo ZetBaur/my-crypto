@@ -18,8 +18,7 @@ import {
   setVsCurrency,
 } from '../../store/features/coins/marketChartSlice';
 import SelectPeriod from './SelectPeriod';
-// import SelectInterval from './SelectInterval';
-// import { useLazyFetchCoinByIdQuery } from '../../store/features/coins/coinsApi';
+
 import { setCurrentCoin } from '../../store/features/coins/currentCoinSlice';
 
 const ChartHeader = () => {
@@ -33,7 +32,10 @@ const ChartHeader = () => {
   return (
     <Box
       sx={{
-        padding: '1rem',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: '1rem',
       }}
     >
       <Box
@@ -41,7 +43,6 @@ const ChartHeader = () => {
           display: 'flex',
           gap: '1rem',
           alignItems: 'center',
-          marginBottom: '1rem',
         }}
       >
         <Box
@@ -65,79 +66,44 @@ const ChartHeader = () => {
           <span>{currentCoin?.name}</span>
         </Box>
 
-        {/* <Box
-          component='form'
+        <SelectPeriod />
+      </Box>
+
+      <FormControl size='small' variant='outlined'>
+        <Select
+          value={vsCurrency}
+          onChange={(e) => dispatch(setVsCurrency(e.target.value))}
           sx={{
-            background: theme.palette.background.paper,
-            display: 'flex',
-            borderRadius: '4px',
-            flex: 1,
+            width: '100px',
+            '& .MuiSvgIcon-root': {
+              fill: 'yellow',
+            },
           }}
         >
-          <Autocomplete
-            size='small'
-            fullWidth
-            freeSolo
-            options={coinList.map((option) => option.id)}
-            value={id}
-            onChange={(event, newCoin: string | null) =>
-              dispatch(setId(newCoin))
-            }
-            sx={{
-              background: '#000000',
-            }}
-            renderInput={(params) => (
-              <TextField {...params} placeholder='Search Coin' />
-            )}
-          />
-        </Box> */}
-
-        <FormControl size='small' variant='outlined'>
-          <Select
-            value={vsCurrency}
-            onChange={(e) => dispatch(setVsCurrency(e.target.value))}
-            sx={{
-              width: '100px',
-              '& .MuiSvgIcon-root': {
-                fill: 'yellow',
-              },
-            }}
-          >
-            {currencies.map((el) => {
-              return (
-                <MenuItem key={el.code} value={el.code}>
+          {currencies.map((el) => {
+            return (
+              <MenuItem key={el.code} value={el.code}>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    gap: '8px',
+                  }}
+                >
                   <Box
                     sx={{
-                      display: 'flex',
-                      gap: '8px',
+                      color: '#4688E4',
                     }}
                   >
-                    <Box
-                      sx={{
-                        color: '#4688E4',
-                      }}
-                    >
-                      {el.symbolNative}
-                    </Box>
-
-                    <Box>{el.code}</Box>
+                    {el.symbolNative}
                   </Box>
-                </MenuItem>
-              );
-            })}
-          </Select>
-        </FormControl>
-      </Box>
 
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-        }}
-      >
-        <SelectPeriod />
-        {/* <SelectInterval /> */}
-      </Box>
+                  <Box>{el.code}</Box>
+                </Box>
+              </MenuItem>
+            );
+          })}
+        </Select>
+      </FormControl>
     </Box>
   );
 };

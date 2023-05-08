@@ -58,6 +58,7 @@ const Chart = () => {
         flex: '1',
         display: 'flex',
         flexDirection: 'column',
+        padding: '1rem',
       }}
     >
       <ChartHeader />

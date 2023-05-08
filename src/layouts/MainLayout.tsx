@@ -7,7 +7,7 @@ import IconButton from '@mui/material/IconButton';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { AppHeader, Navbar } from '../components';
 import { Outlet } from 'react-router-dom';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { ColorModeContext, tokens } from '../contexts/themeContext';
 
 const drawerWidth = 240;

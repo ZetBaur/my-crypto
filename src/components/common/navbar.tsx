@@ -12,6 +12,7 @@ import MailIcon from '@mui/icons-material/Mail';
 import { tokens } from '../../contexts/themeContext';
 import { useTheme } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
+import Coins from '../../pages/coins/Coins';
 
 interface IProps {
   open: boolean;
@@ -19,8 +20,14 @@ interface IProps {
 
 const listItems = [
   {
-    text: 'Dashboard',
+    text: 'Coins',
     path: '',
+    icon: <InboxIcon />,
+  },
+
+  {
+    text: 'Dashboard',
+    path: 'dashboard',
     icon: <InboxIcon />,
   },
 

@@ -23,9 +23,9 @@ const Dashboard = () => {
         <Trending />
       </Box>
 
-      {/* <TableLiveCoin /> */}
+      <TableLiveCoin />
 
-      <Table />
+      {/* <Table /> */}
     </Stack>
   );
 };

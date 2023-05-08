@@ -7,6 +7,7 @@ import Binance from './pages/dashboard/Binance';
 import BinanceWS from './pages/binance/BinanceWS';
 import BinanceRest from './pages/binance/BinanceRest';
 import LiveCoinWatchRest from './pages/livecoinwatch/LiveCoinWatchRest';
+import Coins from './pages/coins/Coins';
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -19,7 +20,10 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path='/' element={<MainLayout />}>
-              <Route index element={<Dashboard />} />
+              <Route index element={<Coins />} />
+
+              <Route path='dashboard' element={<Dashboard />} />
+
               <Route path='/binance' element={<Binance />} />
               <Route path='/binancews' element={<BinanceWS />} />
               <Route path='/binancerest' element={<BinanceRest />} />

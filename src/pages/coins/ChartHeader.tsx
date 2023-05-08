@@ -18,8 +18,10 @@ import {
   setVsCurrency,
 } from '../../store/features/coins/marketChartSlice';
 import SelectPeriod from './SelectPeriod';
+import StarIcon from '@mui/icons-material/Star';
 
 import { setCurrentCoin } from '../../store/features/coins/currentCoinSlice';
+import Period from './Period';
 
 const ChartHeader = () => {
   const theme = useTheme();
@@ -33,8 +35,9 @@ const ChartHeader = () => {
     <Box
       sx={{
         display: 'flex',
-        justifyContent: 'space-between',
+        gap: '1rem',
         alignItems: 'center',
+        justifyContent: 'space-between',
         marginBottom: '1rem',
       }}
     >
@@ -45,6 +48,13 @@ const ChartHeader = () => {
           alignItems: 'center',
         }}
       >
+        <StarIcon
+          sx={{
+            cursor: 'pointer',
+            // color: () => iconColor(el),
+          }}
+        />
+
         <Box
           sx={{
             display: 'flex',
@@ -65,45 +75,9 @@ const ChartHeader = () => {
 
           <span>{currentCoin?.name}</span>
         </Box>
-
-        <SelectPeriod />
       </Box>
 
-      <FormControl size='small' variant='outlined'>
-        <Select
-          value={vsCurrency}
-          onChange={(e) => dispatch(setVsCurrency(e.target.value))}
-          sx={{
-            width: '100px',
-            '& .MuiSvgIcon-root': {
-              fill: 'yellow',
-            },
-          }}
-        >
-          {currencies.map((el) => {
-            return (
-              <MenuItem key={el.code} value={el.code}>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    gap: '8px',
-                  }}
-                >
-                  <Box
-                    sx={{
-                      color: '#4688E4',
-                    }}
-                  >
-                    {el.symbolNative}
-                  </Box>
-
-                  <Box>{el.code}</Box>
-                </Box>
-              </MenuItem>
-            );
-          })}
-        </Select>
-      </FormControl>
+      <Period />
     </Box>
   );
 };

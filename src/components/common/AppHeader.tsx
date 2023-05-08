@@ -7,6 +7,9 @@ import {
   InputBase,
   Autocomplete,
   TextField,
+  FormControl,
+  Select,
+  MenuItem,
 } from '@mui/material';
 import { ColorModeContext, tokens } from '../../contexts/themeContext';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -22,13 +25,14 @@ import {
   setId,
   setVsCurrency,
 } from '../../store/features/coins/marketChartSlice';
+import { currencies } from '../../data/currencies';
 
 interface IProps {
   open: boolean;
   handleDrawerOpen: () => void;
 }
 
-const Header = ({ open, handleDrawerOpen }: IProps) => {
+const AppHeader = ({ open, handleDrawerOpen }: IProps) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const colorMode = useContext(ColorModeContext);
@@ -50,23 +54,6 @@ const Header = ({ open, handleDrawerOpen }: IProps) => {
           <MenuIcon />
         </IconButton>
       )}
-
-      {/* <Box
-        sx={{
-          background: colors.secondary.DEFAULT,
-          display: 'flex',
-          borderRadius: '4px',
-          flex: 1,
-          border: `1px solid ${colors.borderColor}`,
-          marginRight: '1rem',
-        }}
-      >
-        <InputBase sx={{ ml: 2, flex: 1 }} placeholder='Search' />
-
-        <IconButton type='button' sx={{ p: 1 }}>
-          <SearchIcon />
-        </IconButton>
-      </Box> */}
 
       <Box
         component='form'
@@ -93,6 +80,42 @@ const Header = ({ open, handleDrawerOpen }: IProps) => {
         />
       </Box>
 
+      <FormControl size='small' variant='outlined'>
+        <Select
+          value={vsCurrency}
+          onChange={(e) => dispatch(setVsCurrency(e.target.value))}
+          sx={{
+            width: '100px',
+            '& .MuiSvgIcon-root': {
+              fill: 'yellow',
+            },
+          }}
+        >
+          {currencies.map((el) => {
+            return (
+              <MenuItem key={el.code} value={el.code}>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    gap: '8px',
+                  }}
+                >
+                  <Box
+                    sx={{
+                      color: '#4688E4',
+                    }}
+                  >
+                    {el.symbolNative}
+                  </Box>
+
+                  <Box>{el.code}</Box>
+                </Box>
+              </MenuItem>
+            );
+          })}
+        </Select>
+      </FormControl>
+
       <Box display='flex'>
         <IconButton onClick={colorMode.toggleColorMode}>
           {theme.palette.mode === 'dark' ? (
@@ -117,4 +140,4 @@ const Header = ({ open, handleDrawerOpen }: IProps) => {
     </Toolbar>
   );
 };
-export default Header;
+export default AppHeader;

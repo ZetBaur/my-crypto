@@ -50,12 +50,6 @@ export default function SelectedPeriod() {
     },
   ];
 
-  const handleDisable = (el: { value: string; text: string }) => {
-    if ((el.value === '180' || el.value === '360') && interval === 'hourly') {
-      return true;
-    }
-  };
-
   return (
     <FormControl>
       <RadioGroup
@@ -68,7 +62,6 @@ export default function SelectedPeriod() {
           <FormControlLabel
             key={el.value}
             value={el.value}
-            disabled={handleDisable(el)}
             sx={{
               background: days === el.value ? '#4688E4' : 'black',
               border: `1px solid ${days === el.value ? '#4688E4' : 'black'}`,

@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ICoinData, IMarkets } from '../../../model/coinsTypes';
 import moment from 'moment';
 import { ICoinsSingleHistory } from '../../../model/liveCoinWatchTypes';
 

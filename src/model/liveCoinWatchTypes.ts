@@ -101,3 +101,10 @@ export interface IHistoricCoinPrices {
   date: string;
   price: string;
 }
+
+//----------
+
+export interface IPlarformsAll {
+  code: string;
+  name: string;
+}

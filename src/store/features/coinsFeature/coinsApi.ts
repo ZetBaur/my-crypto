@@ -42,7 +42,7 @@ export const coinsApi = createApi({
       },
     }),
 
-    // list of all coins
+    // list of all coins   ----   /platforms/all
     fetchPlatformsAll: build.query<ICoinsList[], void>({
       query: () => {
         return {

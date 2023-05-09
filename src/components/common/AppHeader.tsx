@@ -29,6 +29,7 @@ import { currencies } from '../../data/currencies';
 import { useFetchPlatformsAllQuery } from '../../store/features/coinsFeature/coinsApi';
 import { setCode } from '../../store/features/coinsFeature/coinsSlice';
 import { getUniqueElements } from '../../hooks/getUniqueElements';
+import { IPlarformsAll } from '../../model/liveCoinWatchTypes';
 
 interface IProps {
   open: boolean;
@@ -44,13 +45,15 @@ const AppHeader = ({ open, handleDrawerOpen }: IProps) => {
   // const name = useAppSelector((state) => state.coins.code);
 
   const vsCurrency = useAppSelector((state) => state.marketChart.vsCurrency);
-  const [coins, setCoins] = useState<string[]>([]);
+  const [coins, setCoins] = useState<IPlarformsAll[]>([]);
   const { data: coinsList } = useFetchPlatformsAllQuery();
 
   useEffect(() => {
     if (coinsList) {
       const newArr = getUniqueElements(coinsList, 'name');
-      setCoins(newArr?.map((el: { name: string }) => el.name));
+
+      console.log('newArr', newArr);
+      setCoins(newArr);
     }
   }, [coinsList]);
 
@@ -83,7 +86,7 @@ const AppHeader = ({ open, handleDrawerOpen }: IProps) => {
           size='small'
           fullWidth
           freeSolo
-          options={coins}
+          options={coins.map((el) => el.name)}
           value={code}
           onChange={(event, newCoin: string | null) => {
             console.log(newCoin);

@@ -52,10 +52,14 @@ const AppHeader = ({ open, handleDrawerOpen }: IProps) => {
     if (coinsList) {
       const newArr = getUniqueElements(coinsList, 'name');
 
-      console.log('newArr', newArr);
       setCoins(newArr);
     }
   }, [coinsList]);
+
+  const handleSelectCoin = (newCoin: string | null) => {
+    const coin = coins.find((el) => el.name === newCoin);
+    if (coin) dispatch(setCode(coin?.code));
+  };
 
   return (
     <Toolbar>
@@ -88,11 +92,9 @@ const AppHeader = ({ open, handleDrawerOpen }: IProps) => {
           freeSolo
           options={coins.map((el) => el.name)}
           value={code}
-          onChange={(event, newCoin: string | null) => {
-            console.log(newCoin);
-
-            dispatch(setCode(newCoin));
-          }}
+          onChange={(event, newCoin: string | null) =>
+            handleSelectCoin(newCoin)
+          }
           sx={{
             background: '#000000',
           }}

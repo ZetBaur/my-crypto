@@ -11,23 +11,25 @@ interface IInitialState {
 
   portfolio: string[];
 
-  currentCoin: ICoinsSingleHistory;
+  currentCoin: ICoinsSingleHistory | null;
 }
 
 const initialState: IInitialState = {
-  code: 'Bitcoin',
+  code: 'BTC',
   currency: 'USD',
   start: new Date(moment().subtract(7, 'days').calendar()).getTime(),
   end: Date.parse(moment().format('LL')),
 
   portfolio: [],
 
-  currentCoin: {
-    code: 'BTC',
-    name: 'Bitcoin',
-    webp64:
-      'https://lcw.nyc3.cdn.digitaloceanspaces.com/production/currencies/64/btc.webp',
-  },
+  currentCoin: null,
+
+  //   currentCoin: {
+  //     code: 'BTC',
+  //     name: 'Bitcoin',
+  //     webp64:
+  //       'https://lcw.nyc3.cdn.digitaloceanspaces.com/production/currencies/64/btc.webp',
+  //   },
 };
 
 //-------------------------------------------------------------------------------

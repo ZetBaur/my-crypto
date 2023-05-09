@@ -19,7 +19,6 @@ import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
 import SearchIcon from '@mui/icons-material/Search';
-// import { coinList } from '../../data/coinList';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
 import {
   setId,
@@ -42,7 +41,7 @@ const AppHeader = ({ open, handleDrawerOpen }: IProps) => {
   const colorMode = useContext(ColorModeContext);
   const dispatch = useAppDispatch();
   const code = useAppSelector((state) => state.coins.code);
-  // const name = useAppSelector((state) => state.coins.code);
+  const currentCoin = useAppSelector((state) => state.coins.currentCoin);
 
   const vsCurrency = useAppSelector((state) => state.marketChart.vsCurrency);
   const [coins, setCoins] = useState<IPlarformsAll[]>([]);
@@ -51,7 +50,6 @@ const AppHeader = ({ open, handleDrawerOpen }: IProps) => {
   useEffect(() => {
     if (coinsList) {
       const newArr = getUniqueElements(coinsList, 'name');
-
       setCoins(newArr);
     }
   }, [coinsList]);
@@ -91,7 +89,7 @@ const AppHeader = ({ open, handleDrawerOpen }: IProps) => {
           fullWidth
           freeSolo
           options={coins.map((el) => el.name)}
-          value={code}
+          value={currentCoin.name}
           onChange={(event, newCoin: string | null) =>
             handleSelectCoin(newCoin)
           }

@@ -55,6 +55,7 @@ export const coinsApi = createApi({
 });
 
 export const {
+  useFetchCoinsSingleHistoryQuery,
   useLazyFetchCoinsSingleHistoryQuery,
   useFetchPlatformsAllQuery,
 } = coinsApi;

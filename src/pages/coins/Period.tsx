@@ -31,7 +31,7 @@ const periods = [
 ];
 
 const Period = () => {
-  const [activeItem, setActiveItem] = useState('W');
+  const [activeItem, setActiveItem] = useState('D');
   const dispatch = useAppDispatch();
 
   const handleItemClick = (el: { value: number; text: string }) => {

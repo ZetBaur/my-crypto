@@ -15,9 +15,9 @@ export interface ICoinsSingleHistory {
   rank?: number;
   age?: number;
   color?: string;
-  png32?: string;
-  png64?: string;
-  webp32?: string;
+  png32: string;
+  png64: string;
+  webp32: string;
   webp64: string;
   exchanges?: number;
   markets?: number;
@@ -99,7 +99,7 @@ export interface Delta {
 //-----------------------
 export interface IHistoricCoinPrices {
   date: string;
-  price: string;
+  price: number;
 }
 
 //----------

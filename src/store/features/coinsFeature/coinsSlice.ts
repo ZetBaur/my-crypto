@@ -4,32 +4,37 @@ import moment from 'moment';
 import { ICoinsSingleHistory } from '../../../model/liveCoinWatchTypes';
 
 interface IInitialState {
-  code: string | null;
+  code: string;
   currency: string;
   start: number;
   end: number;
 
   portfolio: string[];
 
-  currentCoin: ICoinsSingleHistory | null;
+  currentCoin: ICoinsSingleHistory;
 }
 
 const initialState: IInitialState = {
   code: 'BTC',
   currency: 'USD',
-  start: new Date(moment().subtract(7, 'days').calendar()).getTime(),
+
+  start: new Date(moment().subtract(1, 'days').format()).getTime(),
   end: Date.parse(moment().format('LL')),
 
   portfolio: [],
 
-  currentCoin: null,
-
-  //   currentCoin: {
-  //     code: 'BTC',
-  //     name: 'Bitcoin',
-  //     webp64:
-  //       'https://lcw.nyc3.cdn.digitaloceanspaces.com/production/currencies/64/btc.webp',
-  //   },
+  currentCoin: {
+    code: 'BTC',
+    name: 'Bitcoin',
+    png32:
+      'https://lcw.nyc3.cdn.digitaloceanspaces.com/production/currencies/32/btc.png',
+    png64:
+      'https://lcw.nyc3.cdn.digitaloceanspaces.com/production/currencies/64/btc.png',
+    webp32:
+      'https://lcw.nyc3.cdn.digitaloceanspaces.com/production/currencies/32/btc.webp',
+    webp64:
+      'https://lcw.nyc3.cdn.digitaloceanspaces.com/production/currencies/64/btc.webp',
+  },
 };
 
 //-------------------------------------------------------------------------------
@@ -38,7 +43,7 @@ export const coinsSlice = createSlice({
   name: 'coins',
   initialState,
   reducers: {
-    setCode(state, action: PayloadAction<string | null>) {
+    setCode(state, action: PayloadAction<string>) {
       state.code = action.payload;
     },
 

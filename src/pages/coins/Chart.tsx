@@ -13,14 +13,19 @@ import {
 import { Box, CircularProgress } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { tokens } from '../../contexts/themeContext';
-import { useAppSelector } from '../../hooks/reduxHook';
-import { useLazyFetchCoinsSingleHistoryQuery } from '../../store/features/coinsFeature/coinsApi';
+import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
+import {
+  useLazyFetchCoinsSingleHistoryQuery,
+  useFetchCoinsSingleHistoryQuery,
+} from '../../store/features/coinsFeature/coinsApi';
 import { IHistoricCoinPrices, IHistory } from '../../model/liveCoinWatchTypes';
 import { setCurrentCoin } from '../../store/features/coinsFeature/coinsSlice';
 
 const Chart = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+  const dispatch = useAppDispatch();
 
   const code = useAppSelector((state) => state.coins.code);
   const currency = useAppSelector((state) => state.coins.currency);
@@ -49,10 +54,10 @@ const Chart = () => {
       const arr = data.history?.map((el: IHistory) => {
         return {
           date: moment(el.date).format('MMM DD'),
-          price: el.rate.toFixed(7),
+          price: el.rate,
         };
       });
-      setCurrentCoin(data);
+      dispatch(setCurrentCoin(data));
       setPrices(arr);
     }
   }, [data]);

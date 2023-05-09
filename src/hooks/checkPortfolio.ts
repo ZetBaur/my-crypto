@@ -1,3 +1,6 @@
-export const useCheckPortfolio = (code: string, portfolio: string[]) => {
-  return portfolio.some((item) => item === code);
+export const useCheckPortfolio = (
+  code: string | undefined,
+  portfolio: string[]
+) => {
+  if (code) return portfolio.some((item) => item === code);
 };

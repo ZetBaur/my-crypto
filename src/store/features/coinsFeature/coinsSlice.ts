@@ -41,7 +41,6 @@ export const coinsSlice = createSlice({
     },
 
     setStart(state, action: PayloadAction<number>) {
-      console.log('action', action);
       state.start = action.payload;
     },
 
@@ -50,7 +49,6 @@ export const coinsSlice = createSlice({
     },
 
     setCurrentCoin(state, action: PayloadAction<ICoinsSingleHistory>) {
-      console.log('action', action);
       state.currentCoin = action.payload;
     },
   },

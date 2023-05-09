@@ -38,7 +38,7 @@ const Period = () => {
     setActiveItem(el.text);
 
     const start = new Date(
-      moment().subtract(el.value, 'days').format('YYYY-MM-DD')
+      moment().subtract(el.value, 'days').format()
     ).getTime();
 
     dispatch(setStart(start));

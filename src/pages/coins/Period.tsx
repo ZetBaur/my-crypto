@@ -1,7 +1,7 @@
 import { List, ListItem } from '@mui/material';
 import React, { useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
-import { setStart, setEnd } from '../../store/features/coinsFeature/coinsSlice';
+import { useAppDispatch } from '../../hooks/reduxHook';
+import { setStart } from '../../store/features/coinsFeature/coinsSlice';
 import moment from 'moment';
 const periods = [
   {

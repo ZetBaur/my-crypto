@@ -14,10 +14,7 @@ import { Box, CircularProgress } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { tokens } from '../../contexts/themeContext';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
-import {
-  useLazyFetchCoinsSingleHistoryQuery,
-  useFetchCoinsSingleHistoryQuery,
-} from '../../store/features/coinsFeature/coinsApi';
+import { useLazyFetchCoinsSingleHistoryQuery } from '../../store/features/coinsFeature/coinsApi';
 import { IHistoricCoinPrices, IHistory } from '../../model/liveCoinWatchTypes';
 import { setCurrentCoin } from '../../store/features/coinsFeature/coinsSlice';
 

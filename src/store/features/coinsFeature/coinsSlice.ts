@@ -40,7 +40,8 @@ export const coinsSlice = createSlice({
       state.currency = action.payload;
     },
 
-    setStartr(state, action: PayloadAction<number>) {
+    setStart(state, action: PayloadAction<number>) {
+      console.log('action', action);
       state.start = action.payload;
     },
 
@@ -55,5 +56,6 @@ export const coinsSlice = createSlice({
   },
 });
 
-export const { setCurrentCoin } = coinsSlice.actions;
+export const { setCurrentCoin, setStart, setEnd, setCode, setCurrency } =
+  coinsSlice.actions;
 export default coinsSlice.reducer;

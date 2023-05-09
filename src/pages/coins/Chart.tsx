@@ -40,12 +40,10 @@ const Chart = () => {
       end,
       meta: true,
     };
-    if (code) fetchChart(params);
-  }, [currency, code, start, end]);
+    fetchChart(params);
+  }, [currency, code, start]);
 
   useEffect(() => {
-    console.log('data', data);
-
     if (data) {
       const arr = data.history?.map((el: IHistory) => {
         return {
@@ -56,7 +54,7 @@ const Chart = () => {
       setCurrentCoin(data);
       setPrices(arr);
     }
-  }, [isSuccess]);
+  }, [data]);
 
   return (
     <Box

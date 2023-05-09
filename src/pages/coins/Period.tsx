@@ -1,38 +1,47 @@
 import { List, ListItem } from '@mui/material';
 import React, { useState } from 'react';
-
+import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
+import { setStart, setEnd } from '../../store/features/coinsFeature/coinsSlice';
+import moment from 'moment';
 const periods = [
   {
-    value: '1',
+    value: 1,
     text: 'D',
   },
   {
-    value: '7',
+    value: 7,
     text: 'W',
   },
   {
-    value: '30',
+    value: 30,
     text: 'M',
   },
   {
-    value: '90',
+    value: 90,
     text: '3M',
   },
   {
-    value: '180',
+    value: 180,
     text: '6M',
   },
   {
-    value: '360',
+    value: 360,
     text: '12M',
   },
 ];
 
 const Period = () => {
-  const [activeItem, setActiveItem] = useState('D');
+  const [activeItem, setActiveItem] = useState('W');
+  const dispatch = useAppDispatch();
 
-  const handleItemClick = (text: string) => {
-    setActiveItem(text);
+  const handleItemClick = (el: { value: number; text: string }) => {
+    setActiveItem(el.text);
+
+    const start = new Date(
+      moment().subtract(el.value, 'days').format('YYYY-MM-DD')
+    ).getTime();
+
+    dispatch(setStart(start));
   };
 
   return (
@@ -58,7 +67,7 @@ const Period = () => {
           }}
           key={el.text}
           disablePadding
-          onClick={() => handleItemClick(el.text)}
+          onClick={() => handleItemClick(el)}
         >
           {el.text}
         </ListItem>

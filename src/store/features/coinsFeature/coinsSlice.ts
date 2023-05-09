@@ -4,7 +4,7 @@ import moment from 'moment';
 import { ICoinsSingleHistory } from '../../../model/liveCoinWatchTypes';
 
 interface IInitialState {
-  code: string;
+  code: string | null;
   currency: string;
   start: number;
   end: number;
@@ -15,7 +15,7 @@ interface IInitialState {
 }
 
 const initialState: IInitialState = {
-  code: 'BTC',
+  code: 'Bitcoin',
   currency: 'USD',
   start: new Date(moment().subtract(7, 'days').calendar()).getTime(),
   end: Date.parse(moment().format('LL')),
@@ -36,7 +36,7 @@ export const coinsSlice = createSlice({
   name: 'coins',
   initialState,
   reducers: {
-    setCode(state, action: PayloadAction<string>) {
+    setCode(state, action: PayloadAction<string | null>) {
       state.code = action.payload;
     },
 

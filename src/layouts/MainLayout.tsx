@@ -128,7 +128,11 @@ export default function MiniDrawer() {
 
       <Box
         component='main'
-        sx={{ flexGrow: 1, p: 4, background: colors.content.DEFAULT }}
+        sx={{
+          flexGrow: 1,
+          padding: '2rem',
+          background: colors.content.DEFAULT,
+        }}
       >
         <DrawerHeader />
 

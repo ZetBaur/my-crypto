@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import {
   Box,
   IconButton,
@@ -19,13 +19,16 @@ import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
 import SearchIcon from '@mui/icons-material/Search';
-import { coinList } from '../../data/coinList';
+// import { coinList } from '../../data/coinList';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
 import {
   setId,
   setVsCurrency,
 } from '../../store/features/coins/marketChartSlice';
 import { currencies } from '../../data/currencies';
+import { useFetchPlatformsAllQuery } from '../../store/features/coinsFeature/coinsApi';
+import { setCode } from '../../store/features/coinsFeature/coinsSlice';
+import { getUniqueElements } from '../../hooks/getUniqueElements';
 
 interface IProps {
   open: boolean;
@@ -37,8 +40,19 @@ const AppHeader = ({ open, handleDrawerOpen }: IProps) => {
   const colors = tokens(theme.palette.mode);
   const colorMode = useContext(ColorModeContext);
   const dispatch = useAppDispatch();
-  const id = useAppSelector((state) => state.marketChart.id);
+  const code = useAppSelector((state) => state.coins.code);
+  // const name = useAppSelector((state) => state.coins.code);
+
   const vsCurrency = useAppSelector((state) => state.marketChart.vsCurrency);
+  const [coins, setCoins] = useState<string[]>([]);
+  const { data: coinsList } = useFetchPlatformsAllQuery();
+
+  useEffect(() => {
+    if (coinsList) {
+      const newArr = getUniqueElements(coinsList, 'name');
+      setCoins(newArr?.map((el: { name: string }) => el.name));
+    }
+  }, [coinsList]);
 
   return (
     <Toolbar>
@@ -48,7 +62,7 @@ const AppHeader = ({ open, handleDrawerOpen }: IProps) => {
           edge='start'
           color='inherit'
           aria-label='menu'
-          sx={{ mr: 2 }}
+          // sx={{ mr: 2 }}
           onClick={handleDrawerOpen}
         >
           <MenuIcon />
@@ -62,15 +76,20 @@ const AppHeader = ({ open, handleDrawerOpen }: IProps) => {
           display: 'flex',
           borderRadius: '4px',
           flex: 1,
+          marginRight: '1rem',
         }}
       >
         <Autocomplete
           size='small'
           fullWidth
           freeSolo
-          options={coinList.map((option) => option.id)}
-          value={id}
-          onChange={(event, newCoin: string | null) => dispatch(setId(newCoin))}
+          options={coins}
+          value={code}
+          onChange={(event, newCoin: string | null) => {
+            console.log(newCoin);
+
+            dispatch(setCode(newCoin));
+          }}
           sx={{
             background: '#000000',
           }}

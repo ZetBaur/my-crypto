@@ -47,7 +47,6 @@ const Chart = () => {
 
   useEffect(() => {
     if (data) {
-      console.log('data', data);
       const arr = data.history?.map((el: IHistory) => {
         return {
           date: moment(el.date).format('MMM DD'),

@@ -9,7 +9,9 @@ interface IInitialState {
   start: number;
   end: number;
 
-  currentCoin: ICoinsSingleHistory | null;
+  portfolio: string[];
+
+  currentCoin: ICoinsSingleHistory;
 }
 
 const initialState: IInitialState = {
@@ -17,6 +19,8 @@ const initialState: IInitialState = {
   currency: 'USD',
   start: new Date(moment().subtract(7, 'days').calendar()).getTime(),
   end: Date.parse(moment().format('LL')),
+
+  portfolio: [],
 
   currentCoin: {
     code: 'BTC',
@@ -48,12 +52,27 @@ export const coinsSlice = createSlice({
       state.end = action.payload;
     },
 
+    addToPortfolio(state, action: PayloadAction<string>) {
+      state.portfolio.push(action.payload);
+    },
+
+    removeFromPortfolio(state, action: PayloadAction<string>) {
+      state.portfolio = state.portfolio.filter((el) => el !== action.payload);
+    },
+
     setCurrentCoin(state, action: PayloadAction<ICoinsSingleHistory>) {
       state.currentCoin = action.payload;
     },
   },
 });
 
-export const { setCurrentCoin, setStart, setEnd, setCode, setCurrency } =
-  coinsSlice.actions;
+export const {
+  setCurrentCoin,
+  setStart,
+  setEnd,
+  setCode,
+  setCurrency,
+  addToPortfolio,
+  removeFromPortfolio,
+} = coinsSlice.actions;
 export default coinsSlice.reducer;

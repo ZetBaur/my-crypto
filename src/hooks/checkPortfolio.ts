@@ -1,5 +1,3 @@
-import { ICoinData } from '../model/coinsTypes';
-
-export const useCheckPortfolio = (id: string, portfolio: ICoinData[]) => {
-  return portfolio.some((item) => item.id === id);
+export const useCheckPortfolio = (code: string, portfolio: string[]) => {
+  return portfolio.some((item) => item === code);
 };

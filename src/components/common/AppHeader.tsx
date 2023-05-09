@@ -20,10 +20,7 @@ import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
 import SearchIcon from '@mui/icons-material/Search';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
-import {
-  setId,
-  setVsCurrency,
-} from '../../store/features/coins/marketChartSlice';
+import { setCurrency } from '../../store/features/coinsFeature/coinsSlice';
 import { currencies } from '../../data/currencies';
 import { useFetchPlatformsAllQuery } from '../../store/features/coinsFeature/coinsApi';
 import { setCode } from '../../store/features/coinsFeature/coinsSlice';
@@ -43,7 +40,7 @@ const AppHeader = ({ open, handleDrawerOpen }: IProps) => {
   const code = useAppSelector((state) => state.coins.code);
   const currentCoin = useAppSelector((state) => state.coins.currentCoin);
 
-  const vsCurrency = useAppSelector((state) => state.marketChart.vsCurrency);
+  const currency = useAppSelector((state) => state.coins.currency);
   const [coins, setCoins] = useState<IPlarformsAll[]>([]);
   const { data: coinsList } = useFetchPlatformsAllQuery();
 
@@ -104,8 +101,8 @@ const AppHeader = ({ open, handleDrawerOpen }: IProps) => {
 
       <FormControl size='small' variant='outlined'>
         <Select
-          value={vsCurrency}
-          onChange={(e) => dispatch(setVsCurrency(e.target.value))}
+          value={currency}
+          onChange={(e) => dispatch(setCurrency(e.target.value))}
           sx={{
             width: '100px',
             '& .MuiSvgIcon-root': {

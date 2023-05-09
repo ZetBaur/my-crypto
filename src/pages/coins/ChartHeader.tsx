@@ -1,13 +1,8 @@
 import { useEffect } from 'react';
 import { useTheme } from '@mui/material/styles';
 import { tokens } from '../../contexts/themeContext';
-import { currencies } from '../../data/currencies';
 import { Box, Tooltip } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
-import {
-  setId,
-  setVsCurrency,
-} from '../../store/features/coins/marketChartSlice';
 
 import {
   setCurrentCoin,

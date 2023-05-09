@@ -2,17 +2,7 @@ import { useEffect } from 'react';
 import { useTheme } from '@mui/material/styles';
 import { tokens } from '../../contexts/themeContext';
 import { currencies } from '../../data/currencies';
-import {
-  Box,
-  FormControl,
-  MenuItem,
-  Select,
-  Autocomplete,
-  TextField,
-  CircularProgress,
-  Tooltip,
-} from '@mui/material';
-import { coinList } from '../../data/coinList';
+import { Box, Tooltip } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
 import {
   setId,

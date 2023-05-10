@@ -18,7 +18,7 @@ const COLORS = [
   'blue',
   'green',
   'brown',
-  '#FF8042',
+  'gray',
   'red',
   'orange',
   'gray',
@@ -46,20 +46,19 @@ const renderCustomizedLabel = ({
       x={x}
       y={y}
       fill='white'
-      textAnchor='middle'
+      textAnchor={value < 6 ? 'start' : 'middle'}
       dominantBaseline='central'
       style={{
         fontSize: '13px',
       }}
     >
-      {value > 6 && `${value.toFixed(0)}%`}
+      {`${value.toFixed(0)}%`}
     </text>
   );
 };
 
 const Global = () => {
   const [pieData, setPieData] = useState<{ name: string; value: number }[]>();
-
   const { isError, isFetching, isSuccess, data } = useFetchGlobalQuery();
 
   useEffect(() => {
@@ -75,7 +74,15 @@ const Global = () => {
         }
       );
 
-      setPieData(d);
+      setPieData(
+        d.filter(
+          (el) =>
+            el.name === 'btc' ||
+            el.name === 'eth' ||
+            el.name === 'usdt' ||
+            el.name === 'bnb'
+        )
+      );
     }
   }, [data]);
 
@@ -118,7 +125,10 @@ const Global = () => {
               iconType='circle'
               iconSize={4}
               formatter={(value, entry, index) => value.toUpperCase()}
-              align='left'
+              wrapperStyle={{
+                fontSize: '13px',
+              }}
+              layout='horizontal'
             />
           </PieChart>
         </ResponsiveContainer>

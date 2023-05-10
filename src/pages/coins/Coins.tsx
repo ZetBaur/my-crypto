@@ -16,6 +16,7 @@ const Coins = () => {
       <Box
         sx={{
           display: 'flex',
+          flexWrap: 'wrap',
           gap: '1rem',
         }}
       >

@@ -18,7 +18,31 @@ import { useLazyFetchCoinsSingleHistoryQuery } from '../../store/features/coinsF
 import { IHistoricCoinPrices, IHistory } from '../../model/liveCoinWatchTypes';
 import { setCurrentCoin } from '../../store/features/coinsFeature/coinsSlice';
 
-const Chart = () => {
+import Chart from 'react-apexcharts';
+
+// const initialOptionsState = {
+//   options: {
+//     chart: {
+//       id: 'basic-bar',
+//     },
+//     xaxis: {
+//       categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999],
+//     },
+//   },
+// };
+
+// const initialSeriessState = [
+//   {
+//     name: 'series-1',
+//     data: [30, 40, 45, 50, 49, 60, 70, 91],
+//   },
+// ];
+
+const ApexChart = () => {
+  //   const [chartOptions, setChartOptions] = useState(initialOptionsState);
+  //   const [chartSeries, setChartSeries] = useState(initialSeriessState);
+
+  //------------
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -53,7 +77,7 @@ const Chart = () => {
       const arr = data.history?.map((el: IHistory) => {
         return {
           date: moment(el.date).format('MMM DD'),
-          price: el.rate.toFixed(5),
+          price: el.rate,
         };
       });
       dispatch(setCurrentCoin(data));
@@ -61,9 +85,9 @@ const Chart = () => {
     }
   }, [data]);
 
-  useEffect(() => {
-    if (drawer) fetchChart(params);
-  }, [drawer]);
+  //   useEffect(() => {
+  //     if (drawer) fetchChart(params);
+  //   }, [drawer]);
 
   return (
     <Box
@@ -75,10 +99,30 @@ const Chart = () => {
         display: 'flex',
         flexDirection: 'column',
         padding: '1rem 1rem 0 1rem',
-        minHeight: '400px',
+        // minHeight: '400px',
       }}
     >
       <ChartHeader />
+
+      <Chart
+        options={{
+          //   chart: {
+          //     id: 'basic-bar',
+          //   },
+          xaxis: {
+            categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999],
+          },
+        }}
+        series={[
+          {
+            // name: 'series-1',
+            data: [30, 40, 45, 50, 49, 60, 70, 91],
+          },
+        ]}
+        type='area'
+        height='100%'
+        width='100%'
+      />
 
       {!isError && !isFetching && isSuccess && data && (
         <Box
@@ -115,6 +159,7 @@ const Chart = () => {
                 contentStyle={{
                   background: '#000000',
                   color: '#fff',
+                  fontSize: '10px',
                   borderRadius: '5px',
                 }}
                 wrapperStyle={{
@@ -179,4 +224,4 @@ const Chart = () => {
   );
 };
 
-export default Chart;
+export default ApexChart;

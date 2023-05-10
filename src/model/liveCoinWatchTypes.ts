@@ -99,7 +99,7 @@ export interface Delta {
 //-----------------------
 export interface IHistoricCoinPrices {
   date: string;
-  price: number;
+  price: string;
 }
 
 //----------

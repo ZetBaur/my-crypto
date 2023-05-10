@@ -89,7 +89,9 @@ const Global = () => {
   return (
     <Box
       sx={{
-        height: '300px',
+        background: 'black',
+        padding: '1rem',
+        borderRadius: '4px',
       }}
     >
       <Typography component='h4' textAlign='center'>
@@ -100,38 +102,47 @@ const Global = () => {
       </Typography>
 
       {!isError && !isFetching && isSuccess && data && (
-        <ResponsiveContainer width='100%' height='100%'>
-          <PieChart width={200} height={200}>
-            <Pie
-              data={pieData}
-              cx='50%'
-              cy='50%'
-              labelLine={false}
-              label={renderCustomizedLabel}
-              outerRadius={80}
-              fill='#8884d8'
-              dataKey='value'
-            >
-              {pieData &&
-                pieData.map((entry, index) => (
-                  <Cell
-                    key={`cell-${index}`}
-                    fill={COLORS[index % COLORS.length]}
-                  />
-                ))}
-            </Pie>
+        <Box
+          sx={{
+            background: 'black',
+            width: '200px',
+            height: '300px',
+          }}
+        >
+          <ResponsiveContainer width='100%' height='100%'>
+            <PieChart width={200} height={200}>
+              <Pie
+                data={pieData}
+                cx='50%'
+                cy='50%'
+                labelLine={false}
+                label={renderCustomizedLabel}
+                outerRadius={80}
+                fill='#8884d8'
+                dataKey='value'
+              >
+                {pieData &&
+                  pieData.map((entry, index) => (
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={COLORS[index % COLORS.length]}
+                    />
+                  ))}
+              </Pie>
 
-            <Legend
-              iconType='circle'
-              iconSize={4}
-              formatter={(value, entry, index) => value.toUpperCase()}
-              wrapperStyle={{
-                fontSize: '13px',
-              }}
-              layout='horizontal'
-            />
-          </PieChart>
-        </ResponsiveContainer>
+              <Legend
+                iconType='circle'
+                iconSize={4}
+                formatter={(value, entry, index) => value.toUpperCase()}
+                wrapperStyle={{
+                  fontSize: '13px',
+                  // background: 'black',
+                }}
+                layout='horizontal'
+              />
+            </PieChart>
+          </ResponsiveContainer>
+        </Box>
       )}
 
       {isFetching && (

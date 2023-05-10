@@ -6,6 +6,7 @@ import Chart from './Chart';
 import BasicTable from './BasicTable';
 import Global from './Global';
 import CoinInfo from './CoinInfo';
+import ApexChart from './ApexChart';
 
 const Coins = () => {
   const theme = useTheme();
@@ -16,12 +17,13 @@ const Coins = () => {
       <Box
         sx={{
           display: 'flex',
-          flexWrap: 'wrap',
+          // flexWrap: 'wrap',
           gap: '1rem',
         }}
       >
         <Chart />
-        <CoinInfo />
+        {/* <ApexChart /> */}
+        <Global />
       </Box>
     </Stack>
   );

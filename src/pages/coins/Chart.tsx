@@ -67,7 +67,7 @@ const Chart = () => {
         flex: '1',
         display: 'flex',
         flexDirection: 'column',
-        padding: '1rem',
+        padding: '1rem 1rem 0 1rem',
         minHeight: '400px',
       }}
     >

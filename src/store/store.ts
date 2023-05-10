@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
 
 import { coinsApi } from './features/coinsFeature/coinsApi';
+import { coinsGeckoApi } from './features/coinsFeature/coinGeckoApi';
 import coinsSlice from './features/coinsFeature/coinsSlice';
 
 //-------------------------------------------------------------------------
@@ -18,6 +19,7 @@ import portfolioSlice from './features/coins/portfolioSlice';
 export const store = configureStore({
   reducer: {
     [coinsApi.reducerPath]: coinsApi.reducer,
+    [coinsGeckoApi.reducerPath]: coinsGeckoApi.reducer,
     coins: coinsSlice,
 
     //---------------------------------------------------------------------
@@ -34,7 +36,8 @@ export const store = configureStore({
     getDefaultMiddleware()
       .concat(coinsApi.middleware)
       .concat(binanceApi.middleware)
-      .concat(liveCoinWatchApi.middleware),
+      .concat(liveCoinWatchApi.middleware)
+      .concat(coinsGeckoApi.middleware),
 });
 
 setupListeners(store.dispatch);

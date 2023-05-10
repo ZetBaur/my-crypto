@@ -5,6 +5,7 @@ import {
   ICoinsListRequest,
   ICoinsList,
 } from '../../../model/liveCoinWatchTypes';
+import { IGlobal } from '../../../model/coinGeckoTypes';
 
 export const coinsGeckoApi = createApi({
   reducerPath: 'coinsGeckoApi',
@@ -18,7 +19,7 @@ export const coinsGeckoApi = createApi({
 
   endpoints: (build) => ({
     // global------------------------------------------
-    fetchGlobal: build.query<ICoinsSingleHistory, void>({
+    fetchGlobal: build.query<IGlobal, void>({
       query: () => {
         return {
           url: `global`,

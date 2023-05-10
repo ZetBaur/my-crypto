@@ -9,6 +9,8 @@ import { AppHeader, Navbar } from '../components';
 import { Outlet } from 'react-router-dom';
 import { useState } from 'react';
 import { ColorModeContext, tokens } from '../contexts/themeContext';
+import { setDrawer } from '../store/features/coinsFeature/coinsSlice';
+import { useAppDispatch, useAppSelector } from '../hooks/reduxHook';
 
 const drawerWidth = 240;
 
@@ -86,12 +88,16 @@ export default function MiniDrawer() {
   const colors = tokens(theme.palette.mode);
   // const colorMode = useContext(ColorModeContext);
 
+  const dispatch = useAppDispatch();
+
   const handleDrawerOpen = () => {
     setOpen(true);
+    dispatch(setDrawer(true));
   };
 
   const handleDrawerClose = () => {
     setOpen(false);
+    dispatch(setDrawer(false));
   };
 
   return (
@@ -121,8 +127,6 @@ export default function MiniDrawer() {
           </IconButton>
         </DrawerHeader>
 
-        {/* <Divider /> */}
-
         <Navbar open={open} />
       </Drawer>
 
@@ -130,7 +134,7 @@ export default function MiniDrawer() {
         component='main'
         sx={{
           flexGrow: 1,
-          padding: '2rem',
+          padding: '1rem',
           background: colors.content.DEFAULT,
         }}
       >

@@ -29,19 +29,22 @@ const Chart = () => {
   const start = useAppSelector((state) => state.coins.start);
   const end = useAppSelector((state) => state.coins.end);
 
+  const drawer = useAppSelector((state) => state.coins.drawerIsOpen);
+
   const [prices, setPrices] = useState<IHistoricCoinPrices[]>();
 
   const [fetchChart, { isError, isFetching, isSuccess, data }] =
     useLazyFetchCoinsSingleHistoryQuery();
 
+  const params = {
+    code,
+    currency,
+    start,
+    end,
+    meta: true,
+  };
+
   useEffect(() => {
-    const params = {
-      code,
-      currency,
-      start,
-      end,
-      meta: true,
-    };
     fetchChart(params);
   }, [currency, code, start]);
 
@@ -57,6 +60,10 @@ const Chart = () => {
       setPrices(arr);
     }
   }, [data]);
+
+  useEffect(() => {
+    if (drawer) fetchChart(params);
+  }, [drawer]);
 
   return (
     <Box

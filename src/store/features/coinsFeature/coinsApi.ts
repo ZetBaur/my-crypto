@@ -51,6 +51,15 @@ export const coinsApi = createApi({
         };
       },
     }),
+
+    fetchOverview: build.query<ICoinsList[], void>({
+      query: () => {
+        return {
+          url: `overview`,
+          method: 'POST',
+        };
+      },
+    }),
   }),
 });
 
@@ -58,4 +67,5 @@ export const {
   useFetchCoinsSingleHistoryQuery,
   useLazyFetchCoinsSingleHistoryQuery,
   useFetchPlatformsAllQuery,
+  useLazyFetchOverviewQuery,
 } = coinsApi;

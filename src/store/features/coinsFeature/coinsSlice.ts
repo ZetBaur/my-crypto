@@ -11,6 +11,8 @@ interface IInitialState {
   portfolio: string[];
 
   currentCoin: ICoinsSingleHistory;
+
+  drawerIsOpen: boolean | null;
 }
 
 const initialState: IInitialState = {
@@ -21,6 +23,8 @@ const initialState: IInitialState = {
   end: Date.parse(moment().format('LL')),
 
   portfolio: [],
+
+  drawerIsOpen: null,
 
   currentCoin: {
     code: 'BTC',
@@ -69,6 +73,10 @@ export const coinsSlice = createSlice({
     setCurrentCoin(state, action: PayloadAction<ICoinsSingleHistory>) {
       state.currentCoin = action.payload;
     },
+
+    setDrawer(state, action: PayloadAction<boolean>) {
+      state.drawerIsOpen = action.payload;
+    },
   },
 });
 
@@ -80,5 +88,6 @@ export const {
   setCurrency,
   addToPortfolio,
   removeFromPortfolio,
+  setDrawer,
 } = coinsSlice.actions;
 export default coinsSlice.reducer;

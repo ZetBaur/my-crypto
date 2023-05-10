@@ -4,6 +4,7 @@ import { tokens } from '../../contexts/themeContext';
 
 import Chart from './Chart';
 import BasicTable from './BasicTable';
+import Global from './Global';
 
 const Coins = () => {
   const theme = useTheme();
@@ -18,9 +19,8 @@ const Coins = () => {
         }}
       >
         <Chart />
+        <Global />
       </Box>
-
-      {/* <BasicTable /> */}
     </Stack>
   );
 };

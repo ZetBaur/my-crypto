@@ -4,7 +4,6 @@ import {
   IconButton,
   useTheme,
   Toolbar,
-  InputBase,
   Autocomplete,
   TextField,
   FormControl,
@@ -18,7 +17,6 @@ import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
 import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
-import SearchIcon from '@mui/icons-material/Search';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
 import { setCurrency } from '../../store/features/coinsFeature/coinsSlice';
 import { currencies } from '../../data/currencies';
@@ -37,7 +35,7 @@ const AppHeader = ({ open, handleDrawerOpen }: IProps) => {
   const colors = tokens(theme.palette.mode);
   const colorMode = useContext(ColorModeContext);
   const dispatch = useAppDispatch();
-  const code = useAppSelector((state) => state.coins.code);
+  // const code = useAppSelector((state) => state.coins.code);
   const currentCoin = useAppSelector((state) => state.coins.currentCoin);
 
   const currency = useAppSelector((state) => state.coins.currency);

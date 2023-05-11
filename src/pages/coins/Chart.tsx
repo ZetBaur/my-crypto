@@ -129,7 +129,6 @@ const Chart = () => {
         display: 'flex',
         flexDirection: 'column',
         padding: '1rem 1rem 0 1rem',
-        // minHeight: '500px',
       }}
     >
       <ChartHeader />
@@ -138,11 +137,13 @@ const Chart = () => {
         <Box
           sx={{
             flex: '1',
+            display: 'flex',
+            flexDirection: 'column',
           }}
         >
           <Box
             sx={{
-              height: '300px',
+              flex: '1',
             }}
           >
             <ResponsiveContainer width='100%' height='100%'>

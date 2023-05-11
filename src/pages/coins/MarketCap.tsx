@@ -55,10 +55,6 @@ const CustomTooltip = ({
   return null;
 };
 
-const CustomLegend = () => {
-  return <Box>Market Cap</Box>;
-};
-
 const MarketCap = () => {
   const theme = useTheme();
 
@@ -87,12 +83,11 @@ const MarketCap = () => {
   return (
     <Box
       sx={{
-        // height: '100px',
-        flex: '1',
+        height: '120px',
         width: '250px',
         background: 'black',
         borderRadius: '4px',
-        padding: '1rem',
+        padding: '8px',
       }}
     >
       <ResponsiveContainer width='100%' height='100%'>
@@ -113,7 +108,11 @@ const MarketCap = () => {
             content={<CustomTooltip payload={[]} label={''} />}
           />
 
-          <Legend verticalAlign='top' iconSize={0} content={<CustomLegend />} />
+          <Legend
+            verticalAlign='top'
+            iconSize={0}
+            content={<Box>Market Cap</Box>}
+          />
 
           <Area
             type='monotone'

@@ -45,6 +45,7 @@ const AppHeader = ({ open, handleDrawerOpen }: IProps) => {
   useEffect(() => {
     if (coinsList) {
       const newArr = getUniqueElements(coinsList, 'name');
+
       setCoins(newArr);
     }
   }, [coinsList]);

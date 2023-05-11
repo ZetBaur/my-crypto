@@ -44,7 +44,7 @@ const CustomTooltip = ({
       <Box
         sx={{
           display: 'flex',
-          gap: '60px',
+          gap: '80px',
         }}
       >
         <Box>{`${label}`}</Box>
@@ -53,6 +53,10 @@ const CustomTooltip = ({
     );
   }
   return null;
+};
+
+const CustomLegend = () => {
+  return <Box>Market Cap</Box>;
 };
 
 const MarketCap = () => {
@@ -68,6 +72,8 @@ const MarketCap = () => {
   useEffect(() => {
     if (currentCoin) {
       const arr = currentCoin.history?.map((el: IHistory) => {
+        if (!el.cap) return null;
+
         const history = el.cap.toString();
 
         return {
@@ -108,11 +114,7 @@ const MarketCap = () => {
             content={<CustomTooltip payload={[]} label={''} />}
           />
 
-          <Legend
-            verticalAlign='top'
-            iconSize={0}
-            content={<Box>Market Cap</Box>}
-          />
+          <Legend verticalAlign='top' iconSize={0} content={<CustomLegend />} />
 
           <Area
             type='monotone'

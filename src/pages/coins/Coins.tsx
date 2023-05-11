@@ -7,6 +7,7 @@ import BasicTable from './BasicTable';
 import Global from './Global';
 import CoinInfo from './CoinInfo';
 import ApexChart from './ApexChart';
+import MarketCap from './MarketCap';
 
 const Coins = () => {
   const theme = useTheme();
@@ -21,7 +22,17 @@ const Coins = () => {
         }}
       >
         <Chart />
-        <Global />
+
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '1rem',
+          }}
+        >
+          <Global />
+          <MarketCap />
+        </Box>
       </Box>
     </Stack>
   );

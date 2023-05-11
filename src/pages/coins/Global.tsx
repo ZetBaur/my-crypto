@@ -106,7 +106,7 @@ const Global = () => {
           sx={{
             background: 'black',
             width: '200px',
-            height: '200px',
+            height: '250px',
           }}
         >
           <ResponsiveContainer width='100%' height='100%'>

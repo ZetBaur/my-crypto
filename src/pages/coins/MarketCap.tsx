@@ -39,20 +39,19 @@ const CustomTooltip = ({
   label: string;
 }) => {
   if (payload && payload.length) {
+    const v = parseInt(payload[0].value).toLocaleString('fi-FI');
     return (
       <Box
         sx={{
           display: 'flex',
-          gap: '6rem',
-          justifyContent: 'space-between',
+          gap: '60px',
         }}
       >
         <Box>{`${label}`}</Box>
-        <Box>{`${payload[0].value}B`}</Box>
+        <Box>{`${v}B`}</Box>
       </Box>
     );
   }
-
   return null;
 };
 
@@ -88,10 +87,12 @@ const MarketCap = () => {
   return (
     <Box
       sx={{
-        height: '100px',
+        // height: '100px',
+        flex: '1',
         width: '250px',
         background: 'black',
         borderRadius: '4px',
+        padding: '1rem',
       }}
     >
       <ResponsiveContainer width='100%' height='100%'>

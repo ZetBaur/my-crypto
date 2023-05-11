@@ -1,5 +1,6 @@
 import { Box } from '@mui/material';
 import Global from './Global';
+import MarketCap from './MarketCap';
 
 const CoinInfo = () => {
   return (
@@ -7,13 +8,12 @@ const CoinInfo = () => {
       sx={{
         width: '250px',
         background: 'black',
-        padding: '1rem',
+        // padding: '1rem',
         borderRadius: '4px',
         display: 'flex',
-        flexDirection: 'column',
       }}
     >
-      <Global />
+      <MarketCap />
     </Box>
   );
 };

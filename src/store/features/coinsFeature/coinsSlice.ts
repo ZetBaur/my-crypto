@@ -1,6 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import moment from 'moment';
-import { ICoinsSingleHistory } from '../../../model/liveCoinWatchTypes';
+import {
+  ICoinsSingleHistory,
+  IHistory,
+} from '../../../model/liveCoinWatchTypes';
 
 interface IInitialState {
   code: string;
@@ -13,6 +16,8 @@ interface IInitialState {
   currentCoin: ICoinsSingleHistory;
 
   drawerIsOpen: boolean | null;
+
+  // history: IHistory | null;
 }
 
 const initialState: IInitialState = {
@@ -25,6 +30,8 @@ const initialState: IInitialState = {
   portfolio: [],
 
   drawerIsOpen: null,
+
+  // history: null,
 
   currentCoin: {
     code: 'BTC',
@@ -77,6 +84,10 @@ export const coinsSlice = createSlice({
     setDrawer(state, action: PayloadAction<boolean>) {
       state.drawerIsOpen = action.payload;
     },
+
+    // setHistory(state, action: PayloadAction<IHistory>) {
+    //   state.history = action.payload;
+    // },
   },
 });
 
@@ -89,5 +100,6 @@ export const {
   addToPortfolio,
   removeFromPortfolio,
   setDrawer,
+  // setHistory,
 } = coinsSlice.actions;
 export default coinsSlice.reducer;

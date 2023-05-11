@@ -13,18 +13,18 @@ const Coins = () => {
   const colors = tokens(theme.palette.mode);
 
   return (
-    <Stack spacing={4}>
+    <Stack spacing={2}>
       <Box
         sx={{
           display: 'flex',
-          // flexWrap: 'wrap',
           gap: '1rem',
         }}
       >
         <Chart />
-        {/* <ApexChart /> */}
         <Global />
       </Box>
+
+      <CoinInfo />
     </Stack>
   );
 };

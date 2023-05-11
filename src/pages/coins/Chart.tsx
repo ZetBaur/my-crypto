@@ -16,7 +16,10 @@ import { tokens } from '../../contexts/themeContext';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
 import { useLazyFetchCoinsSingleHistoryQuery } from '../../store/features/coinsFeature/coinsApi';
 import { IHistoricCoinPrices, IHistory } from '../../model/liveCoinWatchTypes';
-import { setCurrentCoin } from '../../store/features/coinsFeature/coinsSlice';
+import {
+  setCurrentCoin,
+  // setHistory,
+} from '../../store/features/coinsFeature/coinsSlice';
 
 const Chart = () => {
   const theme = useTheme();
@@ -57,6 +60,7 @@ const Chart = () => {
         };
       });
       dispatch(setCurrentCoin(data));
+      // data.history && dispatch(setHistory(data.history));
       setPrices(arr);
     }
   }, [data]);

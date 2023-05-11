@@ -23,8 +23,6 @@ const Coins = () => {
         <Chart />
         <Global />
       </Box>
-
-      <CoinInfo />
     </Stack>
   );
 };

@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import {
   Area,
   AreaChart,
+  Bar,
+  BarChart,
   Legend,
   ResponsiveContainer,
   Tooltip,
@@ -57,10 +59,10 @@ const CustomTooltip = ({
 };
 
 const CustomLegend = () => {
-  return <Box>Market Cap</Box>;
+  return <Box>Volume</Box>;
 };
 
-const MarketCap = () => {
+const Volume = () => {
   const theme = useTheme();
 
   const colors = tokens(theme.palette.mode);
@@ -73,7 +75,7 @@ const MarketCap = () => {
   useEffect(() => {
     if (currentCoin) {
       const arr = currentCoin.history?.map((el: IHistory) => {
-        const history = el.cap.toString();
+        const history = el.volume.toString();
 
         return {
           date: moment(el.date).format('MMM DD YYYY'),
@@ -95,10 +97,10 @@ const MarketCap = () => {
       }}
     >
       <ResponsiveContainer width='100%' height='100%'>
-        <AreaChart width={500} height={300} data={prices}>
+        <BarChart width={150} height={40} data={prices}>
           <XAxis dataKey='date' hide={true} />
 
-          <YAxis domain={['dataMin', 'dataMax']} tickSize={0} hide={true} />
+          <YAxis tickSize={0} hide={true} />
 
           <Tooltip
             contentStyle={{
@@ -114,19 +116,19 @@ const MarketCap = () => {
 
           <Legend verticalAlign='top' iconSize={0} content={<CustomLegend />} />
 
-          <Area
-            type='monotone'
+          <Bar
+            // type='monotone'
             dataKey='cap'
-            activeDot={{ r: 4 }}
+            // activeDot={{ r: 4 }}
             strokeWidth='0'
-            dot={false}
+            // dot={false}
             fill='gray'
             animationDuration={500}
           />
-        </AreaChart>
+        </BarChart>
       </ResponsiveContainer>
     </Box>
   );
 };
 
-export default MarketCap;
+export default Volume;

@@ -6,10 +6,6 @@ const CoinInfo = () => {
   return (
     <Box
       sx={{
-        // width: '250px',
-        // background: 'black',
-        // padding: '1rem',
-        // borderRadius: '4px',
         display: 'flex',
       }}
     >

@@ -44,6 +44,7 @@ const CustomTooltip = ({
         sx={{
           display: 'flex',
           gap: '6rem',
+          justifyContent: 'space-between',
         }}
       >
         <Box>{`${label}`}</Box>
@@ -68,11 +69,11 @@ const MarketCap = () => {
   useEffect(() => {
     if (currentCoin) {
       const arr = currentCoin.history?.map((el: IHistory) => {
-        const cap = el.cap.toString();
+        const history = el.cap.toString();
 
         return {
           date: moment(el.date).format('MMM DD YYYY'),
-          cap: cap.slice(0, cap.length - 9),
+          cap: history.slice(0, history.length - 9),
         };
       });
 
@@ -88,7 +89,7 @@ const MarketCap = () => {
     <Box
       sx={{
         height: '100px',
-        flex: '1',
+        width: '250px',
         background: 'black',
         borderRadius: '4px',
       }}
@@ -103,11 +104,6 @@ const MarketCap = () => {
             contentStyle={{
               background: 'transparent',
               color: '#fff',
-              borderRadius: '5px',
-              border: 'none',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '1rem',
             }}
             wrapperStyle={{
               outline: 'none',
@@ -125,7 +121,6 @@ const MarketCap = () => {
           <Area
             type='monotone'
             dataKey='cap'
-            //   stroke='gray'
             activeDot={{ r: 4 }}
             strokeWidth='0'
             dot={false}

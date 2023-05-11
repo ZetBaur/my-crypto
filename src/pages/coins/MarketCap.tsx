@@ -1,16 +1,16 @@
 import { Box } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Area,
   AreaChart,
-  CartesianGrid,
+  Legend,
   ResponsiveContainer,
   Tooltip,
   XAxis,
   YAxis,
 } from 'recharts';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
-import { IHistoricCoinPrices, IHistory } from '../../model/liveCoinWatchTypes';
+import { IHistory } from '../../model/liveCoinWatchTypes';
 import moment from 'moment';
 import { useTheme } from '@mui/material/styles';
 import { tokens } from '../../contexts/themeContext';
@@ -39,8 +39,17 @@ const CustomTooltip = ({
   label: string;
 }) => {
   if (payload && payload.length) {
-    console.log('payload', payload);
-    return <p className='label'>{`${label}    Cap: ${payload[0].value}B`}</p>;
+    return (
+      <Box
+        sx={{
+          display: 'flex',
+          gap: '6rem',
+        }}
+      >
+        <Box>{`${label}`}</Box>
+        <Box>{`${payload[0].value}B`}</Box>
+      </Box>
+    );
   }
 
   return null;
@@ -60,90 +69,71 @@ const MarketCap = () => {
     if (currentCoin) {
       const arr = currentCoin.history?.map((el: IHistory) => {
         const cap = el.cap.toString();
-        const c = cap.slice(0, cap.length - 9);
 
         return {
           date: moment(el.date).format('MMM DD YYYY'),
-          cap: c,
+          cap: cap.slice(0, cap.length - 9),
         };
       });
-
-      console.log('arr', arr);
 
       setPrices(arr);
     }
   }, [currentCoin]);
 
+  const CustomizedLegend = () => {
+    return <Box>Market Cap</Box>;
+  };
+
   return (
     <Box
       sx={{
+        height: '100px',
         flex: '1',
+        background: 'black',
+        borderRadius: '4px',
       }}
     >
-      <Box
-        sx={{
-          height: '30px',
-          padding: '1rem',
-        }}
-      >
-        Market Cap
-      </Box>
+      <ResponsiveContainer width='100%' height='100%'>
+        <AreaChart width={500} height={300} data={prices}>
+          <XAxis dataKey='date' hide={true} />
 
-      <Box
-        sx={{
-          height: '100px',
-        }}
-      >
-        <ResponsiveContainer width='100%' height='100%'>
-          <AreaChart width={500} height={300} data={prices}>
-            <XAxis
-              dataKey='date'
-              axisLine={false}
-              tickLine={false}
-              style={{ fontSize: '10px' }}
-              hide={true}
-            />
+          <YAxis domain={['dataMin', 'dataMax']} tickSize={0} hide={true} />
 
-            <YAxis
-              axisLine={false}
-              tickLine={false}
-              type='number'
-              domain={['dataMin', 'dataMax']}
-              style={{ fontSize: '10px' }}
-              tickCount={7}
-              hide={true}
-            />
+          <Tooltip
+            contentStyle={{
+              background: 'transparent',
+              color: '#fff',
+              borderRadius: '5px',
+              border: 'none',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '1rem',
+            }}
+            wrapperStyle={{
+              outline: 'none',
+            }}
+            position={{ x: 10, y: 70 }}
+            content={<CustomTooltip payload={[]} label={''} />}
+          />
 
-            <Tooltip
-              contentStyle={{
-                background: 'transparent',
-                color: '#fff',
-                borderRadius: '5px',
-                border: 'none',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '1rem',
-              }}
-              wrapperStyle={{
-                outline: 'none',
-              }}
-              position={{ x: 10, y: 50 }}
-              content={<CustomTooltip payload={[]} label={''} />}
-            />
+          <Legend
+            verticalAlign='top'
+            iconSize={0}
+            content={<CustomizedLegend />}
+          />
 
-            <Area
-              type='monotone'
-              dataKey='cap'
-              stroke='blue'
-              activeDot={{ r: 8 }}
-              strokeWidth='2'
-              dot={false}
-              fill='blue'
-              animationDuration={500}
-            />
-          </AreaChart>
-        </ResponsiveContainer>
-      </Box>
+          <Area
+            type='monotone'
+            dataKey='cap'
+            //   stroke='gray'
+            activeDot={{ r: 4 }}
+            strokeWidth='0'
+            dot={false}
+            fill='gray'
+            animationDuration={500}
+          />
+        </AreaChart>
+      </ResponsiveContainer>
     </Box>
   );
 };

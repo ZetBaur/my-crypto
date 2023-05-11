@@ -106,7 +106,7 @@ const Global = () => {
           sx={{
             background: 'black',
             width: '200px',
-            height: '300px',
+            height: '200px',
           }}
         >
           <ResponsiveContainer width='100%' height='100%'>
@@ -120,6 +120,7 @@ const Global = () => {
                 outerRadius={80}
                 fill='#8884d8'
                 dataKey='value'
+                animationDuration={300}
               >
                 {pieData &&
                   pieData.map((entry, index) => (
@@ -136,7 +137,7 @@ const Global = () => {
                 formatter={(value, entry, index) => value.toUpperCase()}
                 wrapperStyle={{
                   fontSize: '13px',
-                  // background: 'black',
+                  fontWeight: 'bold',
                 }}
                 layout='horizontal'
               />

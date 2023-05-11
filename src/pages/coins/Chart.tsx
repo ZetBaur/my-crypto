@@ -4,6 +4,8 @@ import ChartHeader from './ChartHeader';
 import {
   Area,
   AreaChart,
+  Bar,
+  BarChart,
   CartesianGrid,
   ResponsiveContainer,
   Tooltip,
@@ -16,10 +18,58 @@ import { tokens } from '../../contexts/themeContext';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
 import { useLazyFetchCoinsSingleHistoryQuery } from '../../store/features/coinsFeature/coinsApi';
 import { IHistoricCoinPrices, IHistory } from '../../model/liveCoinWatchTypes';
-import {
-  setCurrentCoin,
-  // setHistory,
-} from '../../store/features/coinsFeature/coinsSlice';
+import { setCurrentCoin } from '../../store/features/coinsFeature/coinsSlice';
+
+interface IPayload {
+  chartType: string | undefined;
+  color: string;
+  dataKey: string;
+  fill: string;
+  fillOpacity: number;
+  formatter: Function | undefined;
+  name: string;
+  payload: { cap: string; date: string };
+  stroke: string;
+  strokeWidth: string;
+  type: string | undefined;
+  unit: string | undefined;
+  value: string;
+}
+
+const PriceTooltip = ({
+  payload,
+  label,
+}: {
+  payload: IPayload[];
+  label: string;
+}) => {
+  if (payload && payload.length) {
+    const v = parseInt(payload[0].value).toLocaleString('fi-FI');
+
+    return (
+      <Box
+        sx={{
+          background: 'black',
+          padding: '4px 8px',
+          borderRadius: '4px',
+        }}
+      >
+        <Box>{`${label}`}</Box>
+        <Box>{`Price: ${v}`}</Box>
+      </Box>
+    );
+  }
+
+  return null;
+};
+
+const CustomTooltip = ({ payload }: { payload: IPayload[]; label: string }) => {
+  if (payload && payload.length) {
+    const v = parseInt(payload[0].value).toLocaleString('fi-FI');
+    return <Box>{`Volume: ${v}`}</Box>;
+  }
+  return null;
+};
 
 const Chart = () => {
   const theme = useTheme();
@@ -57,10 +107,10 @@ const Chart = () => {
         return {
           date: moment(el.date).format('MMM DD'),
           price: el.rate.toFixed(5),
+          volume: el.volume,
         };
       });
       dispatch(setCurrentCoin(data));
-      // data.history && dispatch(setHistory(data.history));
       setPrices(arr);
     }
   }, [data]);
@@ -79,7 +129,7 @@ const Chart = () => {
         display: 'flex',
         flexDirection: 'column',
         padding: '1rem 1rem 0 1rem',
-        minHeight: '400px',
+        // minHeight: '500px',
       }}
     >
       <ChartHeader />
@@ -90,54 +140,99 @@ const Chart = () => {
             flex: '1',
           }}
         >
-          <ResponsiveContainer width='100%' height='100%'>
-            <AreaChart width={500} height={300} data={prices}>
-              <CartesianGrid
-                strokeDasharray='3'
-                vertical={false}
-                stroke={colors.secondary.DEFAULT}
-              />
+          <Box
+            sx={{
+              height: '300px',
+            }}
+          >
+            <ResponsiveContainer width='100%' height='100%'>
+              <AreaChart width={500} height={300} data={prices} syncId='anyId'>
+                <CartesianGrid
+                  strokeDasharray='3'
+                  vertical={false}
+                  stroke={colors.secondary.DEFAULT}
+                />
 
-              <XAxis
-                dataKey='date'
-                axisLine={false}
-                tickLine={false}
-                style={{ fontSize: '10px' }}
-              />
+                <XAxis
+                  dataKey='date'
+                  axisLine={false}
+                  tickLine={false}
+                  tick={false}
+                  style={{ fontSize: '10px' }}
+                />
 
-              <YAxis
-                axisLine={false}
-                tickLine={false}
-                type='number'
-                domain={['dataMin', 'dataMax']}
-                style={{ fontSize: '10px' }}
-                tickCount={7}
-                hide={true}
-              />
+                <YAxis
+                  axisLine={false}
+                  tickLine={false}
+                  type='number'
+                  domain={['dataMin', 'dataMax']}
+                  style={{ fontSize: '10px' }}
+                  tickCount={7}
+                  hide={true}
+                />
 
-              <Tooltip
-                contentStyle={{
-                  background: '#000000',
-                  color: '#fff',
-                  borderRadius: '5px',
-                }}
-                wrapperStyle={{
-                  outline: 'none',
-                }}
-              />
+                <Tooltip
+                  contentStyle={{
+                    background: '#000000',
+                    color: '#fff',
+                    borderRadius: '5px',
+                  }}
+                  wrapperStyle={{
+                    outline: 'none',
+                  }}
+                  content={<PriceTooltip payload={[]} label={''} />}
+                />
 
-              <Area
-                type='monotone'
-                dataKey='price'
-                stroke='#FFAF2C'
-                activeDot={{ r: 8 }}
-                strokeWidth='2'
-                dot={false}
-                fill='#FFAF2C'
-                animationDuration={500}
-              />
-            </AreaChart>
-          </ResponsiveContainer>
+                <Area
+                  type='monotone'
+                  dataKey='price'
+                  stroke='#FFAF2C'
+                  activeDot={{ r: 4 }}
+                  strokeWidth='1'
+                  dot={false}
+                  fill='#FFAF2C'
+                  animationDuration={500}
+                />
+              </AreaChart>
+            </ResponsiveContainer>
+          </Box>
+
+          <Box
+            sx={{
+              height: '100px',
+            }}
+          >
+            <ResponsiveContainer width='100%' height='100%'>
+              <BarChart width={500} height={300} data={prices} syncId='anyId'>
+                <XAxis
+                  dataKey='date'
+                  axisLine={false}
+                  tickLine={false}
+                  style={{ fontSize: '10px' }}
+                />
+
+                <YAxis
+                  axisLine={false}
+                  tickLine={false}
+                  type='number'
+                  domain={['dataMin', 'dataMax']}
+                  style={{ fontSize: '10px' }}
+                  hide={true}
+                />
+
+                <Tooltip
+                  position={{ x: 0, y: -20 }}
+                  cursor={false}
+                  wrapperStyle={{
+                    outline: 'none',
+                  }}
+                  content={<CustomTooltip payload={[]} label={''} />}
+                />
+
+                <Bar dataKey='volume' fill='#FFAF2C' animationDuration={500} />
+              </BarChart>
+            </ResponsiveContainer>
+          </Box>
         </Box>
       )}
 

@@ -44,7 +44,8 @@ const CustomTooltip = ({
       <Box
         sx={{
           display: 'flex',
-          gap: '120px',
+          // gap: '120px',
+          flexDirection: 'column',
         }}
       >
         <Box>{`${label}`}</Box>
@@ -68,8 +69,6 @@ const MarketCap = () => {
 
   const currentCoin = useAppSelector((state) => state.coins.currentCoin);
   const [prices, setPrices] = useState<{ date: string; cap: string }[]>([]);
-
-  console.log('currentCoin', currentCoin);
 
   useEffect(() => {
     if (currentCoin) {
@@ -112,7 +111,7 @@ const MarketCap = () => {
             wrapperStyle={{
               outline: 'none',
             }}
-            position={{ x: 10, y: 70 }}
+            position={{ x: 10, y: 50 }}
             content={<CustomTooltip payload={[]} label={''} />}
           />
 

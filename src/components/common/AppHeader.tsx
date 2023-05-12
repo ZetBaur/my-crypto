@@ -24,6 +24,8 @@ import { useFetchPlatformsAllQuery } from '../../store/features/coinsFeature/coi
 import { setCode } from '../../store/features/coinsFeature/coinsSlice';
 import { getUniqueElements } from '../../hooks/getUniqueElements';
 import { IPlarformsAll } from '../../model/liveCoinWatchTypes';
+import { coinsList } from '../../data/coinsList';
+import { coins } from '../../data/coins';
 
 interface IProps {
   open: boolean;
@@ -35,23 +37,25 @@ const AppHeader = ({ open, handleDrawerOpen }: IProps) => {
   const colors = tokens(theme.palette.mode);
   const colorMode = useContext(ColorModeContext);
   const dispatch = useAppDispatch();
-  // const code = useAppSelector((state) => state.coins.code);
   const currentCoin = useAppSelector((state) => state.coins.currentCoin);
 
   const currency = useAppSelector((state) => state.coins.currency);
-  const [coins, setCoins] = useState<IPlarformsAll[]>([]);
-  const { data: coinsList } = useFetchPlatformsAllQuery();
+  // const [coins, setCoins] = useState<IPlarformsAll[]>([]);
+  // const { data: coinsList } = useFetchPlatformsAllQuery();
 
-  useEffect(() => {
-    if (coinsList) {
-      const newArr = getUniqueElements(coinsList, 'name');
+  // useEffect(() => {
+  //   if (coinsList) {
+  //     const newArr = getUniqueElements(coinsList, 'name');
 
-      setCoins(newArr);
-    }
-  }, [coinsList]);
+  //     setCoins(newArr);
+  //   }
+  // }, [coinsList]);
 
   const handleSelectCoin = (newCoin: string | null) => {
+    console.log(newCoin);
+
     const coin = coins.find((el) => el.name === newCoin);
+
     if (coin) dispatch(setCode(coin?.code));
   };
 
@@ -63,7 +67,6 @@ const AppHeader = ({ open, handleDrawerOpen }: IProps) => {
           edge='start'
           color='inherit'
           aria-label='menu'
-          // sx={{ mr: 2 }}
           onClick={handleDrawerOpen}
         >
           <MenuIcon />

@@ -9,6 +9,20 @@ import CoinInfo from './CoinInfo';
 import ApexChart from './ApexChart';
 import MarketCap from './MarketCap';
 
+import { coins } from '../../data/coins';
+import { getUniqueElements } from '../../hooks/getUniqueElements';
+
+// const newarr = getUniqueElements(coins, 'name');
+
+// console.log(
+//   newarr.map((el) => {
+//     return {
+//       name: el.name,
+//       code: el.code,
+//     };
+//   })
+// );
+
 const Coins = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);

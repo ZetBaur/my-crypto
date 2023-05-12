@@ -1,4 +1,4 @@
-export const coinList = [
+export const coinsList = [
   {
     id: 'aada-finance',
     symbol: 'aada',

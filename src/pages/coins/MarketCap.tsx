@@ -44,7 +44,7 @@ const CustomTooltip = ({
       <Box
         sx={{
           display: 'flex',
-          gap: '80px',
+          gap: '120px',
         }}
       >
         <Box>{`${label}`}</Box>
@@ -67,7 +67,9 @@ const MarketCap = () => {
   const dispatch = useAppDispatch();
 
   const currentCoin = useAppSelector((state) => state.coins.currentCoin);
-  const [prices, setPrices] = useState<{ date: string; cap: string }[]>();
+  const [prices, setPrices] = useState<{ date: string; cap: string }[]>([]);
+
+  console.log('currentCoin', currentCoin);
 
   useEffect(() => {
     if (currentCoin) {
@@ -77,11 +79,11 @@ const MarketCap = () => {
         const history = el.cap.toString();
 
         return {
-          date: moment(el.date).format('MMM DD YYYY'),
-          cap: history.slice(0, history.length - 9),
+          date: moment(el.date).format('MMM DD'),
+          cap: history?.slice(0, history.length - 9),
         };
       });
-
+      // @ts-ignore: Unreachable code error
       setPrices(arr);
     }
   }, [currentCoin]);
@@ -90,7 +92,7 @@ const MarketCap = () => {
     <Box
       sx={{
         height: '120px',
-        width: '250px',
+        width: '230px',
         background: 'black',
         borderRadius: '4px',
         padding: '8px',

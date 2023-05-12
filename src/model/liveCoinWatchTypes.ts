@@ -46,7 +46,7 @@ export interface IHistory {
   date: number;
   rate: number;
   volume: number;
-  cap: number;
+  cap: number | null;
   liquidity: number;
 }
 

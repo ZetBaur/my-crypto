@@ -11,7 +11,7 @@ import {
   TextField,
   CircularProgress,
 } from '@mui/material';
-import { coinList } from '../../data/coinList';
+import { coinsList } from '../../data/coinsList';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
 import {
   setId,

@@ -7,7 +7,7 @@ import Binance from './pages/dashboard/Binance';
 import BinanceWS from './pages/binance/BinanceWS';
 import BinanceRest from './pages/binance/BinanceRest';
 import LiveCoinWatchRest from './pages/livecoinwatch/LiveCoinWatchRest';
-import Coins from './components/coinOverview/CoinOverview';
+import Coins from './pages/Coins';
 
 function App() {
   const [theme, colorMode] = useMode();

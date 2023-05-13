@@ -2,7 +2,7 @@ import React from 'react';
 import CoinOverview from '../components/coinOverview/CoinOverview';
 import BasicTable from '../components/table/BasicTable';
 
-const coins = () => {
+const Coins = () => {
   return (
     <>
       <CoinOverview />
@@ -11,4 +11,4 @@ const coins = () => {
   );
 };
 
-export default coins;
+export default Coins;

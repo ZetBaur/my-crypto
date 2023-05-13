@@ -13,7 +13,7 @@ import TableChart from './TableChart';
 import {
   useLazyFetchCoinsListQuery,
   useFetchPlatformsAllQuery,
-} from '../../store/features/livecoinwatch/liveCoinWatchApi';
+} from '../../store/features/coinsFeature/coinsApi';
 
 import {
   Box,
@@ -32,9 +32,23 @@ import {
 import { setId } from '../../store/features/coins/marketChartSlice';
 import { ICoinData } from '../../model/coinsTypes';
 
+const headCells = [
+  { text: 'Portfolio', type: '' },
+  { text: 'Coin', type: 'name' },
+  { text: 'Price', type: 'price' },
+  { text: '1h', type: 'delta.hour' },
+  { text: '24h', type: 'delta.day' },
+  { text: 'Volume', type: 'volume' },
+  { text: 'Mkt Cap', type: 'cap' },
+  { text: 'Last 7 days', type: '' },
+];
+
 const BasicTable = () => {
+  console.log('ddddddddd');
+
   const dispatch = useAppDispatch();
-  const portfolio = useAppSelector((state) => state.portfolio.portfolio);
+  const portfolio = useAppSelector((state) => state.coins.portfolio);
+  const currency = useAppSelector((state) => state.coins.currency);
 
   const [
     fetchCoinsList,
@@ -46,7 +60,7 @@ const BasicTable = () => {
     },
   ] = useLazyFetchCoinsListQuery();
 
-  // const { data: platformsAllData } = useFetchPlatformsAllQuery();
+  const { data: platformsAllData } = useFetchPlatformsAllQuery();
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [page, setPage] = useState(0);
@@ -55,13 +69,13 @@ const BasicTable = () => {
   const [order, setOrder] = useState('descending');
   const [sort, setSort] = useState('price');
 
-  // useEffect(() => {
-  //   if (platformsAllData) setTotalCoins(platformsAllData?.length);
-  // }, [platformsAllData, rowsPerPage]);
+  useEffect(() => {
+    if (platformsAllData) setTotalCoins(platformsAllData?.length);
+  }, [platformsAllData, rowsPerPage]);
 
   useEffect(() => {
     const body = {
-      currency: 'USD',
+      currency,
       sort,
       order,
       offset: page * rowsPerPage,
@@ -75,18 +89,18 @@ const BasicTable = () => {
   //   console.log('coinsListData', coinsListData);
   // }, [coinsListData]);
 
-  const handleChangePage = (
-    event: React.MouseEvent<HTMLButtonElement> | null,
-    value: number
-  ) => {
-    setPage(value);
-  };
+  // const handleChangePage = (
+  //   event: React.MouseEvent<HTMLButtonElement> | null,
+  //   value: number
+  // ) => {
+  //   setPage(value);
+  // };
 
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setRowsPerPage(parseInt(event.target.value));
-  };
+  // const handleChangeRowsPerPage = (
+  //   event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  // ) => {
+  //   setRowsPerPage(parseInt(event.target.value));
+  // };
 
   const handleIconClick = (el: ICoinsList) => {
     const coinToAdd: ICoinData = {
@@ -155,16 +169,6 @@ const BasicTable = () => {
     if (!el.type) return true;
   };
 
-  const headCells = [
-    { text: 'Portfolio', type: '' },
-    { text: 'Coin', type: 'name' },
-    { text: 'Price', type: 'price' },
-    { text: '1h', type: 'delta.hour' },
-    { text: '24h', type: 'delta.day' },
-    { text: 'Volume', type: 'volume' },
-    { text: 'Mkt Cap', type: 'cap' },
-    { text: 'Last 7 days', type: '' },
-  ];
   //---------------------------------------
 
   return (
@@ -174,9 +178,11 @@ const BasicTable = () => {
         rowsPerPageOptions={[5, 10, 25, 50]}
         count={totalCoins}
         page={page}
-        onPageChange={handleChangePage}
+        onPageChange={(event, value) => setPage(value)}
         rowsPerPage={rowsPerPage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
+        onRowsPerPageChange={(event) =>
+          setRowsPerPage(parseInt(event.target.value))
+        }
         sx={{
           display: 'flex',
           alignContent: 'flex-start',

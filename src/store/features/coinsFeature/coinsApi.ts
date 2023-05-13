@@ -68,4 +68,5 @@ export const {
   useLazyFetchCoinsSingleHistoryQuery,
   useFetchPlatformsAllQuery,
   useLazyFetchOverviewQuery,
+  useLazyFetchCoinsListQuery,
 } = coinsApi;

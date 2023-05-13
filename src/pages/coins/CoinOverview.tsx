@@ -5,23 +5,10 @@ import { tokens } from '../../contexts/themeContext';
 import Chart from './Chart';
 import BasicTable from './BasicTable';
 import Global from './Global';
-import CoinInfo from './CoinInfo';
-import ApexChart from './ApexChart';
 import MarketCap from './MarketCap';
 
 import { coins } from '../../data/coins';
 import { getUniqueElements } from '../../hooks/getUniqueElements';
-
-// const newarr = getUniqueElements(coins, 'name');
-
-// console.log(
-//   newarr.map((el) => {
-//     return {
-//       name: el.name,
-//       code: el.code,
-//     };
-//   })
-// );
 
 const Coins = () => {
   const theme = useTheme();

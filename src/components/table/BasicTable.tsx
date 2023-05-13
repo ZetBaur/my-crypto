@@ -9,6 +9,7 @@ import Paper from '@mui/material/Paper';
 import StarIcon from '@mui/icons-material/Star';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import TableChart from './TableChart';
+import { coins } from '../../data/coins';
 
 import {
   useLazyFetchCoinsListQuery,
@@ -44,8 +45,6 @@ const headCells = [
 ];
 
 const BasicTable = () => {
-  console.log('ddddddddd');
-
   const dispatch = useAppDispatch();
   const portfolio = useAppSelector((state) => state.coins.portfolio);
   const currency = useAppSelector((state) => state.coins.currency);
@@ -161,8 +160,10 @@ const BasicTable = () => {
   };
 
   const handleSort = (el: { text: string; type: string }) => {
-    setOrder(order === 'descending' ? 'ascending' : 'descending');
-    setSort(el.type);
+    if (el.type) {
+      setOrder(order === 'descending' ? 'ascending' : 'descending');
+      setSort(el.type);
+    }
   };
 
   const sortedColumns = (el: { text: string; type: string }) => {
@@ -176,7 +177,7 @@ const BasicTable = () => {
       <TablePagination
         component='div'
         rowsPerPageOptions={[5, 10, 25, 50]}
-        count={totalCoins}
+        count={coins.length / rowsPerPage}
         page={page}
         onPageChange={(event, value) => setPage(value)}
         rowsPerPage={rowsPerPage}
@@ -219,13 +220,18 @@ const BasicTable = () => {
                       }}
                     >
                       <TableSortLabel
-                        active={false} // If true, the label will have the active styling (should be true for the sorted column).
+                        // active={false} // If true, the label will have the active styling (should be true for the sorted column).
+                        active={el.type !== '' && sort === el.type}
                         direction='asc'
                         hideSortIcon={sortedColumns(el)} //	           Hide sort icon when active is false.
                         IconComponent={FilterListIcon}
                         onClick={() => handleSort(el)}
                         sx={{
                           fontSize: '13px',
+                          ':hover': {
+                            color: el.type !== '' ? 'white' : 'gray',
+                            cursor: el.type !== '' ? 'pointer' : 'default',
+                          },
                         }}
                       >
                         {el.text}

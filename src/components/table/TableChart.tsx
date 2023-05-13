@@ -1,6 +1,14 @@
 import { memo, useEffect, useState } from 'react';
 import { Box, CircularProgress } from '@mui/material';
-import { LineChart, Line, ResponsiveContainer, XAxis, YAxis } from 'recharts';
+import {
+  LineChart,
+  Line,
+  ResponsiveContainer,
+  XAxis,
+  YAxis,
+  AreaChart,
+  Area,
+} from 'recharts';
 import { useLazyFetchOverviewHistoryQuery } from '../../store/features/livecoinwatch/liveCoinWatchApi';
 import moment from 'moment';
 import { ICoinsSingleHistory, IHistory } from '../../model/liveCoinWatchTypes';
@@ -24,6 +32,7 @@ const TableChart = ({ coin }: IProps) => {
 
   useEffect(() => {
     const coinExist = !!localStorage.getItem(coin);
+
     if (coinExist) {
       setHistory(JSON.parse(localStorage.getItem(coin) || ''));
     } else {
@@ -42,10 +51,10 @@ const TableChart = ({ coin }: IProps) => {
       localStorage.setItem(`${data?.code}`, JSON.stringify(data));
       setHistory(data);
     }
-  }, [isSuccess]);
+  }, [data]);
 
   useEffect(() => {
-    const arr = history?.history.map((el: IHistory) => {
+    const arr = history?.history?.map((el: IHistory) => {
       return {
         date: el.date,
         price: el.rate,
@@ -55,17 +64,17 @@ const TableChart = ({ coin }: IProps) => {
     setPrices(arr);
   }, [history]);
 
-  if (error) {
-    <Box>{error}</Box>;
-  }
+  // if (error) {
+  //   <Box>{error}</Box>;
+  // }
 
   if (prices?.length !== 0) {
     return (
       <ResponsiveContainer width='100%' height='100%'>
-        <LineChart width={500} height={300} data={prices}>
-          <Line type='monotone' dataKey='price' stroke='blue' dot={false} />
+        <AreaChart width={500} height={300} data={prices}>
+          <Area type='monotone' dataKey='price' dot={false} fillOpacity={0.1} />
           <YAxis domain={['dataMin', 'dataMax']} hide={true} />
-        </LineChart>
+        </AreaChart>
       </ResponsiveContainer>
     );
   } else if (prices?.length === 0) {

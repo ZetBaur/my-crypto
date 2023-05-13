@@ -48,7 +48,7 @@ const Period = () => {
     <List
       sx={{
         display: 'flex',
-        gap: '1rem',
+        gap: '4px',
         fontSize: '13px',
       }}
     >

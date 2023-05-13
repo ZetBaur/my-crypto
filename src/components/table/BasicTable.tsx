@@ -29,7 +29,7 @@ import { useCheckPortfolio } from '../../hooks/checkPortfolio';
 import {
   addToPortfolio,
   removeFromPortfolio,
-} from '../../store/features/coins/portfolioSlice';
+} from '../../store/features/coinsFeature/coinsSlice';
 import { setId } from '../../store/features/coins/marketChartSlice';
 import { ICoinData } from '../../model/coinsTypes';
 
@@ -102,18 +102,23 @@ const BasicTable = () => {
   // };
 
   const handleIconClick = (el: ICoinsList) => {
-    const coinToAdd: ICoinData = {
-      name: el.name,
-    };
-    const isInPortfolio = useCheckPortfolio(el.name, portfolio);
+    // const coinToAdd: ICoinData = {
+    //   name: el.name,
+    // };
+
+    console.log(el);
+
+    const isInPortfolio = useCheckPortfolio(el.code, portfolio);
+
+    console.log(isInPortfolio);
 
     !isInPortfolio
-      ? dispatch(addToPortfolio(coinToAdd))
-      : dispatch(removeFromPortfolio(coinToAdd));
+      ? dispatch(addToPortfolio(el.code))
+      : dispatch(removeFromPortfolio(el.code));
   };
 
   const iconColor = (el: ICoinsList) => {
-    const isInPortfolio = useCheckPortfolio(el.name, portfolio);
+    const isInPortfolio = useCheckPortfolio(el.code, portfolio);
     return isInPortfolio ? 'blue' : 'black';
   };
 
@@ -214,16 +219,14 @@ const BasicTable = () => {
                       sx={{
                         color: 'gray',
                         '& .MuiSvgIcon-root': {
-                          // fill: 'blue',
                           marginLeft: '8px',
                         },
                       }}
                     >
                       <TableSortLabel
-                        // active={false} // If true, the label will have the active styling (should be true for the sorted column).
                         active={el.type !== '' && sort === el.type}
                         direction='asc'
-                        hideSortIcon={sortedColumns(el)} //	           Hide sort icon when active is false.
+                        hideSortIcon={sortedColumns(el)}
                         IconComponent={FilterListIcon}
                         onClick={() => handleSort(el)}
                         sx={{
@@ -252,7 +255,7 @@ const BasicTable = () => {
                         title={
                           iconColor(el) === 'black'
                             ? 'Add to portfolio'
-                            : 'Remove from pertfolio'
+                            : 'Coin is added to portfolio'
                         }
                         placement='left'
                       >

@@ -52,10 +52,7 @@ const AppHeader = ({ open, handleDrawerOpen }: IProps) => {
   // }, [coinsList]);
 
   const handleSelectCoin = (newCoin: string | null) => {
-    console.log(newCoin);
-
     const coin = coins.find((el) => el.name === newCoin);
-
     if (coin) dispatch(setCode(coin?.code));
   };
 

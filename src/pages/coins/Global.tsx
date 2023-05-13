@@ -92,6 +92,7 @@ const Global = () => {
         background: 'black',
         padding: '1rem',
         borderRadius: '4px',
+        minHeight: '300px',
       }}
     >
       <Typography component='h4' textAlign='center'>

@@ -3,7 +3,7 @@ import { useTheme } from '@mui/material/styles';
 import { tokens } from '../../contexts/themeContext';
 
 import Chart from './Chart';
-import BasicTable from './BasicTable';
+import BasicTable from '../table/BasicTable';
 import Global from './Global';
 import MarketCap from './MarketCap';
 

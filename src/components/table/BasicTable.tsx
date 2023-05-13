@@ -10,10 +10,10 @@ import StarIcon from '@mui/icons-material/Star';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import TableChart from './TableChart';
 
-// import {
-//   useLazyFetchCoinsListQuery,
-//   useFetchPlatformsAllQuery,
-// } from '../../store/features/livecoinwatch/liveCoinWatchApi';
+import {
+  useLazyFetchCoinsListQuery,
+  useFetchPlatformsAllQuery,
+} from '../../store/features/livecoinwatch/liveCoinWatchApi';
 
 import {
   Box,
@@ -36,15 +36,15 @@ const BasicTable = () => {
   const dispatch = useAppDispatch();
   const portfolio = useAppSelector((state) => state.portfolio.portfolio);
 
-  // const [
-  //   fetchCoinsList,
-  //   {
-  //     isError: isCoinsListError,
-  //     isFetching: isCoinsListFetching,
-  //     isSuccess: isCoinsListSuccess,
-  //     data: coinsListData,
-  //   },
-  // ] = useLazyFetchCoinsListQuery();
+  const [
+    fetchCoinsList,
+    {
+      isError: isCoinsListError,
+      isFetching: isCoinsListFetching,
+      isSuccess: isCoinsListSuccess,
+      data: coinsListData,
+    },
+  ] = useLazyFetchCoinsListQuery();
 
   // const { data: platformsAllData } = useFetchPlatformsAllQuery();
 
@@ -59,17 +59,17 @@ const BasicTable = () => {
   //   if (platformsAllData) setTotalCoins(platformsAllData?.length);
   // }, [platformsAllData, rowsPerPage]);
 
-  // useEffect(() => {
-  //   const body = {
-  //     currency: 'USD',
-  //     sort,
-  //     order,
-  //     offset: page * rowsPerPage,
-  //     limit: rowsPerPage,
-  //     meta: true,
-  //   };
-  //   fetchCoinsList(body);
-  // }, [sort, order, page, rowsPerPage]);
+  useEffect(() => {
+    const body = {
+      currency: 'USD',
+      sort,
+      order,
+      offset: page * rowsPerPage,
+      limit: rowsPerPage,
+      meta: true,
+    };
+    fetchCoinsList(body);
+  }, [sort, order, page, rowsPerPage]);
 
   // useEffect(() => {
   //   console.log('coinsListData', coinsListData);

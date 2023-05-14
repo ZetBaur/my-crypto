@@ -14,6 +14,7 @@ import { coins } from '../../data/coins';
 import {
   useLazyFetchCoinsListQuery,
   useFetchPlatformsAllQuery,
+  useFetchCoinsSingleHistoryQuery,
 } from '../../store/features/coinsFeature/coinsApi';
 
 import {
@@ -32,6 +33,10 @@ import {
 } from '../../store/features/coinsFeature/coinsSlice';
 import { setId } from '../../store/features/coins/marketChartSlice';
 import { ICoinData } from '../../model/coinsTypes';
+
+// const start = new Date(
+//   moment().subtract(el.value, 'days').format()
+// ).getTime();
 
 const headCells = [
   { text: 'Portfolio', type: '' },
@@ -58,6 +63,16 @@ const BasicTable = () => {
       data: coinsListData,
     },
   ] = useLazyFetchCoinsListQuery();
+
+  //  const {data:singleHistoryData}= useFetchCoinsSingleHistoryQuery({
+  // {
+  //     code,
+  //     currency,
+  //     start,
+  //     end,
+  //     meta: true,
+  //   };
+  //  })
 
   const { data: platformsAllData } = useFetchPlatformsAllQuery();
 
@@ -122,37 +137,51 @@ const BasicTable = () => {
     return isInPortfolio ? 'blue' : 'black';
   };
 
-  const formatValue = (value: number): number => {
-    let newValue = value.toString();
-    return parseFloat(newValue.slice(0, newValue.length - 4));
+  const formatValue = (value: number | null): number | null => {
+    if (value) {
+      let newValue = value.toString();
+      return parseFloat(newValue.slice(0, newValue.length - 4));
+    } else {
+      return null;
+    }
   };
 
   const formatPrice = (value: number) => {
     const price = formatValue(value);
 
-    const isZero = price < 1;
+    if (price) {
+      const isZero = price < 1;
 
-    return price.toLocaleString('en-US', {
-      style: 'currency',
-      currency: 'USD',
-      minimumFractionDigits: isZero ? 4 : 2,
-    });
+      return price.toLocaleString('en-US', {
+        style: 'currency',
+        currency: 'USD',
+        minimumFractionDigits: isZero ? 5 : 2,
+      });
+    } else {
+      return 'NA';
+    }
   };
 
   const formatPriceChangePercent = (change: number, price: number) => {
     let rate = formatValue(price);
 
-    let percenChange = (change * 100) / rate;
+    if (rate) {
+      let percenChange = (change * 100) / rate;
 
-    let isZero = percenChange < 1;
+      let isZero = percenChange < 1;
 
-    return isZero ? percenChange.toFixed(4) : percenChange.toFixed(0);
+      return isZero
+        ? percenChange.toFixed(4) + '%'
+        : percenChange.toFixed(0) + '%';
+    } else {
+      return 'NA';
+    }
   };
 
   const formatVolume = (value: number) => {
     if (!value) return 'NA';
 
-    return value.toLocaleString('en-US', {
+    return value?.toLocaleString('fi-FI', {
       style: 'currency',
       currency: 'USD',
       maximumFractionDigits: 0,
@@ -176,13 +205,15 @@ const BasicTable = () => {
   };
 
   //---------------------------------------
+  // up 04a7b9 efced0 0569db c59651 748c94 ebe318 ecb434
+  // down  fb4c61 6fb7e4 1c1464 fa9e32 2c7cf4 040404
 
   return (
     <>
       <TablePagination
         component='div'
         rowsPerPageOptions={[5, 10, 25, 50]}
-        count={coins.length / rowsPerPage}
+        count={Math.ceil(coins.length / rowsPerPage)}
         page={page}
         onPageChange={(event, value) => setPage(value)}
         rowsPerPage={rowsPerPage}
@@ -301,23 +332,27 @@ const BasicTable = () => {
 
                     <TableCell
                       sx={{
-                        color: () => valueColor(el.delta.hour),
+                        // color: () => valueColor(el.delta.hour),
+                        color: el.color,
                       }}
                     >
-                      {formatPriceChangePercent(el.delta.hour, el.rate)} %
+                      {formatPriceChangePercent(el.delta.hour, el.rate)}
                     </TableCell>
 
                     <TableCell
                       sx={{
-                        color: () => valueColor(el.delta.day),
+                        // color: () => valueColor(el.delta.day),
+                        color: el.color,
                       }}
                     >
-                      {formatPriceChangePercent(el.delta.day, el.rate)} %
+                      {formatPriceChangePercent(el.delta.day, el.rate)}
                     </TableCell>
 
                     <TableCell>{formatVolume(el.volume)}</TableCell>
 
-                    <TableCell>{el.cap}</TableCell>
+                    <TableCell>
+                      {el.cap ? formatVolume(el.cap) : 'NA'}
+                    </TableCell>
 
                     <TableCell
                       sx={{

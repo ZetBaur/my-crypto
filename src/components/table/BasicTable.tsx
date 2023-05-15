@@ -145,22 +145,6 @@ const BasicTable = () => {
     }
   };
 
-  // const formatPriceChangePercent = (change: number, price: number) => {
-  //   let rate = formatValue(price);
-
-  //   if (rate) {
-  //     let percenChange = (change * 100) / rate;
-
-  //     let isZero = percenChange < 1;
-
-  //     return isZero
-  //       ? percenChange.toFixed(4) + '%'
-  //       : percenChange.toFixed(0) + '%';
-  //   } else {
-  //     return 'NA';
-  //   }
-  // };
-
   const formatVolume = (value: number) => {
     if (!value) return 'NA';
 
@@ -171,11 +155,6 @@ const BasicTable = () => {
     });
   };
 
-  // const valueColor = (value: number) => {
-  //   if (Math.sign(value) === -1) return 'red';
-  //   if (Math.sign(value) === 1) return 'green';
-  // };
-
   const handleSort = (el: { text: string; type: string }) => {
     if (el.type) {
       setOrder(order === 'descending' ? 'ascending' : 'descending');
@@ -185,6 +164,14 @@ const BasicTable = () => {
 
   const sortedColumns = (el: { text: string; type: string }) => {
     if (!el.type) return true;
+  };
+
+  const handleCoinClick = (code: string) => {
+    dispatch(setCode(code));
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
   };
 
   return (
@@ -216,9 +203,7 @@ const BasicTable = () => {
           <TableContainer
             component={Paper}
             sx={{
-              // padding: '1rem',
               marginTop: '0 !important',
-              // width: '100%',
             }}
           >
             <Table sx={{ minWidth: 650 }} aria-label='simple table'>
@@ -303,7 +288,7 @@ const BasicTable = () => {
                               cursor: 'pointer',
                             },
                           }}
-                          onClick={() => dispatch(setCode(el.code))}
+                          onClick={() => handleCoinClick(el.code)}
                         >
                           {el.name}
                         </Box>

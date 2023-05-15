@@ -9,7 +9,7 @@ import {
   XAxis,
   YAxis,
 } from 'recharts';
-import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
+import { useAppSelector } from '../../hooks/reduxHook';
 import { IHistory } from '../../model/liveCoinWatchTypes';
 import moment from 'moment';
 import { useTheme } from '@mui/material/styles';
@@ -63,8 +63,6 @@ const MarketCap = () => {
   const theme = useTheme();
 
   const colors = tokens(theme.palette.mode);
-
-  // const dispatch = useAppDispatch();
 
   const currentCoin = useAppSelector((state) => state.coins.currentCoin);
   const [prices, setPrices] = useState<{ date: string; cap: string }[]>([]);

@@ -11,36 +11,23 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import TableChart from './TableChart';
 import { coins } from '../../data/coins';
 
-import {
-  useLazyFetchCoinsListQuery,
-  // useFetchPlatformsAllQuery,
-  // useLazyFetchCoinsSingleHistoryQuery,
-  // useLazyFetchOverviewHistoryQuery,
-} from '../../store/features/coinsFeature/coinsApi';
+import { useLazyFetchCoinsListQuery } from '../../store/features/coinsFeature/coinsApi';
 
 import {
   Box,
   CircularProgress,
-  Grid,
   TablePagination,
   TableSortLabel,
   Tooltip,
 } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
-import {
-  ICoinsList,
-  ICoinsSingleHistory,
-} from '../../model/liveCoinWatchTypes';
+import { ICoinsList } from '../../model/liveCoinWatchTypes';
 import { useCheckPortfolio } from '../../hooks/checkPortfolio';
 import {
   addToPortfolio,
   removeFromPortfolio,
   setCode,
 } from '../../store/features/coinsFeature/coinsSlice';
-import { setId } from '../../store/features/coins/marketChartSlice';
-import { ResponsiveContainer } from 'recharts';
-// import { ICoinData } from '../../model/coinsTypes';
-// import moment from 'moment';
 
 const headCells = [
   { text: 'Portfolio', type: '' },
@@ -58,8 +45,6 @@ const BasicTable = () => {
   const portfolio = useAppSelector((state) => state.coins.portfolio);
   const currency = useAppSelector((state) => state.coins.currency);
 
-  const drawer = useAppSelector((state) => state.coins.drawerIsOpen);
-
   const [
     fetchCoinsList,
     {
@@ -70,13 +55,8 @@ const BasicTable = () => {
     },
   ] = useLazyFetchCoinsListQuery();
 
-  // const [fetchOverviewHistory, { data: overviewHistoryData }] =
-  //   useLazyFetchOverviewHistoryQuery();
-
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [page, setPage] = useState(0);
-  // const [totalCoins, setTotalCoins] = useState(100);
-
   const [order, setOrder] = useState('ascending');
   const [sort, setSort] = useState('rank');
 
@@ -89,23 +69,9 @@ const BasicTable = () => {
     meta: true,
   };
 
-  // const [prevHourData, setPrevHourData] = useState<ICoinsSingleHistory[]>([]);
-
   useEffect(() => {
-    // const body = {
-    //   currency,
-    //   sort,
-    //   order,
-    //   offset: page * rowsPerPage,
-    //   limit: rowsPerPage,
-    //   meta: true,
-    // };
     fetchCoinsList(body);
   }, [sort, order, page, rowsPerPage]);
-
-  // useEffect(() => {
-  //   if (drawer) fetchCoinsList(body);
-  // }, [drawer]);
 
   const handleIconClick = (el: ICoinsList) => {
     const isInPortfolio = useCheckPortfolio(el.code, portfolio);
@@ -313,7 +279,6 @@ const BasicTable = () => {
                         color: el.color,
                       }}
                     >
-                      {/* {formatPriceChangePercent(el.delta.day, el.rate)} */}
                       {el.delta.day}
                     </TableCell>
 

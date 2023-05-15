@@ -12,7 +12,6 @@ import AppHeader from '../components/common/AppHeader';
 import { Outlet } from 'react-router-dom';
 import { useState } from 'react';
 import { ColorModeContext, tokens } from '../contexts/themeContext';
-import { setDrawer } from '../store/features/coinsFeature/coinsSlice';
 import { useAppDispatch, useAppSelector } from '../hooks/reduxHook';
 
 const drawerWidth = 240;
@@ -95,12 +94,12 @@ export default function MiniDrawer() {
 
   const handleDrawerOpen = () => {
     setOpen(true);
-    dispatch(setDrawer(true));
+    // dispatch(setDrawer(true));
   };
 
   const handleDrawerClose = () => {
     setOpen(false);
-    dispatch(setDrawer(false));
+    // dispatch(setDrawer(false));
   };
 
   return (

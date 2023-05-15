@@ -15,7 +15,7 @@ interface IInitialState {
 
   currentCoin: ICoinsSingleHistory;
 
-  drawerIsOpen: boolean | null;
+  // drawerIsOpen: boolean | null;
 
   // history: IHistory | null;
 }
@@ -81,9 +81,9 @@ export const coinsSlice = createSlice({
       state.currentCoin = action.payload;
     },
 
-    setDrawer(state, action: PayloadAction<boolean>) {
-      state.drawerIsOpen = action.payload;
-    },
+    // setDrawer(state, action: PayloadAction<boolean>) {
+    //   state.drawerIsOpen = action.payload;
+    // },
 
     // setHistory(state, action: PayloadAction<IHistory>) {
     //   state.history = action.payload;
@@ -99,7 +99,7 @@ export const {
   setCurrency,
   addToPortfolio,
   removeFromPortfolio,
-  setDrawer,
+  // setDrawer,
   // setHistory,
 } = coinsSlice.actions;
 export default coinsSlice.reducer;

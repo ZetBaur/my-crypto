@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useAppDispatch } from '../../hooks/reduxHook';
 import { setStart } from '../../store/features/coinsFeature/coinsSlice';
 import moment from 'moment';
+
 const periods = [
   {
     value: 1,

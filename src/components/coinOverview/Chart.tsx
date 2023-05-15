@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import moment from 'moment';
 import ChartHeader from './ChartHeader';
 import {
@@ -82,11 +82,7 @@ const Chart = () => {
   const start = useAppSelector((state) => state.coins.start);
   const end = useAppSelector((state) => state.coins.end);
 
-  const drawer = useAppSelector((state) => state.coins.drawerIsOpen);
-
   const [prices, setPrices] = useState<IHistoricCoinPrices[]>();
-
-  const chartRef = useRef(0);
 
   const [fetchChart, { isError, isFetching, isSuccess, data }] =
     useLazyFetchCoinsSingleHistoryQuery();
@@ -116,11 +112,6 @@ const Chart = () => {
       setPrices(arr);
     }
   }, [data]);
-
-  useEffect(() => {
-    // if (drawer) fetchChart(params);
-    if (drawer) chartRef.current += 1;
-  }, [drawer]);
 
   return (
     <Box

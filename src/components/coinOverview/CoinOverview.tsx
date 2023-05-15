@@ -3,12 +3,8 @@ import { useTheme } from '@mui/material/styles';
 import { tokens } from '../../contexts/themeContext';
 
 import Chart from './Chart';
-// import BasicTable from '../table/BasicTable';
 import Global from './Global';
 import MarketCap from './MarketCap';
-
-// import { coins } from '../../data/coins';
-// import { getUniqueElements } from '../../hooks/getUniqueElements';
 
 const Coins = () => {
   const theme = useTheme();

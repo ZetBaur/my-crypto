@@ -14,7 +14,8 @@ import { coins } from '../../data/coins';
 import {
   useLazyFetchCoinsListQuery,
   useFetchPlatformsAllQuery,
-  useFetchCoinsSingleHistoryQuery,
+  useLazyFetchCoinsSingleHistoryQuery,
+  useLazyFetchOverviewHistoryQuery,
 } from '../../store/features/coinsFeature/coinsApi';
 
 import {
@@ -25,7 +26,10 @@ import {
   Tooltip,
 } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
-import { ICoinsList } from '../../model/liveCoinWatchTypes';
+import {
+  ICoinsList,
+  ICoinsSingleHistory,
+} from '../../model/liveCoinWatchTypes';
 import { useCheckPortfolio } from '../../hooks/checkPortfolio';
 import {
   addToPortfolio,
@@ -33,10 +37,7 @@ import {
 } from '../../store/features/coinsFeature/coinsSlice';
 import { setId } from '../../store/features/coins/marketChartSlice';
 import { ICoinData } from '../../model/coinsTypes';
-
-// const start = new Date(
-//   moment().subtract(el.value, 'days').format()
-// ).getTime();
+import moment from 'moment';
 
 const headCells = [
   { text: 'Portfolio', type: '' },
@@ -64,28 +65,17 @@ const BasicTable = () => {
     },
   ] = useLazyFetchCoinsListQuery();
 
-  //  const {data:singleHistoryData}= useFetchCoinsSingleHistoryQuery({
-  // {
-  //     code,
-  //     currency,
-  //     start,
-  //     end,
-  //     meta: true,
-  //   };
-  //  })
-
-  const { data: platformsAllData } = useFetchPlatformsAllQuery();
+  const [fetchOverviewHistory, { data: overviewHistoryData }] =
+    useLazyFetchOverviewHistoryQuery();
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [page, setPage] = useState(0);
   const [totalCoins, setTotalCoins] = useState(100);
 
-  const [order, setOrder] = useState('descending');
-  const [sort, setSort] = useState('price');
+  const [order, setOrder] = useState('ascending');
+  const [sort, setSort] = useState('rank');
 
-  useEffect(() => {
-    if (platformsAllData) setTotalCoins(platformsAllData?.length);
-  }, [platformsAllData, rowsPerPage]);
+  const [prevHourData, setPrevHourData] = useState<ICoinsSingleHistory[]>([]);
 
   useEffect(() => {
     const body = {
@@ -98,23 +88,6 @@ const BasicTable = () => {
     };
     fetchCoinsList(body);
   }, [sort, order, page, rowsPerPage]);
-
-  // useEffect(() => {
-  //   console.log('coinsListData', coinsListData);
-  // }, [coinsListData]);
-
-  // const handleChangePage = (
-  //   event: React.MouseEvent<HTMLButtonElement> | null,
-  //   value: number
-  // ) => {
-  //   setPage(value);
-  // };
-
-  // const handleChangeRowsPerPage = (
-  //   event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  // ) => {
-  //   setRowsPerPage(parseInt(event.target.value));
-  // };
 
   const handleIconClick = (el: ICoinsList) => {
     // const coinToAdd: ICoinData = {
@@ -152,7 +125,7 @@ const BasicTable = () => {
     if (price) {
       const isZero = price < 1;
 
-      return price.toLocaleString('en-US', {
+      return price.toLocaleString('fi-FI', {
         style: 'currency',
         currency: 'USD',
         minimumFractionDigits: isZero ? 5 : 2,
@@ -205,8 +178,8 @@ const BasicTable = () => {
   };
 
   //---------------------------------------
-  // up 04a7b9 efced0 0569db c59651 748c94 ebe318 ecb434
-  // down  fb4c61 6fb7e4 1c1464 fa9e32 2c7cf4 040404
+  // up
+  // down
 
   return (
     <>
@@ -336,7 +309,8 @@ const BasicTable = () => {
                         color: el.color,
                       }}
                     >
-                      {formatPriceChangePercent(el.delta.hour, el.rate)}
+                      {/* {formatPriceChangePercent(el.delta.hour, el.rate)} */}
+                      {el.delta.hour}
                     </TableCell>
 
                     <TableCell
@@ -345,7 +319,8 @@ const BasicTable = () => {
                         color: el.color,
                       }}
                     >
-                      {formatPriceChangePercent(el.delta.day, el.rate)}
+                      {/* {formatPriceChangePercent(el.delta.day, el.rate)} */}
+                      {el.delta.day}
                     </TableCell>
 
                     <TableCell>{formatVolume(el.volume)}</TableCell>

@@ -39,7 +39,10 @@ const TableChart = ({ coin }: IProps) => {
       fetchHistory({
         currency: 'USD',
         code: coin,
-        start: new Date(moment().subtract(7, 'days').calendar()).getTime(),
+        // start: new Date(moment().subtract(1, 'days').calendar()).getTime(),
+
+        start: new Date(moment().subtract(7, 'days').format()).getTime(),
+
         end: Date.parse(moment().format('LL')),
         meta: true,
       });

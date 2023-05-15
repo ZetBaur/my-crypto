@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Box, CircularProgress } from '@mui/material';
 import { ResponsiveContainer, YAxis, AreaChart, Area } from 'recharts';
-import { useLazyFetchOverviewHistoryQuery } from '../../store/features/livecoinwatch/liveCoinWatchApi';
+import { useLazyFetchOverviewHistoryQuery } from '../../store/features/coinsFeature/coinsApi';
 import moment from 'moment';
 import { ICoinsSingleHistory, IHistory } from '../../model/liveCoinWatchTypes';
 

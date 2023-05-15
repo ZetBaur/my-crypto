@@ -9,7 +9,7 @@ import coinsSlice from './features/coinsFeature/coinsSlice';
 
 // import { coinsApi } from './features/coins/coinsApi';
 import { binanceApi } from './features/binance/binanceApi';
-import { liveCoinWatchApi } from './features/livecoinwatch/liveCoinWatchApi';
+// import { liveCoinWatchApi } from './features/livecoinwatch/liveCoinWatchApi';
 
 import marketChartSlice from './features/coins/marketChartSlice';
 // import marketsSlice from './features/coins/marketsSlice';
@@ -24,7 +24,7 @@ export const store = configureStore({
 
     //---------------------------------------------------------------------
     [binanceApi.reducerPath]: binanceApi.reducer,
-    [liveCoinWatchApi.reducerPath]: liveCoinWatchApi.reducer,
+    // [liveCoinWatchApi.reducerPath]: liveCoinWatchApi.reducer,
 
     marketChart: marketChartSlice,
     // markets: marketsSlice,
@@ -36,7 +36,7 @@ export const store = configureStore({
     getDefaultMiddleware()
       .concat(coinsApi.middleware)
       .concat(binanceApi.middleware)
-      .concat(liveCoinWatchApi.middleware)
+      // .concat(liveCoinWatchApi.middleware)
       .concat(coinsGeckoApi.middleware),
 });
 

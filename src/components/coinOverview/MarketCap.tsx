@@ -44,7 +44,6 @@ const CustomTooltip = ({
       <Box
         sx={{
           display: 'flex',
-          // gap: '120px',
           flexDirection: 'column',
         }}
       >
@@ -65,7 +64,7 @@ const MarketCap = () => {
 
   const colors = tokens(theme.palette.mode);
 
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
 
   const currentCoin = useAppSelector((state) => state.coins.currentCoin);
   const [prices, setPrices] = useState<{ date: string; cap: string }[]>([]);

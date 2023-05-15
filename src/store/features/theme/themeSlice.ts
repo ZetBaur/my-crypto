@@ -1,24 +1,24 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+// import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-interface IThemeState {
-  theme: string | null;
-}
+// interface IThemeState {
+//   theme: string | null;
+// }
 
-const initialState: IThemeState = {
-  theme: null,
-};
+// const initialState: IThemeState = {
+//   theme: null,
+// };
 
-const themeSlice = createSlice({
-  name: 'theme',
+// const themeSlice = createSlice({
+//   name: 'theme',
 
-  initialState,
+//   initialState,
 
-  reducers: {
-    setTheme(state, action: PayloadAction<string>) {
-      state.theme = action.payload;
-    },
-  },
-});
+//   reducers: {
+//     setTheme(state, action: PayloadAction<string>) {
+//       state.theme = action.payload;
+//     },
+//   },
+// });
 
-export const { setTheme } = themeSlice.actions;
-export default themeSlice.reducer;
+// export const { setTheme } = themeSlice.actions;
+// export default themeSlice.reducer;

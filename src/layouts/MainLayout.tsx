@@ -5,7 +5,11 @@ import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import CssBaseline from '@mui/material/CssBaseline';
 import IconButton from '@mui/material/IconButton';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import { AppHeader, Navbar } from '../components';
+// import { AppHeader, Navbar } from '../components';
+
+import Navbar from '../components/common/navbar';
+import AppHeader from '../components/common/AppHeader';
+
 import { Outlet } from 'react-router-dom';
 import { useState } from 'react';
 import { ColorModeContext, tokens } from '../contexts/themeContext';

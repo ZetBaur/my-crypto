@@ -60,7 +60,7 @@ const listItems = [
   },
 ];
 
-const navbar = ({ open }: IProps) => {
+const Navbar = ({ open }: IProps) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const navigate = useNavigate();
@@ -118,4 +118,4 @@ const navbar = ({ open }: IProps) => {
   );
 };
 
-export default navbar;
+export default Navbar;

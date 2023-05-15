@@ -70,6 +70,27 @@ export const coinsApi = createApi({
     //     };
     //   },
     // }),
+
+    fetchOverviewHistory: build.query<
+      ICoinsSingleHistory,
+      ICoinsSingleHistoryRequest
+    >({
+      query: (body: ICoinsSingleHistoryRequest) => {
+        return {
+          url: `/coins/single/history`,
+          method: 'POST',
+          body,
+        };
+      },
+    }),
+
+    // fetchGlobal: build.query<IGlobal, void>({
+    //   query: () => {
+    //     return {
+    //       url: `global`,
+    //     };
+    //   },
+    // }),
   }),
 });
 
@@ -79,5 +100,6 @@ export const {
   // useFetchPlatformsAllQuery,
   // useLazyFetchOverviewQuery,
   useLazyFetchCoinsListQuery,
-  // useLazyFetchOverviewHistoryQuery,
+  useLazyFetchOverviewHistoryQuery,
+  // useFetchGlobalQuery,
 } = coinsApi;

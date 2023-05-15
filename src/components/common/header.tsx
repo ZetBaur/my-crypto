@@ -9,7 +9,7 @@ import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
 import SearchIcon from '@mui/icons-material/Search';
 
-const Topbar = () => {
+const Header = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const colorMode = useContext(ColorModeContext);
@@ -65,4 +65,4 @@ const Topbar = () => {
   );
 };
 
-export default Topbar;
+export default Header;

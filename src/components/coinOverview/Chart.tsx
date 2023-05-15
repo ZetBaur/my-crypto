@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import moment from 'moment';
 import ChartHeader from './ChartHeader';
 import {
@@ -86,6 +86,8 @@ const Chart = () => {
 
   const [prices, setPrices] = useState<IHistoricCoinPrices[]>();
 
+  const chartRef = useRef(0);
+
   const [fetchChart, { isError, isFetching, isSuccess, data }] =
     useLazyFetchCoinsSingleHistoryQuery();
 
@@ -116,7 +118,8 @@ const Chart = () => {
   }, [data]);
 
   useEffect(() => {
-    if (drawer) fetchChart(params);
+    // if (drawer) fetchChart(params);
+    if (drawer) chartRef.current += 1;
   }, [drawer]);
 
   return (
@@ -146,7 +149,7 @@ const Chart = () => {
               flex: '1',
             }}
           >
-            <ResponsiveContainer width='100%' height='100%'>
+            <ResponsiveContainer width='99%' height='99%'>
               <AreaChart width={500} height={300} data={prices} syncId='anyId'>
                 <CartesianGrid
                   strokeDasharray='3'
@@ -203,7 +206,7 @@ const Chart = () => {
               height: '100px',
             }}
           >
-            <ResponsiveContainer width='100%' height='100%'>
+            <ResponsiveContainer width='99%' height='99%'>
               <BarChart width={500} height={300} data={prices} syncId='anyId'>
                 <XAxis
                   dataKey='date'

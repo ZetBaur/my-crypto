@@ -21,6 +21,7 @@ import {
 import {
   Box,
   CircularProgress,
+  Grid,
   TablePagination,
   TableSortLabel,
   Tooltip,
@@ -34,8 +35,10 @@ import { useCheckPortfolio } from '../../hooks/checkPortfolio';
 import {
   addToPortfolio,
   removeFromPortfolio,
+  setCode,
 } from '../../store/features/coinsFeature/coinsSlice';
 import { setId } from '../../store/features/coins/marketChartSlice';
+import { ResponsiveContainer } from 'recharts';
 // import { ICoinData } from '../../model/coinsTypes';
 // import moment from 'moment';
 
@@ -54,6 +57,8 @@ const BasicTable = () => {
   const dispatch = useAppDispatch();
   const portfolio = useAppSelector((state) => state.coins.portfolio);
   const currency = useAppSelector((state) => state.coins.currency);
+
+  const drawer = useAppSelector((state) => state.coins.drawerIsOpen);
 
   const [
     fetchCoinsList,
@@ -75,19 +80,32 @@ const BasicTable = () => {
   const [order, setOrder] = useState('ascending');
   const [sort, setSort] = useState('rank');
 
+  const body = {
+    currency,
+    sort,
+    order,
+    offset: page * rowsPerPage,
+    limit: rowsPerPage,
+    meta: true,
+  };
+
   // const [prevHourData, setPrevHourData] = useState<ICoinsSingleHistory[]>([]);
 
   useEffect(() => {
-    const body = {
-      currency,
-      sort,
-      order,
-      offset: page * rowsPerPage,
-      limit: rowsPerPage,
-      meta: true,
-    };
+    // const body = {
+    //   currency,
+    //   sort,
+    //   order,
+    //   offset: page * rowsPerPage,
+    //   limit: rowsPerPage,
+    //   meta: true,
+    // };
     fetchCoinsList(body);
   }, [sort, order, page, rowsPerPage]);
+
+  // useEffect(() => {
+  //   if (drawer) fetchCoinsList(body);
+  // }, [drawer]);
 
   const handleIconClick = (el: ICoinsList) => {
     const isInPortfolio = useCheckPortfolio(el.code, portfolio);
@@ -198,8 +216,9 @@ const BasicTable = () => {
           <TableContainer
             component={Paper}
             sx={{
-              padding: '1rem',
+              // padding: '1rem',
               marginTop: '0 !important',
+              // width: '100%',
             }}
           >
             <Table sx={{ minWidth: 650 }} aria-label='simple table'>
@@ -240,7 +259,9 @@ const BasicTable = () => {
                 {coinsListData?.map((el) => (
                   <TableRow
                     key={el.code}
-                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                    sx={{
+                      '&:last-child td, &:last-child th': { border: 0 },
+                    }}
                   >
                     <TableCell component='th' scope='row'>
                       <Tooltip
@@ -282,7 +303,7 @@ const BasicTable = () => {
                               cursor: 'pointer',
                             },
                           }}
-                          onClick={() => dispatch(setId(el.name))}
+                          onClick={() => dispatch(setCode(el.code))}
                         >
                           {el.name}
                         </Box>

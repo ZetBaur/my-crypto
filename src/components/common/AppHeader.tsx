@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
 import {
   Box,
   IconButton,
@@ -20,11 +20,7 @@ import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
 import { setCurrency } from '../../store/features/coinsFeature/coinsSlice';
 import { currencies } from '../../data/currencies';
-import { useFetchPlatformsAllQuery } from '../../store/features/coinsFeature/coinsApi';
 import { setCode } from '../../store/features/coinsFeature/coinsSlice';
-import { getUniqueElements } from '../../hooks/getUniqueElements';
-import { IPlarformsAll } from '../../model/liveCoinWatchTypes';
-import { coinsList } from '../../data/coinsList';
 import { coins } from '../../data/coins';
 
 interface IProps {
@@ -38,18 +34,7 @@ const AppHeader = ({ open, handleDrawerOpen }: IProps) => {
   const colorMode = useContext(ColorModeContext);
   const dispatch = useAppDispatch();
   const currentCoin = useAppSelector((state) => state.coins.currentCoin);
-
   const currency = useAppSelector((state) => state.coins.currency);
-  // const [coins, setCoins] = useState<IPlarformsAll[]>([]);
-  // const { data: coinsList } = useFetchPlatformsAllQuery();
-
-  // useEffect(() => {
-  //   if (coinsList) {
-  //     const newArr = getUniqueElements(coinsList, 'name');
-
-  //     setCoins(newArr);
-  //   }
-  // }, [coinsList]);
 
   const handleSelectCoin = (newCoin: string | null) => {
     const coin = coins.find((el) => el.name === newCoin);

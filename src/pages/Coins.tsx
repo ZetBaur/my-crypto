@@ -1,4 +1,3 @@
-import React from 'react';
 import CoinOverview from '../components/coinOverview/CoinOverview';
 import BasicTable from '../components/table/BasicTable';
 

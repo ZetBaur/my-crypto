@@ -104,7 +104,7 @@ export interface IHistoricCoinPrices {
 
 //----------
 
-export interface IPlarformsAll {
-  code: string;
-  name: string;
-}
+// export interface IPlarformsAll {
+//   code: string;
+//   name: string;
+// }

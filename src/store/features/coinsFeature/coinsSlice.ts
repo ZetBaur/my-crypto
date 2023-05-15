@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import moment from 'moment';
 import {
   ICoinsSingleHistory,
-  IHistory,
+  // IHistory,
 } from '../../../model/liveCoinWatchTypes';
 
 interface IInitialState {

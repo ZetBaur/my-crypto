@@ -13,9 +13,9 @@ import { coins } from '../../data/coins';
 
 import {
   useLazyFetchCoinsListQuery,
-  useFetchPlatformsAllQuery,
-  useLazyFetchCoinsSingleHistoryQuery,
-  useLazyFetchOverviewHistoryQuery,
+  // useFetchPlatformsAllQuery,
+  // useLazyFetchCoinsSingleHistoryQuery,
+  // useLazyFetchOverviewHistoryQuery,
 } from '../../store/features/coinsFeature/coinsApi';
 
 import {
@@ -36,12 +36,12 @@ import {
   removeFromPortfolio,
 } from '../../store/features/coinsFeature/coinsSlice';
 import { setId } from '../../store/features/coins/marketChartSlice';
-import { ICoinData } from '../../model/coinsTypes';
-import moment from 'moment';
+// import { ICoinData } from '../../model/coinsTypes';
+// import moment from 'moment';
 
 const headCells = [
   { text: 'Portfolio', type: '' },
-  { text: 'Coin', type: 'name' },
+  { text: 'Coin', type: 'rank' },
   { text: 'Price', type: 'price' },
   { text: '1h', type: 'delta.hour' },
   { text: '24h', type: 'delta.day' },
@@ -65,17 +65,17 @@ const BasicTable = () => {
     },
   ] = useLazyFetchCoinsListQuery();
 
-  const [fetchOverviewHistory, { data: overviewHistoryData }] =
-    useLazyFetchOverviewHistoryQuery();
+  // const [fetchOverviewHistory, { data: overviewHistoryData }] =
+  //   useLazyFetchOverviewHistoryQuery();
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [page, setPage] = useState(0);
-  const [totalCoins, setTotalCoins] = useState(100);
+  // const [totalCoins, setTotalCoins] = useState(100);
 
   const [order, setOrder] = useState('ascending');
   const [sort, setSort] = useState('rank');
 
-  const [prevHourData, setPrevHourData] = useState<ICoinsSingleHistory[]>([]);
+  // const [prevHourData, setPrevHourData] = useState<ICoinsSingleHistory[]>([]);
 
   useEffect(() => {
     const body = {
@@ -90,15 +90,7 @@ const BasicTable = () => {
   }, [sort, order, page, rowsPerPage]);
 
   const handleIconClick = (el: ICoinsList) => {
-    // const coinToAdd: ICoinData = {
-    //   name: el.name,
-    // };
-
-    console.log(el);
-
     const isInPortfolio = useCheckPortfolio(el.code, portfolio);
-
-    console.log(isInPortfolio);
 
     !isInPortfolio
       ? dispatch(addToPortfolio(el.code))
@@ -135,21 +127,21 @@ const BasicTable = () => {
     }
   };
 
-  const formatPriceChangePercent = (change: number, price: number) => {
-    let rate = formatValue(price);
+  // const formatPriceChangePercent = (change: number, price: number) => {
+  //   let rate = formatValue(price);
 
-    if (rate) {
-      let percenChange = (change * 100) / rate;
+  //   if (rate) {
+  //     let percenChange = (change * 100) / rate;
 
-      let isZero = percenChange < 1;
+  //     let isZero = percenChange < 1;
 
-      return isZero
-        ? percenChange.toFixed(4) + '%'
-        : percenChange.toFixed(0) + '%';
-    } else {
-      return 'NA';
-    }
-  };
+  //     return isZero
+  //       ? percenChange.toFixed(4) + '%'
+  //       : percenChange.toFixed(0) + '%';
+  //   } else {
+  //     return 'NA';
+  //   }
+  // };
 
   const formatVolume = (value: number) => {
     if (!value) return 'NA';
@@ -161,10 +153,10 @@ const BasicTable = () => {
     });
   };
 
-  const valueColor = (value: number) => {
-    if (Math.sign(value) === -1) return 'red';
-    if (Math.sign(value) === 1) return 'green';
-  };
+  // const valueColor = (value: number) => {
+  //   if (Math.sign(value) === -1) return 'red';
+  //   if (Math.sign(value) === 1) return 'green';
+  // };
 
   const handleSort = (el: { text: string; type: string }) => {
     if (el.type) {
@@ -176,10 +168,6 @@ const BasicTable = () => {
   const sortedColumns = (el: { text: string; type: string }) => {
     if (!el.type) return true;
   };
-
-  //---------------------------------------
-  // up
-  // down
 
   return (
     <>
@@ -382,6 +370,26 @@ const BasicTable = () => {
           Server does not respond. Try later
         </Box>
       )}
+
+      <TablePagination
+        component='div'
+        rowsPerPageOptions={[5, 10, 25, 50]}
+        count={Math.ceil(coins.length / rowsPerPage)}
+        page={page}
+        onPageChange={(event, value) => setPage(value)}
+        rowsPerPage={rowsPerPage}
+        onRowsPerPageChange={(event) =>
+          setRowsPerPage(parseInt(event.target.value))
+        }
+        sx={{
+          display: 'flex',
+          alignContent: 'flex-start',
+          color: 'blue',
+          '& .MuiSvgIcon-root': {
+            fill: 'yellow',
+          },
+        }}
+      />
     </>
   );
 };

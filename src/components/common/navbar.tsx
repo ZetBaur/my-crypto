@@ -12,7 +12,7 @@ import MailIcon from '@mui/icons-material/Mail';
 import { tokens } from '../../contexts/themeContext';
 import { useTheme } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
-import Coins from '../coinOverview/CoinOverview';
+// import Coins from '../coinOverview/CoinOverview';
 
 interface IProps {
   open: boolean;
@@ -25,17 +25,17 @@ const listItems = [
     icon: <InboxIcon />,
   },
 
-  {
-    text: 'Dashboard',
-    path: 'dashboard',
-    icon: <InboxIcon />,
-  },
+  // {
+  //   text: 'Dashboard',
+  //   path: 'dashboard',
+  //   icon: <InboxIcon />,
+  // },
 
-  {
-    text: 'Binance',
-    path: 'binance',
-    icon: <MailIcon />,
-  },
+  // {
+  //   text: 'Binance',
+  //   path: 'binance',
+  //   icon: <MailIcon />,
+  // },
 
   {
     text: 'BinanceWS',
@@ -43,17 +43,11 @@ const listItems = [
     icon: <MailIcon />,
   },
 
-  {
-    text: 'Live Coin Watch',
-    path: 'livecoinwatchrest',
-    icon: <MailIcon />,
-  },
-
-  {
-    text: 'BinanceRest',
-    path: 'binancerest',
-    icon: <MailIcon />,
-  },
+  // {
+  //   text: 'Live Coin Watch',
+  //   path: 'livecoinwatchrest',
+  //   icon: <MailIcon />,
+  // },
 
   {
     text: 'Transactions',
@@ -71,9 +65,9 @@ const navbar = ({ open }: IProps) => {
   const colors = tokens(theme.palette.mode);
   const navigate = useNavigate();
 
-  const handleNavigate = () => {
-    navigate('/binance');
-  };
+  // const handleNavigate = () => {
+  //   navigate('/binance');
+  // };
 
   return (
     <Box

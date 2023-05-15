@@ -43,41 +43,41 @@ export const coinsApi = createApi({
     }),
 
     // list of all coins   ----   /platforms/all
-    fetchPlatformsAll: build.query<ICoinsList[], void>({
-      query: () => {
-        return {
-          url: `platforms/all`,
-          method: 'POST',
-        };
-      },
-    }),
+    // fetchPlatformsAll: build.query<ICoinsList[], void>({
+    //   query: () => {
+    //     return {
+    //       url: `platforms/all`,
+    //       method: 'POST',
+    //     };
+    //   },
+    // }),
 
-    fetchOverview: build.query<ICoinsList[], void>({
-      query: () => {
-        return {
-          url: `overview`,
-          method: 'POST',
-        };
-      },
-    }),
+    // fetchOverview: build.query<ICoinsList[], void>({
+    //   query: () => {
+    //     return {
+    //       url: `overview`,
+    //       method: 'POST',
+    //     };
+    //   },
+    // }),
 
-    fetchOverviewHistory: build.query<ICoinsList[], void>({
-      query: (body) => {
-        return {
-          url: `overview/history`,
-          method: 'POST',
-          body,
-        };
-      },
-    }),
+    // fetchOverviewHistory: build.query<ICoinsList[], void>({
+    //   query: (body) => {
+    //     return {
+    //       url: `overview/history`,
+    //       method: 'POST',
+    //       body,
+    //     };
+    //   },
+    // }),
   }),
 });
 
 export const {
   useFetchCoinsSingleHistoryQuery,
   useLazyFetchCoinsSingleHistoryQuery,
-  useFetchPlatformsAllQuery,
-  useLazyFetchOverviewQuery,
+  // useFetchPlatformsAllQuery,
+  // useLazyFetchOverviewQuery,
   useLazyFetchCoinsListQuery,
-  useLazyFetchOverviewHistoryQuery,
+  // useLazyFetchOverviewHistoryQuery,
 } = coinsApi;

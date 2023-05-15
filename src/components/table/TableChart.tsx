@@ -1,14 +1,6 @@
-import { memo, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Box, CircularProgress } from '@mui/material';
-import {
-  LineChart,
-  Line,
-  ResponsiveContainer,
-  XAxis,
-  YAxis,
-  AreaChart,
-  Area,
-} from 'recharts';
+import { ResponsiveContainer, YAxis, AreaChart, Area } from 'recharts';
 import { useLazyFetchOverviewHistoryQuery } from '../../store/features/livecoinwatch/liveCoinWatchApi';
 import moment from 'moment';
 import { ICoinsSingleHistory, IHistory } from '../../model/liveCoinWatchTypes';
@@ -22,13 +14,8 @@ const TableChart = ({ coin }: IProps) => {
 
   const [prices, setPrices] = useState<{ date: number; price: number }[]>();
 
-  const [fetchHistory, { isError, error, isFetching, isSuccess, data }] =
+  const [fetchHistory, { isError, isFetching, data }] =
     useLazyFetchOverviewHistoryQuery();
-
-  // useEffect(() => {
-  //   console.log('error', error);
-  //   console.log('isError', isError);
-  // }, [error]);
 
   useEffect(() => {
     const coinExist = !!localStorage.getItem(coin);
@@ -39,10 +26,7 @@ const TableChart = ({ coin }: IProps) => {
       fetchHistory({
         currency: 'USD',
         code: coin,
-        // start: new Date(moment().subtract(1, 'days').calendar()).getTime(),
-
         start: new Date(moment().subtract(7, 'days').format()).getTime(),
-
         end: Date.parse(moment().format('LL')),
         meta: true,
       });
@@ -66,10 +50,6 @@ const TableChart = ({ coin }: IProps) => {
 
     setPrices(arr);
   }, [history]);
-
-  // if (error) {
-  //   <Box>{error}</Box>;
-  // }
 
   if (prices?.length !== 0) {
     return (
@@ -127,5 +107,3 @@ const TableChart = ({ coin }: IProps) => {
 };
 
 export default TableChart;
-
-// export default memo(TableChart);

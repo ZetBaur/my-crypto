@@ -27,11 +27,11 @@ export interface ICoinsSingleHistory {
   circulatingSupply?: number;
   totalSupply?: number;
   maxSupply?: number;
-  links?: Links;
+  links?: ILinks;
   history?: IHistory[];
 }
 
-export interface Links {
+export interface ILinks {
   website: string;
   whitepaper: string;
   twitter: any;
@@ -78,16 +78,16 @@ export interface ICoinsList {
   circulatingSupply?: number;
   totalSupply: number;
   maxSupply?: number;
-  links: Links;
+  links: ILinks;
   code: string;
   rate: number;
   volume: number;
   cap?: number;
-  delta: Delta;
+  delta: IDelta;
   symbol?: string;
 }
 
-export interface Delta {
+export interface IDelta {
   hour: number;
   day: number;
   week: number;
@@ -103,8 +103,3 @@ export interface IHistoricCoinPrices {
 }
 
 //----------
-
-// export interface IPlarformsAll {
-//   code: string;
-//   name: string;
-// }

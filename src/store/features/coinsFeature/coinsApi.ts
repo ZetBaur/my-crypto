@@ -17,7 +17,6 @@ export const coinsApi = createApi({
   }),
 
   endpoints: (build) => ({
-    // history chart --------- /coins/single/history ------------------------------------------
     fetchCoinsSingleHistory: build.query<
       ICoinsSingleHistory,
       ICoinsSingleHistoryRequest
@@ -31,7 +30,6 @@ export const coinsApi = createApi({
       },
     }),
 
-    // table
     fetchCoinsList: build.query<ICoinsList[], ICoinsListRequest>({
       query: (body: ICoinsListRequest) => {
         return {
@@ -42,16 +40,6 @@ export const coinsApi = createApi({
       },
     }),
 
-    // list of all coins   ----   /platforms/all
-    // fetchPlatformsAll: build.query<ICoinsList[], void>({
-    //   query: () => {
-    //     return {
-    //       url: `platforms/all`,
-    //       method: 'POST',
-    //     };
-    //   },
-    // }),
-
     // fetchOverview: build.query<ICoinsList[], void>({
     //   query: () => {
     //     return {
@@ -61,45 +49,20 @@ export const coinsApi = createApi({
     //   },
     // }),
 
-    // fetchOverviewHistory: build.query<ICoinsList[], void>({
-    //   query: (body) => {
-    //     return {
-    //       url: `overview/history`,
-    //       method: 'POST',
-    //       body,
-    //     };
-    //   },
-    // }),
-
-    fetchOverviewHistory: build.query<
-      ICoinsSingleHistory,
-      ICoinsSingleHistoryRequest
-    >({
-      query: (body: ICoinsSingleHistoryRequest) => {
+    fetchOverviewHistory: build.query<ICoinsList[], void>({
+      query: (body) => {
         return {
-          url: `/coins/single/history`,
+          url: `overview/history`,
           method: 'POST',
           body,
         };
       },
     }),
-
-    // fetchGlobal: build.query<IGlobal, void>({
-    //   query: () => {
-    //     return {
-    //       url: `global`,
-    //     };
-    //   },
-    // }),
   }),
 });
 
 export const {
   useFetchCoinsSingleHistoryQuery,
   useLazyFetchCoinsSingleHistoryQuery,
-  // useFetchPlatformsAllQuery,
-  // useLazyFetchOverviewQuery,
   useLazyFetchCoinsListQuery,
-  useLazyFetchOverviewHistoryQuery,
-  // useFetchGlobalQuery,
 } = coinsApi;

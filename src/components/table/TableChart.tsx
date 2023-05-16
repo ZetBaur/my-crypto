@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Box, CircularProgress } from '@mui/material';
 import { ResponsiveContainer, YAxis, AreaChart, Area } from 'recharts';
-import { useLazyFetchOverviewHistoryQuery } from '../../store/features/coinsFeature/coinsApi';
+import { useLazyFetchCoinsSingleHistoryQuery } from '../../store/features/coinsFeature/coinsApi';
 import moment from 'moment';
 import { ICoinsSingleHistory, IHistory } from '../../model/liveCoinWatchTypes';
 
@@ -15,7 +15,7 @@ const TableChart = ({ coin }: IProps) => {
   const [prices, setPrices] = useState<{ date: number; price: number }[]>();
 
   const [fetchHistory, { isError, isFetching, data }] =
-    useLazyFetchOverviewHistoryQuery();
+    useLazyFetchCoinsSingleHistoryQuery();
 
   useEffect(() => {
     const coinExist = !!localStorage.getItem(coin);
@@ -31,15 +31,13 @@ const TableChart = ({ coin }: IProps) => {
         meta: true,
       });
     }
-
-    // return clear();
   }, []);
 
-  const clear = () => {
-    setTimeout(() => {
-      localStorage.clear();
-    }, 10000);
-  };
+  // const clear = () => {
+  //   setTimeout(() => {
+  //     localStorage.clear();
+  //   }, 10000);
+  // };
 
   useEffect(() => {
     if (data) {

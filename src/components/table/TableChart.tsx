@@ -31,7 +31,15 @@ const TableChart = ({ coin }: IProps) => {
         meta: true,
       });
     }
+
+    // return clear();
   }, []);
+
+  const clear = () => {
+    setTimeout(() => {
+      localStorage.clear();
+    }, 10000);
+  };
 
   useEffect(() => {
     if (data) {

@@ -11,7 +11,7 @@ const AppWs = () => {
   useEffect(() => {
     if (!isPaused) {
       ws.current = new WebSocket(
-        'wss://stream.binance.com:9443/ws/btcusdt@trade'
+        'wss://stream.binance.com:9443/ws/ethusdt@trade'
       );
       ws.current.onopen = () => setStatus('Соединение открыто');
       ws.current.onclose = () => setStatus('Соединение закрыто');
@@ -28,7 +28,7 @@ const AppWs = () => {
     if (!ws.current) return;
 
     ws.current.onmessage = (e) => {
-      // console.log(JSON.parse(e.data));
+      console.log(JSON.parse(e.data));
 
       if (isPaused) return;
 
@@ -51,9 +51,9 @@ const AppWs = () => {
             <h2>{status}</h2>
             <p>{`event: ${data}`}</p>
           </div>
-          {/* <button onClick={handleConnect}>
+          <button onClick={handleConnect}>
             {!isPaused ? 'Остановить соединение' : 'Открыть соединение'}
-          </button> */}
+          </button>
         </div>
       )}
     </>

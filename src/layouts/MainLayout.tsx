@@ -10,7 +10,7 @@ import Navbar from '../components/common/Navbar';
 import AppHeader from '../components/common/AppHeader';
 
 import { Outlet } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ColorModeContext, tokens } from '../contexts/themeContext';
 import { useAppDispatch, useAppSelector } from '../hooks/reduxHook';
 
@@ -91,6 +91,10 @@ export default function MiniDrawer() {
   // const colorMode = useContext(ColorModeContext);
 
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    return localStorage.clear();
+  }, []);
 
   const handleDrawerOpen = () => {
     setOpen(true);

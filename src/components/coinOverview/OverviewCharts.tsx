@@ -51,7 +51,6 @@ const PriceTooltip = ({
 };
 
 interface IProps {
-  // data: IOverviewHistory[] | undefined;
   overview: string;
 }
 
@@ -95,95 +94,54 @@ const OverviewCharts = ({ overview }: IProps) => {
         padding: '4px',
       }}
     >
-      {overview !== 'liquidity' && (
-        <ResponsiveContainer width='99%' height='99%'>
-          <AreaChart width={500} height={300} data={prices} syncId='anyId'>
-            <XAxis dataKey='date' hide={true} />
+      <ResponsiveContainer width='99%' height='99%'>
+        <AreaChart width={500} height={300} data={prices} syncId='anyId'>
+          <XAxis dataKey='date' hide={true} />
 
-            <YAxis domain={['dataMin', 'dataMax']} tickSize={0} hide={true} />
+          <YAxis
+            domain={
+              overview !== 'liquidity' ? ['dataMin', 'dataMax'] : undefined
+            }
+            tickSize={0}
+            hide={true}
+          />
 
-            <Tooltip
-              contentStyle={{
-                color: '#fff',
-              }}
-              wrapperStyle={{
-                outline: 'none',
-                width: '100%',
-                height: '100%',
-                padding: '0 8px 4px 8px',
-              }}
-              position={{ x: 0, y: 0 }}
-              content={<PriceTooltip payload={[]} label={''} />}
-            />
+          <Tooltip
+            contentStyle={{
+              color: '#fff',
+            }}
+            wrapperStyle={{
+              outline: 'none',
+              width: '100%',
+              height: '100%',
+              padding: '0 8px 4px 8px',
+            }}
+            position={{ x: 0, y: 0 }}
+            content={<PriceTooltip payload={[]} label={''} />}
+          />
 
-            <Legend
-              verticalAlign='top'
-              iconSize={0}
-              content={<CustomLegend />}
-              wrapperStyle={{
-                fontSize: '13px',
-                paddingBottom: '8px',
-              }}
-            />
+          <Legend
+            verticalAlign='top'
+            iconSize={0}
+            content={<CustomLegend />}
+            wrapperStyle={{
+              fontSize: '13px',
+              paddingBottom: '8px',
+            }}
+          />
 
-            <Area
-              type='monotone'
-              dataKey='price'
-              stroke='#FFAF2C'
-              activeDot={{ r: 4 }}
-              strokeWidth='1'
-              dot={false}
-              fill='#FFAF2C'
-              animationDuration={500}
-            />
-          </AreaChart>
-        </ResponsiveContainer>
-      )}
-
-      {overview === 'liquidity' && (
-        <ResponsiveContainer width='99%' height='99%'>
-          <BarChart width={500} height={300} data={prices} syncId='anyId'>
-            <XAxis dataKey='date' hide={true} />
-
-            <YAxis tickSize={0} hide={true} />
-
-            <Tooltip
-              contentStyle={{
-                color: '#fff',
-              }}
-              wrapperStyle={{
-                outline: 'none',
-                width: '100%',
-                height: '100%',
-                padding: '0 8px 4px 8px',
-              }}
-              position={{ x: 0, y: 0 }}
-              content={<PriceTooltip payload={[]} label={''} />}
-            />
-
-            <Legend
-              verticalAlign='top'
-              iconSize={0}
-              content={<CustomLegend />}
-              wrapperStyle={{
-                fontSize: '13px',
-                paddingBottom: '8px',
-              }}
-            />
-
-            <Bar
-              type='monotone'
-              dataKey='price'
-              stroke='#FFAF2C'
-              // activeDot={{ r: 4 }}
-              strokeWidth='1'
-              //   dot={false}
-              fill='#FFAF2C'
-              animationDuration={500}
-            />
-          </BarChart>
-        </ResponsiveContainer>
-      )}
+          <Area
+            type='monotone'
+            dataKey='price'
+            stroke='#FFAF2C'
+            activeDot={{ r: 4 }}
+            strokeWidth='1'
+            dot={false}
+            fill='#FFAF2C'
+            animationDuration={500}
+          />
+        </AreaChart>
+      </ResponsiveContainer>
     </Box>
   );
 };

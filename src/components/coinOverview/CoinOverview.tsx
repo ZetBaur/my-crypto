@@ -5,6 +5,7 @@ import { tokens } from '../../contexts/themeContext';
 import Chart from './Chart';
 import Global from './Global';
 import MarketCap from './MarketCap';
+import OverviewCharts from './OverviewCharts';
 
 const Coins = () => {
   const theme = useTheme();
@@ -28,7 +29,9 @@ const Coins = () => {
           }}
         >
           <Global />
-          <MarketCap />
+
+          <OverviewCharts overview='cap' />
+          <OverviewCharts overview='liquidity' />
         </Box>
       </Box>
     </Stack>

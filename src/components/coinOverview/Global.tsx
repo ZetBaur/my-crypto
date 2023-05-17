@@ -92,7 +92,7 @@ const Global = () => {
         background: 'black',
         padding: '1rem',
         borderRadius: '4px',
-        minHeight: '300px',
+        // minHeight: '300px',
       }}
     >
       <Typography component='h4' textAlign='center'>
@@ -107,7 +107,8 @@ const Global = () => {
           sx={{
             background: 'black',
             width: '200px',
-            height: '250px',
+            height: '200px',
+            // textAlign: 'center',
           }}
         >
           <ResponsiveContainer width='100%' height='100%'>

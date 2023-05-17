@@ -29,7 +29,7 @@ const initialState: IInitialState = {
 
   portfolio: [],
 
-  drawerIsOpen: null,
+  // drawerIsOpen: null,
 
   // history: null,
 

@@ -5,6 +5,7 @@ import {
   ICoinsListRequest,
   ICoinsList,
   IOverviewHistoryRequest,
+  IOverviewHistory,
 } from '../../../model/liveCoinWatchTypes';
 
 export const coinsApi = createApi({
@@ -60,7 +61,10 @@ export const coinsApi = createApi({
       },
     }),
 
-    fetchOverviewHistory: build.query<ICoinsList[], IOverviewHistoryRequest>({
+    fetchOverviewHistory: build.query<
+      IOverviewHistory[],
+      IOverviewHistoryRequest
+    >({
       query: (body: IOverviewHistoryRequest) => {
         return {
           url: `overview/history`,

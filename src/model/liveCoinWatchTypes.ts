@@ -108,3 +108,11 @@ export interface IOverviewHistoryRequest {
   start: number;
   end: number;
 }
+
+export interface IOverviewHistory {
+  date: number;
+  cap: number;
+  volume: number;
+  liquidity: number;
+  btcDominance: number;
+}

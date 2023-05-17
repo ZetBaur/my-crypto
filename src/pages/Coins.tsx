@@ -12,6 +12,8 @@ const Coins = () => {
       }}
     >
       <CoinOverview />
+      <br />
+      <br />
       <MarketOverview />
       <BasicTable />
     </Box>

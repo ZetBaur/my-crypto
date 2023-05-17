@@ -17,7 +17,7 @@ import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
 import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
-import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
+import { useAppDispatch, useAppSelector } from '../../helpers/reduxHook';
 import { setCurrency } from '../../store/features/coinsFeature/coinsSlice';
 import { currencies } from '../../data/currencies';
 import { setCode } from '../../store/features/coinsFeature/coinsSlice';

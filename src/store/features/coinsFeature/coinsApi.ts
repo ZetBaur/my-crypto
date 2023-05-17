@@ -4,6 +4,7 @@ import {
   ICoinsSingleHistoryRequest,
   ICoinsListRequest,
   ICoinsList,
+  IOverviewHistoryRequest,
 } from '../../../model/liveCoinWatchTypes';
 
 export const coinsApi = createApi({
@@ -49,8 +50,18 @@ export const coinsApi = createApi({
     //   },
     // }),
 
-    fetchOverviewHistory: build.query<ICoinsList[], void>({
+    fetchOverview: build.query<ICoinsList[], void>({
       query: (body) => {
+        return {
+          url: `overview/history`,
+          method: 'POST',
+          body,
+        };
+      },
+    }),
+
+    fetchOverviewHistory: build.query<ICoinsList[], IOverviewHistoryRequest>({
+      query: (body: IOverviewHistoryRequest) => {
         return {
           url: `overview/history`,
           method: 'POST',
@@ -65,4 +76,6 @@ export const {
   useFetchCoinsSingleHistoryQuery,
   useLazyFetchCoinsSingleHistoryQuery,
   useLazyFetchCoinsListQuery,
+  // useFetchOverviewHistoryQuery,
+  useLazyFetchOverviewHistoryQuery,
 } = coinsApi;

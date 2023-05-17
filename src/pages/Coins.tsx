@@ -1,6 +1,7 @@
 import { Box } from '@mui/material';
 import CoinOverview from '../components/coinOverview/CoinOverview';
 import BasicTable from '../components/table/BasicTable';
+import MarketOverview from '../components/marketOverview/MarketOverview';
 
 const Coins = () => {
   return (
@@ -11,6 +12,7 @@ const Coins = () => {
       }}
     >
       <CoinOverview />
+      <MarketOverview />
       <BasicTable />
     </Box>
   );

@@ -3,7 +3,7 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
-import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
+import { useAppDispatch, useAppSelector } from '../../helpers/reduxHook';
 import { setDays } from '../../store/features/coins/marketChartSlice';
 
 export default function SelectedPeriod() {

@@ -12,7 +12,7 @@ import AppHeader from '../components/common/AppHeader';
 import { Outlet } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { ColorModeContext, tokens } from '../contexts/themeContext';
-import { useAppDispatch, useAppSelector } from '../hooks/reduxHook';
+import { useAppDispatch, useAppSelector } from '../helpers/reduxHook';
 
 const drawerWidth = 240;
 

@@ -102,4 +102,9 @@ export interface IHistoricCoinPrices {
   price: string;
 }
 
-//----------
+//----------overview/history
+export interface IOverviewHistoryRequest {
+  currency: string;
+  start: number;
+  end: number;
+}

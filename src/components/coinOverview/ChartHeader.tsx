@@ -1,7 +1,7 @@
 import { useTheme } from '@mui/material/styles';
 import { tokens } from '../../contexts/themeContext';
 import { Box, Tooltip } from '@mui/material';
-import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
+import { useAppDispatch, useAppSelector } from '../../helpers/reduxHook';
 
 import {
   addToPortfolio,
@@ -11,7 +11,7 @@ import {
 import StarIcon from '@mui/icons-material/Star';
 
 import Period from './Period';
-import { useCheckPortfolio } from '../../hooks/checkPortfolio';
+import { checkPortfolio } from '../../helpers/checkPortfolio';
 
 const ChartHeader = () => {
   const theme = useTheme();
@@ -22,7 +22,7 @@ const ChartHeader = () => {
 
   const dispatch = useAppDispatch();
 
-  const isInPortfolio = useCheckPortfolio(currentCoin.code, portfolio);
+  const isInPortfolio = checkPortfolio(currentCoin.code, portfolio);
 
   const iconColor = () => {
     return isInPortfolio ? 'blue' : 'gray';

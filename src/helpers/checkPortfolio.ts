@@ -1,4 +1,4 @@
-export const useCheckPortfolio = (
+export const checkPortfolio = (
   code: string | undefined,
   portfolio: string[]
 ) => {

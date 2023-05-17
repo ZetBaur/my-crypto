@@ -23,9 +23,9 @@ import {
   Tooltip,
 } from '@mui/material';
 
-import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
+import { useAppDispatch, useAppSelector } from '../../helpers/reduxHook';
 import { IMarkets } from '../../model/coinsTypes';
-import { useCheckPortfolio } from '../../hooks/checkPortfolio';
+import { useCheckPortfolio } from '../../helpers/checkPortfolio';
 
 import {
   addToPortfolio,

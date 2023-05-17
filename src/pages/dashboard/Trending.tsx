@@ -4,9 +4,9 @@ import StarIcon from '@mui/icons-material/Star';
 import { useTheme } from '@mui/material/styles';
 import { tokens } from '../../contexts/themeContext';
 import { ICoinData, ITrendingCoin } from '../../model/coinsTypes';
-import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
+import { useAppDispatch, useAppSelector } from '../../helpers/reduxHook';
 import { setId } from '../../store/features/coins/marketChartSlice';
-import { useCheckPortfolio } from '../../hooks/checkPortfolio';
+import { useCheckPortfolio } from '../../helpers/checkPortfolio';
 import {
   addToPortfolio,
   removeFromPortfolio,

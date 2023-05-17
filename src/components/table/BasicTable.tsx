@@ -20,9 +20,9 @@ import {
   TableSortLabel,
   Tooltip,
 } from '@mui/material';
-import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
+import { useAppDispatch, useAppSelector } from '../../helpers/reduxHook';
 import { ICoinsList } from '../../model/liveCoinWatchTypes';
-import { useCheckPortfolio } from '../../hooks/checkPortfolio';
+import { checkPortfolio } from '../../helpers/checkPortfolio';
 import {
   addToPortfolio,
   removeFromPortfolio,
@@ -74,7 +74,7 @@ const BasicTable = () => {
   }, [sort, order, page, rowsPerPage]);
 
   const handleIconClick = (el: ICoinsList) => {
-    const isInPortfolio = useCheckPortfolio(el.code, portfolio);
+    const isInPortfolio = checkPortfolio(el.code, portfolio);
 
     !isInPortfolio
       ? dispatch(addToPortfolio(el.code))
@@ -82,7 +82,7 @@ const BasicTable = () => {
   };
 
   const iconColor = (el: ICoinsList) => {
-    const isInPortfolio = useCheckPortfolio(el.code, portfolio);
+    const isInPortfolio = checkPortfolio(el.code, portfolio);
     return isInPortfolio ? 'blue' : 'black';
   };
 

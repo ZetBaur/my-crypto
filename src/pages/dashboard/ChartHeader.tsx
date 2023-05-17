@@ -12,7 +12,7 @@ import {
   CircularProgress,
 } from '@mui/material';
 import { coinsList } from '../../data/coinsList';
-import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
+import { useAppDispatch, useAppSelector } from '../../helpers/reduxHook';
 import {
   setId,
   setVsCurrency,

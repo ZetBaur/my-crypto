@@ -13,7 +13,7 @@ import {
 import { Box, CircularProgress } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { tokens } from '../../contexts/themeContext';
-import { useAppSelector } from '../../hooks/reduxHook';
+import { useAppSelector } from '../../helpers/reduxHook';
 import { useLazyFetchMarketChartQuery } from '../../store/features/coins/coinsApi';
 import { IHistoricCoinPrices } from '../../model/coinsTypes';
 

@@ -9,7 +9,7 @@ import {
   XAxis,
   YAxis,
 } from 'recharts';
-import { useAppSelector } from '../../hooks/reduxHook';
+import { useAppSelector } from '../../helpers/reduxHook';
 import { IHistory } from '../../model/liveCoinWatchTypes';
 import moment from 'moment';
 import { useTheme } from '@mui/material/styles';

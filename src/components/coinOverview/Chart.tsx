@@ -211,7 +211,6 @@ const Chart = () => {
                   tickLine={false}
                   type='number'
                   domain={['dataMin', 'dataMax']}
-                  style={{ fontSize: '10px' }}
                   hide={true}
                 />
 

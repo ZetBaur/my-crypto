@@ -4,6 +4,8 @@ import { IPayload } from './MarketOverview';
 import {
   Area,
   AreaChart,
+  Bar,
+  BarChart,
   Legend,
   ResponsiveContainer,
   Tooltip,
@@ -47,21 +49,21 @@ const PriceTooltip = ({
 };
 
 const CustomLegend = () => {
-  return <Box>Market Cap</Box>;
+  return <Box>Volume</Box>;
 };
 
 interface IProps {
   data: IOverviewHistory[] | undefined;
 }
 
-const CapOverview = ({ data }: IProps) => {
+const VolumeOverview = ({ data }: IProps) => {
   const [prices, setPrices] = useState<IHistoricCoinPrices[]>();
 
   useEffect(() => {
     const arr = data?.map((el: IOverviewHistory) => {
       return {
         date: moment(el.date).format('MMM DD'),
-        price: el.cap.toFixed(5),
+        price: el.volume.toFixed(5),
       };
     });
 
@@ -78,7 +80,7 @@ const CapOverview = ({ data }: IProps) => {
       }}
     >
       <ResponsiveContainer width='99%' height='99%'>
-        <AreaChart width={500} height={300} data={prices}>
+        <BarChart width={500} height={300} data={prices}>
           <XAxis dataKey='date' hide={true} />
 
           <YAxis domain={['dataMin', 'dataMax']} tickSize={0} hide={true} />
@@ -107,20 +109,17 @@ const CapOverview = ({ data }: IProps) => {
             }}
           />
 
-          <Area
-            type='monotone'
+          <Bar
+            // type='monotone'
             dataKey='price'
-            stroke='#FFAF2C'
-            activeDot={{ r: 4 }}
-            strokeWidth='1'
-            dot={false}
             fill='#FFAF2C'
             animationDuration={500}
+            // barSize={1}
           />
-        </AreaChart>
+        </BarChart>
       </ResponsiveContainer>
     </Box>
   );
 };
 
-export default CapOverview;
+export default VolumeOverview;

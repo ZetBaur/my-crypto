@@ -20,6 +20,7 @@ import {
   IOverviewHistory,
 } from '../../model/liveCoinWatchTypes';
 import CapOverview from './CapOverview';
+import VolumeOverview from './VolumeOverview';
 
 export interface IPayload {
   chartType: string | undefined;
@@ -80,7 +81,7 @@ const MarketOverview = () => {
 
   const body = {
     currency,
-    start: getDate(30, 'days'),
+    start: getDate(7, 'days'),
     end: Date.parse(moment().format('LL')),
   };
 
@@ -92,9 +93,11 @@ const MarketOverview = () => {
     <Box
       sx={{
         display: 'flex',
+        gap: '1rem',
       }}
     >
       <CapOverview data={data} />
+      <VolumeOverview data={data} />
     </Box>
   );
 };

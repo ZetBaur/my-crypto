@@ -21,6 +21,7 @@ import {
 } from '../../model/liveCoinWatchTypes';
 import CapOverview from './CapOverview';
 import VolumeOverview from './VolumeOverview';
+import LiquidityOverview from './LiquidityOverview';
 
 export interface IPayload {
   chartType: string | undefined;
@@ -98,6 +99,7 @@ const MarketOverview = () => {
     >
       <CapOverview data={data} />
       <VolumeOverview data={data} />
+      <LiquidityOverview data={data} />
     </Box>
   );
 };

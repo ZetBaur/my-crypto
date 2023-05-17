@@ -20,7 +20,7 @@ import {
   IOverviewHistory,
 } from '../../model/liveCoinWatchTypes';
 
-import Charts from './OverviewCharts';
+import OverviewCharts from './OverviewCharts';
 
 export interface IPayload {
   chartType: string | undefined;
@@ -96,13 +96,10 @@ const MarketOverview = () => {
         gap: '1rem',
       }}
     >
-      {/* <CapOverview data={data} />
-      <VolumeOverview data={data} />
-      <LiquidityOverview data={data} /> */}
-      <Charts data={data} overview='cap' />
-      <Charts data={data} overview='volume' />
-      <Charts data={data} overview='liquidity' />
-      <Charts data={data} overview='btcDominance' />
+      <OverviewCharts data={data} overview='cap' />
+      <OverviewCharts data={data} overview='volume' />
+      <OverviewCharts data={data} overview='liquidity' />
+      <OverviewCharts data={data} overview='btcDominance' />
     </Box>
   );
 };

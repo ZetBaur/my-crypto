@@ -83,15 +83,14 @@ const OverviewCharts = ({ data, overview }: IProps) => {
   return (
     <Box
       sx={{
-        width: '230px',
-        height: '100px',
+        flex: '1',
         background: 'black',
         borderRadius: '4px',
         padding: '4px',
       }}
     >
       {overview !== 'volume' && (
-        <ResponsiveContainer width='99%' height='99%'>
+        <ResponsiveContainer width='99%' height='99%' aspect={3}>
           <AreaChart width={500} height={300} data={prices}>
             <XAxis dataKey='date' hide={true} />
 

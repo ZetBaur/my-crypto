@@ -2,10 +2,10 @@ import { Box, Stack } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { tokens } from '../../contexts/themeContext';
 
-import Chart from './Chart';
-import Global from './Global';
-import MarketCap from './MarketCap';
-import CoinSmallChart from './CoinSmallChart';
+import Chart from './MainChart';
+import Global from '../Global';
+import SmallChart from './SmallChart';
+import CoinInfo from './CoinInfo';
 
 const CoinOverview = () => {
   const theme = useTheme();
@@ -25,13 +25,15 @@ const CoinOverview = () => {
           sx={{
             display: 'flex',
             flexDirection: 'column',
-            gap: '1rem',
+            gap: '8px',
           }}
         >
           {/* <Global /> */}
 
-          <CoinSmallChart overview='cap' />
-          <CoinSmallChart overview='liquidity' />
+          <CoinInfo />
+
+          <SmallChart overview='cap' />
+          <SmallChart overview='liquidity' />
         </Box>
       </Box>
     </Stack>

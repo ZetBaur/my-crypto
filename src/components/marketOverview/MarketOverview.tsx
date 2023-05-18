@@ -20,7 +20,7 @@ import {
   IOverviewHistory,
 } from '../../model/liveCoinWatchTypes';
 
-import OverviewCharts from './OverviewChart';
+import OverviewChart from './OverviewChart';
 
 export interface IPayload {
   chartType: string | undefined;
@@ -38,44 +38,12 @@ export interface IPayload {
   value: string;
 }
 
-// const PriceTooltip = ({
-//   payload,
-//   label,
-// }: {
-//   payload: IPayload[];
-//   label: string;
-// }) => {
-//   if (payload && payload.length) {
-//     const v = parseInt(payload[0].value).toLocaleString('fi-FI');
-
-//     return (
-//       <Box
-//         sx={{
-//           width: '100%',
-//           height: '100%',
-//           display: 'flex',
-//           flexDirection: 'column',
-//           justifyContent: 'space-between',
-//           fontSize: '13px',
-//         }}
-//       >
-//         <Box>{`Market Cap $${v}`}</Box>
-//         <Box>{`${label}`}</Box>
-//       </Box>
-//     );
-//   }
-
-//   return null;
-// };
-
 const MarketOverview = () => {
   const theme = useTheme();
 
   const colors = tokens(theme.palette.mode);
 
   const currency = useAppSelector((state) => state.coins.currency);
-
-  //   const [prices, setPrices] = useState<IHistoricCoinPrices[]>();
 
   const [fetchOverviewHistory, { data }] = useLazyFetchOverviewHistoryQuery();
 
@@ -96,10 +64,10 @@ const MarketOverview = () => {
         gap: '1rem',
       }}
     >
-      <OverviewCharts data={data} overview='cap' />
-      <OverviewCharts data={data} overview='volume' />
-      <OverviewCharts data={data} overview='liquidity' />
-      <OverviewCharts data={data} overview='btcDominance' />
+      <OverviewChart data={data} overview='cap' />
+      <OverviewChart data={data} overview='volume' />
+      <OverviewChart data={data} overview='liquidity' />
+      <OverviewChart data={data} overview='btcDominance' />
     </Box>
   );
 };

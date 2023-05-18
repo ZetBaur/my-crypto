@@ -18,43 +18,55 @@ import {
 } from '../../model/liveCoinWatchTypes';
 import moment from 'moment';
 
-const PriceTooltip = ({
-  payload,
-  label,
-}: {
-  payload: IPayload[];
-  label: string;
-}) => {
-  if (payload && payload.length) {
-    const v = parseInt(payload[0].value).toLocaleString('fi-FI');
-
-    return (
-      <Box
-        sx={{
-          width: '100%',
-          height: '100%',
-          display: 'flex',
-          alignItems: 'end',
-          justifyContent: 'space-between',
-          fontSize: '13px',
-        }}
-      >
-        <Box>{`${label}`}</Box>
-        <Box>{`$${v}`}</Box>
-      </Box>
-    );
-  }
-
-  return null;
-};
-
 interface IProps {
   data: IOverviewHistory[] | undefined;
   overview: string;
 }
 
-const OverviewCharts = ({ data, overview }: IProps) => {
+const OverviewChart = ({ data, overview }: IProps) => {
   const [prices, setPrices] = useState<IHistoricCoinPrices[]>();
+
+  const PriceTooltip = ({
+    payload,
+    label,
+  }: {
+    payload: IPayload[];
+    label: string;
+  }) => {
+    if (payload && payload.length) {
+      const price = parseFloat(payload[0].value).toLocaleString('fi-FI', {
+        style: 'currency',
+        currency: 'USD',
+        minimumFractionDigits: 0,
+      });
+
+      // @ts-ignore
+      const percent = payload[0].value.toLocaleString('fi-FI', {
+        style: 'percent',
+        maximumFractionDigits: 2,
+      });
+
+      const v = overview === 'btcDominance' ? percent : price;
+
+      return (
+        <Box
+          sx={{
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            alignItems: 'end',
+            justifyContent: 'space-between',
+            fontSize: '13px',
+          }}
+        >
+          <Box>{`${label}`}</Box>
+          <Box>{`${v}`}</Box>
+        </Box>
+      );
+    }
+
+    return null;
+  };
 
   const CustomLegend = () => {
     if (overview === 'cap') {
@@ -74,12 +86,13 @@ const OverviewCharts = ({ data, overview }: IProps) => {
       return {
         date: moment(el.date).format('MMM DD'),
         // @ts-ignore
-        price: el[overview].toFixed(5),
+        price: el[overview],
       };
     });
 
     setPrices(arr);
   }, [data]);
+
   return (
     <Box
       sx={{
@@ -97,6 +110,7 @@ const OverviewCharts = ({ data, overview }: IProps) => {
             <YAxis domain={['dataMin', 'dataMax']} tickSize={0} hide={true} />
 
             <Tooltip
+              cursor={false}
               contentStyle={{
                 color: '#fff',
               }}
@@ -142,6 +156,7 @@ const OverviewCharts = ({ data, overview }: IProps) => {
             <YAxis domain={['dataMin', 'dataMax']} tickSize={0} hide={true} />
 
             <Tooltip
+              cursor={false}
               contentStyle={{
                 color: '#fff',
               }}
@@ -182,4 +197,4 @@ const OverviewCharts = ({ data, overview }: IProps) => {
   );
 };
 
-export default OverviewCharts;
+export default OverviewChart;

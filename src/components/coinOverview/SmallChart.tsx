@@ -58,7 +58,6 @@ const OverviewCharts = ({ overview }: IProps) => {
   const [prices, setPrices] = useState<IHistoricCoinPrices[]>();
 
   const currentCoin = useAppSelector((state) => state.coins.currentCoin);
-  console.log(currentCoin);
 
   const CustomLegend = () => {
     if (overview === 'cap') {
@@ -84,11 +83,12 @@ const OverviewCharts = ({ overview }: IProps) => {
 
     setPrices(arr);
   }, [currentCoin]);
+
   return (
     <Box
       sx={{
-        width: '300px',
-        height: '200px',
+        width: '200px',
+        height: '80px',
         background: 'black',
         borderRadius: '4px',
         padding: '4px',
@@ -107,6 +107,7 @@ const OverviewCharts = ({ overview }: IProps) => {
           />
 
           <Tooltip
+            cursor={false}
             contentStyle={{
               color: '#fff',
             }}

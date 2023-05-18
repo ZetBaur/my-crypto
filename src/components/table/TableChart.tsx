@@ -5,6 +5,7 @@ import { useLazyFetchCoinsSingleHistoryQuery } from '../../store/features/coins/
 import moment from 'moment';
 import { ICoinsSingleHistory, IHistory } from '../../model/liveCoinWatchTypes';
 import { getDate } from '../../helpers/getDate';
+import { useAppSelector } from '../../helpers/reduxHook';
 
 interface IProps {
   coin: string;
@@ -15,7 +16,9 @@ const TableChart = ({ coin }: IProps) => {
 
   const [prices, setPrices] = useState<{ date: number; price: number }[]>();
 
-  const [fetchHistory, { isError, isFetching, isSuccess, data }] =
+  const currency = useAppSelector((state) => state.coins.currency);
+
+  const [fetchHistory, { isError, isFetching, data }] =
     useLazyFetchCoinsSingleHistoryQuery();
 
   useEffect(() => {
@@ -25,7 +28,7 @@ const TableChart = ({ coin }: IProps) => {
     //   setHistory(JSON.parse(localStorage.getItem(coin) || ''));
     // } else {
     fetchHistory({
-      currency: 'USD',
+      currency,
       code: coin,
       start: getDate(7, 'days'),
       end: Date.parse(moment().format('LL')),

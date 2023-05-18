@@ -1,4 +1,6 @@
 //wss://ws-api.binance.com:443/ws-api/v3
+//wss://ws-api.livecoinwatch.com/socket.io/?EIO=3&transport=websocket
+//wss://stream.binance.com:9443/ws/ethusdt@trade
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 
@@ -11,7 +13,7 @@ const AppWs = () => {
   useEffect(() => {
     if (!isPaused) {
       ws.current = new WebSocket(
-        'wss://stream.binance.com:9443/ws/ethusdt@trade'
+        'wss://ws-api.livecoinwatch.com/socket.io/?EIO=3&transport=websocket'
       );
       ws.current.onopen = () => setStatus('Соединение открыто');
       ws.current.onclose = () => setStatus('Соединение закрыто');
@@ -28,12 +30,13 @@ const AppWs = () => {
     if (!ws.current) return;
 
     ws.current.onmessage = (e) => {
-      console.log(JSON.parse(e.data));
+      // console.log(JSON.parse(e.data));
 
       if (isPaused) return;
 
-      const message = JSON.parse(e.data);
-      setData(message);
+      // const message = JSON.parse(e.data);
+      // setData(message);
+      setData(e.data);
     };
   }, [isPaused]);
 

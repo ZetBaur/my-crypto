@@ -18,9 +18,9 @@ import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
 import { useAppDispatch, useAppSelector } from '../../helpers/reduxHook';
-import { setCurrency } from '../../store/features/coinsFeature/coinsSlice';
+import { setCurrency } from '../../store/features/coins/coinsSlice';
 import { currencies } from '../../data/currencies';
-import { setCode } from '../../store/features/coinsFeature/coinsSlice';
+import { setCode } from '../../store/features/coins/coinsSlice';
 import { coins } from '../../data/coins';
 
 interface IProps {

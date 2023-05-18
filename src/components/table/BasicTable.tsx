@@ -11,7 +11,7 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import TableChart from './TableChart';
 import { coins } from '../../data/coins';
 
-import { useLazyFetchCoinsListQuery } from '../../store/features/coinsFeature/coinsApi';
+import { useLazyFetchCoinsListQuery } from '../../store/features/coins/liveCoinWatchApi';
 
 import {
   Box,
@@ -27,7 +27,7 @@ import {
   addToPortfolio,
   removeFromPortfolio,
   setCode,
-} from '../../store/features/coinsFeature/coinsSlice';
+} from '../../store/features/coins/coinsSlice';
 
 const headCells = [
   { text: 'Portfolio', type: '' },

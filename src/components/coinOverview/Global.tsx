@@ -1,7 +1,7 @@
 import { Box, Typography, CircularProgress } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend } from 'recharts';
-import { useFetchGlobalQuery } from '../../store/features/coinsFeature/coinGeckoApi';
+import { useFetchGlobalQuery } from '../../store/features/coins/coinGeckoApi';
 
 interface IProps {
   cx: number;

@@ -1,9 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
 
-import { coinsApi } from './features/coinsFeature/coinsApi';
-import { coinsGeckoApi } from './features/coinsFeature/coinGeckoApi';
-import coinsSlice from './features/coinsFeature/coinsSlice';
+import { coinsApi } from './features/coins/liveCoinWatchApi';
+import { coinsGeckoApi } from './features/coins/coinGeckoApi';
+import coinsSlice from './features/coins/coinsSlice';
 
 //-------------------------------------------------------------------------
 
@@ -11,10 +11,10 @@ import coinsSlice from './features/coinsFeature/coinsSlice';
 import { binanceApi } from './features/binance/binanceApi';
 // import { liveCoinWatchApi } from './features/livecoinwatch/liveCoinWatchApi';
 
-import marketChartSlice from './features/coins/marketChartSlice';
+// import marketChartSlice from './features/coins/marketChartSlice';
 // import marketsSlice from './features/coins/marketsSlice';
-import currentCoinSlice from './features/coins/currentCoinSlice';
-import portfolioSlice from './features/coins/portfolioSlice';
+// import currentCoinSlice from './features/coins/currentCoinSlice';
+// import portfolioSlice from './features/coins/portfolioSlice';
 
 export const store = configureStore({
   reducer: {
@@ -26,10 +26,10 @@ export const store = configureStore({
     [binanceApi.reducerPath]: binanceApi.reducer,
     // [liveCoinWatchApi.reducerPath]: liveCoinWatchApi.reducer,
 
-    marketChart: marketChartSlice,
+    // marketChart: marketChartSlice,
     // markets: marketsSlice,
-    currentCoin: currentCoinSlice,
-    portfolio: portfolioSlice,
+    // currentCoin: currentCoinSlice,
+    // portfolio: portfolioSlice,
   },
 
   middleware: (getDefaultMiddleware) =>

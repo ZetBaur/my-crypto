@@ -9,7 +9,6 @@ export const coinsGeckoApi = createApi({
   }),
 
   endpoints: (build) => ({
-    // global------------------------------------------
     fetchGlobal: build.query<IGlobal, void>({
       query: () => {
         return {

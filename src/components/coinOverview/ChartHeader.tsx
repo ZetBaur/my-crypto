@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from '../../helpers/reduxHook';
 import {
   addToPortfolio,
   removeFromPortfolio,
-} from '../../store/features/coinsFeature/coinsSlice';
+} from '../../store/features/coins/coinsSlice';
 
 import StarIcon from '@mui/icons-material/Star';
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLazyFetchOverviewHistoryQuery } from '../../store/features/coinsFeature/coinsApi';
+import { useLazyFetchOverviewHistoryQuery } from '../../store/features/coins/liveCoinWatchApi';
 import { useAppDispatch, useAppSelector } from '../../helpers/reduxHook';
 import { getDate } from '../../helpers/getDate';
 import moment from 'moment';

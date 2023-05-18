@@ -37,20 +37,29 @@ const TableChart = ({ coin }: IProps) => {
   useEffect(() => {
     if (data) {
       // localStorage.setItem(`${data?.code}`, JSON.stringify(data));
-      setHistory(data);
+
+      const arr = data?.history?.map((el: IHistory) => {
+        return {
+          date: el.date,
+          price: el.rate,
+        };
+      });
+
+      setPrices(arr);
+      // setHistory(data);
     }
   }, [data]);
 
-  useEffect(() => {
-    const arr = history?.history?.map((el: IHistory) => {
-      return {
-        date: el.date,
-        price: el.rate,
-      };
-    });
+  // useEffect(() => {
+  //   const arr = history?.history?.map((el: IHistory) => {
+  //     return {
+  //       date: el.date,
+  //       price: el.rate,
+  //     };
+  //   });
 
-    setPrices(arr);
-  }, [history]);
+  //   setPrices(arr);
+  // }, [history]);
 
   if (data && prices?.length !== 0) {
     return (

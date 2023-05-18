@@ -14,7 +14,7 @@ const Coins = () => {
       <CoinOverview />
       <br />
       <br />
-      <MarketOverview />
+      {/* <MarketOverview /> */}
       <BasicTable />
     </Box>
   );

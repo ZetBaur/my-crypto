@@ -77,7 +77,7 @@ const OverviewCharts = ({ overview }: IProps) => {
       return {
         date: moment(el.date).format('MMM DD'),
         // @ts-ignore
-        price: el[overview].toFixed(5),
+        price: el[overview]?.toFixed(5),
       };
     });
 

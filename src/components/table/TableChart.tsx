@@ -4,6 +4,7 @@ import { ResponsiveContainer, YAxis, AreaChart, Area } from 'recharts';
 import { useLazyFetchCoinsSingleHistoryQuery } from '../../store/features/coins/liveCoinWatchApi';
 import moment from 'moment';
 import { ICoinsSingleHistory, IHistory } from '../../model/liveCoinWatchTypes';
+import { getDate } from '../../helpers/getDate';
 
 interface IProps {
   coin: string;
@@ -14,34 +15,28 @@ const TableChart = ({ coin }: IProps) => {
 
   const [prices, setPrices] = useState<{ date: number; price: number }[]>();
 
-  const [fetchHistory, { isError, isFetching, data }] =
+  const [fetchHistory, { isError, isFetching, isSuccess, data }] =
     useLazyFetchCoinsSingleHistoryQuery();
 
   useEffect(() => {
-    const coinExist = !!localStorage.getItem(coin);
+    // const coinExist = !!localStorage.getItem(coin);
 
-    if (coinExist) {
-      setHistory(JSON.parse(localStorage.getItem(coin) || ''));
-    } else {
-      fetchHistory({
-        currency: 'USD',
-        code: coin,
-        start: new Date(moment().subtract(7, 'days').format()).getTime(),
-        end: Date.parse(moment().format('LL')),
-        meta: true,
-      });
-    }
+    // if (coinExist) {
+    //   setHistory(JSON.parse(localStorage.getItem(coin) || ''));
+    // } else {
+    fetchHistory({
+      currency: 'USD',
+      code: coin,
+      start: getDate(7, 'days'),
+      end: Date.parse(moment().format('LL')),
+      meta: true,
+    });
+    // }
   }, []);
-
-  // const clear = () => {
-  //   setTimeout(() => {
-  //     localStorage.clear();
-  //   }, 10000);
-  // };
 
   useEffect(() => {
     if (data) {
-      localStorage.setItem(`${data?.code}`, JSON.stringify(data));
+      // localStorage.setItem(`${data?.code}`, JSON.stringify(data));
       setHistory(data);
     }
   }, [data]);
@@ -57,7 +52,7 @@ const TableChart = ({ coin }: IProps) => {
     setPrices(arr);
   }, [history]);
 
-  if (prices?.length !== 0) {
+  if (data && prices?.length !== 0) {
     return (
       <ResponsiveContainer width='100%' height='100%'>
         <AreaChart width={500} height={300} data={prices}>

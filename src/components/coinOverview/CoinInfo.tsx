@@ -61,7 +61,11 @@ const CoinInfo = () => {
           >
             All time high
           </Box>
-          <Box>{formatPrice(currentCoin.allTimeHighUSD)}</Box>
+          <Box>
+            {currentCoin.allTimeHighUSD
+              ? formatPrice(currentCoin.allTimeHighUSD)
+              : 'NA'}
+          </Box>
         </ListItem>
 
         <ListItem
@@ -100,7 +104,11 @@ const CoinInfo = () => {
               </IconButton>
             </Tooltip>
           </Box>
-          <Box>{formatPrice(currentCoin.circulatingSupply)}</Box>
+          <Box>
+            {currentCoin.circulatingSupply
+              ? formatPrice(currentCoin.circulatingSupply)
+              : 'NA'}
+          </Box>
         </ListItem>
 
         <ListItem
@@ -139,7 +147,9 @@ const CoinInfo = () => {
               </IconButton>
             </Tooltip>
           </Box>
-          <Box>{formatPrice(currentCoin.maxSupply)}</Box>
+          <Box>
+            {currentCoin.maxSupply ? formatPrice(currentCoin.maxSupply) : 'NA'}
+          </Box>
         </ListItem>
 
         <ListItem
@@ -158,6 +168,7 @@ const CoinInfo = () => {
               display: 'flex',
               flexDirection: 'column',
               gap: '8px',
+              padding: '4px',
             }}
           >
             {links &&
@@ -170,7 +181,7 @@ const CoinInfo = () => {
                   sx={{
                     color: 'white',
                     background: 'blue',
-                    padding: '4px 8px',
+                    padding: '4px 16px',
                     textAlign: 'center',
                     borderRadius: '4px',
                     fontSize: '13px',

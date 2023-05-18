@@ -20,7 +20,7 @@ import {
   IOverviewHistory,
 } from '../../model/liveCoinWatchTypes';
 
-import OverviewCharts from './OverviewCharts';
+import OverviewCharts from './OverviewChart';
 
 export interface IPayload {
   chartType: string | undefined;

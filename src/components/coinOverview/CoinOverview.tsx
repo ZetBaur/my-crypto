@@ -5,9 +5,9 @@ import { tokens } from '../../contexts/themeContext';
 import Chart from './Chart';
 import Global from './Global';
 import MarketCap from './MarketCap';
-import OverviewCharts from './OverviewCharts';
+import CoinSmallChart from './CoinSmallChart';
 
-const Coins = () => {
+const CoinOverview = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -28,14 +28,14 @@ const Coins = () => {
             gap: '1rem',
           }}
         >
-          <Global />
+          {/* <Global /> */}
 
-          <OverviewCharts overview='cap' />
-          <OverviewCharts overview='liquidity' />
+          <CoinSmallChart overview='cap' />
+          <CoinSmallChart overview='liquidity' />
         </Box>
       </Box>
     </Stack>
   );
 };
 
-export default Coins;
+export default CoinOverview;

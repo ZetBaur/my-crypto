@@ -87,8 +87,8 @@ const OverviewCharts = ({ overview }: IProps) => {
   return (
     <Box
       sx={{
-        width: '232px',
-        height: '100px',
+        width: '300px',
+        height: '200px',
         background: 'black',
         borderRadius: '4px',
         padding: '4px',

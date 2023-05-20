@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Box, CircularProgress } from '@mui/material';
 import { ResponsiveContainer, YAxis, AreaChart, Area } from 'recharts';
-import { useLazyFetchCoinsSingleHistoryQuery } from '../../store/features/coins/liveCoinWatchApi';
+import {
+  useLazyFetchCoinsSingleHistoryQuery,
+  useFetchCoinsSingleHistoryQuery,
+} from '../../store/features/coins/liveCoinWatchApi';
 import moment from 'moment';
 import { ICoinsSingleHistory, IHistory } from '../../model/liveCoinWatchTypes';
 import { getDate } from '../../helpers/getDate';
@@ -9,39 +12,62 @@ import { useAppSelector } from '../../helpers/reduxHook';
 
 interface IProps {
   coin: string;
+  directionsDay: any;
+  setDirectionsDay: (arg0: any) => void;
+  directionsHour: any;
+  setDirectionsHour: (arg0: any) => void;
 }
 
-const TableChart = ({ coin }: IProps) => {
-  const [history, setHistory] = useState<ICoinsSingleHistory>();
+const TableChart = (props: IProps) => {
+  const {
+    coin,
+    directionsDay,
+    setDirectionsDay,
+    directionsHour,
+    setDirectionsHour,
+  } = props;
 
   const [prices, setPrices] = useState<{ date: number; price: number }[]>();
 
   const currency = useAppSelector((state) => state.coins.currency);
 
-  const [fetchHistory, { isError, isFetching, data }] =
-    useLazyFetchCoinsSingleHistoryQuery();
+  const {
+    isError: isTableChartHistoryError,
+    isFetching: isTableChartHistoryFetching,
+    data: tableChartData,
+  } = useFetchCoinsSingleHistoryQuery({
+    currency,
+    code: coin,
+    start: getDate(7, 'days'),
+    end: Date.parse(moment().format('LL')),
+    meta: true,
+  });
+
+  const {
+    isError: isDayHistoryError,
+    isFetching: isDayHistoryFetching,
+    data: dayHistoryData,
+  } = useFetchCoinsSingleHistoryQuery({
+    currency,
+    code: coin,
+    start: getDate(1, 'days'),
+    end: Date.parse(moment().format('LL')),
+    meta: false,
+  });
 
   useEffect(() => {
-    // const coinExist = !!localStorage.getItem(coin);
+    if (dayHistoryData?.history?.length && tableChartData) {
+      const d =
+        dayHistoryData?.history[0].rate <
+        dayHistoryData?.history[dayHistoryData.history?.length - 1].rate
+          ? 'up'
+          : 'down';
 
-    // if (coinExist) {
-    //   setHistory(JSON.parse(localStorage.getItem(coin) || ''));
-    // } else {
-    fetchHistory({
-      currency,
-      code: coin,
-      start: getDate(7, 'days'),
-      end: Date.parse(moment().format('LL')),
-      meta: true,
-    });
-    // }
-  }, []);
+      console.log('d', { [coin]: d });
 
-  useEffect(() => {
-    if (data) {
-      // localStorage.setItem(`${data?.code}`, JSON.stringify(data));
+      setDirectionsDay({ ...directionsDay, [coin]: d });
 
-      const arr = data?.history?.map((el: IHistory) => {
+      const arr = tableChartData?.history?.map((el: IHistory) => {
         return {
           date: el.date,
           price: el.rate,
@@ -49,22 +75,10 @@ const TableChart = ({ coin }: IProps) => {
       });
 
       setPrices(arr);
-      // setHistory(data);
     }
-  }, [data]);
+  }, [tableChartData, dayHistoryData]);
 
-  // useEffect(() => {
-  //   const arr = history?.history?.map((el: IHistory) => {
-  //     return {
-  //       date: el.date,
-  //       price: el.rate,
-  //     };
-  //   });
-
-  //   setPrices(arr);
-  // }, [history]);
-
-  if (data && prices?.length !== 0) {
+  if (tableChartData && prices?.length !== 0) {
     return (
       <ResponsiveContainer width='100%' height='100%'>
         <AreaChart width={500} height={300} data={prices}>
@@ -83,7 +97,7 @@ const TableChart = ({ coin }: IProps) => {
         NA
       </Box>
     );
-  } else if (isFetching) {
+  } else if (isTableChartHistoryFetching) {
     return (
       <Box
         sx={{
@@ -100,7 +114,7 @@ const TableChart = ({ coin }: IProps) => {
         />
       </Box>
     );
-  } else if (isError) {
+  } else if (isTableChartHistoryError) {
     return (
       <Box
         sx={{

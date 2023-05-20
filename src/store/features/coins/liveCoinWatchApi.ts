@@ -13,7 +13,7 @@ export const coinsApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: 'https://api.livecoinwatch.com/',
     prepareHeaders(headers) {
-      headers.set('x-api-key', 'd7f95b44-4d4b-4a93-be79-635fa5c6de59');
+      headers.set('x-api-key', 'd1531264-4875-4362-8748-9e5b859d01ff');
       return headers;
     },
   }),

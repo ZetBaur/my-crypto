@@ -11,7 +11,10 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import TableChart from './TableChart';
 import { coins } from '../../data/coins';
 
-import { useLazyFetchCoinsListQuery } from '../../store/features/coins/liveCoinWatchApi';
+import {
+  useLazyFetchCoinsListQuery,
+  useLazyFetchCoinsSingleHistoryQuery,
+} from '../../store/features/coins/liveCoinWatchApi';
 
 import {
   Box,
@@ -28,12 +31,13 @@ import {
   removeFromPortfolio,
   setCode,
 } from '../../store/features/coins/coinsSlice';
+import { getDate } from '../../helpers/getDate';
+import moment from 'moment';
 
 const headCells = [
   { text: 'Portfolio', type: '' },
   { text: 'Coin', type: 'rank' },
   { text: 'Price', type: 'price' },
-  { text: '1h', type: 'delta.hour' },
   { text: '24h', type: 'delta.day' },
   { text: 'Volume', type: 'volume' },
   { text: 'Mkt Cap', type: 'cap' },
@@ -44,6 +48,9 @@ const BasicTable = () => {
   const dispatch = useAppDispatch();
   const portfolio = useAppSelector((state) => state.coins.portfolio);
   const currency = useAppSelector((state) => state.coins.currency);
+
+  const [directionsDay, setDirectionsDay] = useState<any>({});
+  const [directionsHour, setDirectionsHour] = useState<any>({});
 
   const [
     fetchCoinsList,
@@ -265,18 +272,10 @@ const BasicTable = () => {
 
                     <TableCell
                       sx={{
-                        // color: () => valueColor(el.delta.hour),
-                        color: el.color,
-                      }}
-                    >
-                      {/* {formatPriceChangePercent(el.delta.hour, el.rate)} */}
-                      {el.delta.hour}
-                    </TableCell>
-
-                    <TableCell
-                      sx={{
-                        // color: () => valueColor(el.delta.day),
-                        color: el.color,
+                        color:
+                          directionsDay[el.delta.day] === 'up'
+                            ? 'green'
+                            : 'red',
                       }}
                     >
                       {el.delta.day}
@@ -294,7 +293,13 @@ const BasicTable = () => {
                         height: '100px',
                       }}
                     >
-                      <TableChart coin={el.code} />
+                      <TableChart
+                        coin={el.code}
+                        directionsDay={directionsDay}
+                        setDirectionsDay={setDirectionsDay}
+                        directionsHour={directionsHour}
+                        setDirectionsHour={setDirectionsHour}
+                      />
                     </TableCell>
                   </TableRow>
                 ))}

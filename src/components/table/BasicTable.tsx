@@ -46,15 +46,51 @@ const headCells = [
   { text: 'Last 7 days', type: '' },
 ];
 
-const BasicTable = () => {
-  // console.log('BasicTable');
+const formatValue = (value: number | null): number | null => {
+  if (value) {
+    let newValue = value.toString();
+    return parseFloat(newValue.slice(0, newValue.length - 4));
+  } else {
+    return null;
+  }
+};
 
+const formatPrice = (value: number) => {
+  const price = formatValue(value);
+
+  if (price) {
+    const isZero = price < 1;
+
+    return price.toLocaleString('fi-FI', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: isZero ? 5 : 2,
+    });
+  } else {
+    return 'NA';
+  }
+};
+
+const formatVolume = (value: number) => {
+  if (!value) return 'NA';
+
+  return value?.toLocaleString('fi-FI', {
+    style: 'currency',
+    currency: 'USD',
+    maximumFractionDigits: 0,
+  });
+};
+
+const sortedColumns = (el: { text: string; type: string }) => {
+  if (!el.type) return true;
+};
+
+const BasicTable = () => {
   const dispatch = useAppDispatch();
   const portfolio = useAppSelector((state) => state.coins.portfolio);
   const currency = useAppSelector((state) => state.coins.currency);
 
   const [directionsDay, setDirectionsDay] = useState<any>({});
-  // const [directionsHour, setDirectionsHour] = useState<any>({});
 
   const [
     fetchCoinsList,
@@ -97,38 +133,11 @@ const BasicTable = () => {
     return isInPortfolio ? 'blue' : 'black';
   };
 
-  const formatValue = (value: number | null): number | null => {
-    if (value) {
-      let newValue = value.toString();
-      return parseFloat(newValue.slice(0, newValue.length - 4));
-    } else {
-      return null;
-    }
-  };
-
-  const formatPrice = (value: number) => {
-    const price = formatValue(value);
-
-    if (price) {
-      const isZero = price < 1;
-
-      return price.toLocaleString('fi-FI', {
-        style: 'currency',
-        currency: 'USD',
-        minimumFractionDigits: isZero ? 5 : 2,
-      });
-    } else {
-      return 'NA';
-    }
-  };
-
-  const formatVolume = (value: number) => {
-    if (!value) return 'NA';
-
-    return value?.toLocaleString('fi-FI', {
-      style: 'currency',
-      currency: 'USD',
-      maximumFractionDigits: 0,
+  const handleCoinClick = (code: string) => {
+    dispatch(setCode(code));
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
     });
   };
 
@@ -137,18 +146,6 @@ const BasicTable = () => {
       setOrder(order === 'descending' ? 'ascending' : 'descending');
       setSort(el.type);
     }
-  };
-
-  const sortedColumns = (el: { text: string; type: string }) => {
-    if (!el.type) return true;
-  };
-
-  const handleCoinClick = (code: string) => {
-    dispatch(setCode(code));
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
   };
 
   return (

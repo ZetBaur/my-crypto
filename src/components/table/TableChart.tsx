@@ -1,4 +1,4 @@
-import { memo, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Box, CircularProgress } from '@mui/material';
 import { ResponsiveContainer, YAxis, AreaChart, Area } from 'recharts';
 import { useLazyFetchCoinsSingleHistoryQuery } from '../../store/features/coins/liveCoinWatchApi';

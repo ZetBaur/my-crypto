@@ -45,6 +45,8 @@ const headCells = [
 ];
 
 const BasicTable = () => {
+  // console.log('BasicTable');
+
   const dispatch = useAppDispatch();
   const portfolio = useAppSelector((state) => state.coins.portfolio);
   const currency = useAppSelector((state) => state.coins.currency);
@@ -273,9 +275,7 @@ const BasicTable = () => {
                     <TableCell
                       sx={{
                         color:
-                          directionsDay[el.delta.day] === 'up'
-                            ? 'green'
-                            : 'red',
+                          directionsDay[el.code] === 'up' ? 'green' : 'red',
                       }}
                     >
                       {el.delta.day}
@@ -297,8 +297,8 @@ const BasicTable = () => {
                         coin={el.code}
                         directionsDay={directionsDay}
                         setDirectionsDay={setDirectionsDay}
-                        directionsHour={directionsHour}
-                        setDirectionsHour={setDirectionsHour}
+                        // directionsHour={directionsHour}
+                        // setDirectionsHour={setDirectionsHour}
                       />
                     </TableCell>
                   </TableRow>
@@ -343,7 +343,7 @@ const BasicTable = () => {
             marginTop: '0 !important',
           }}
         >
-          Server does not respond. Try later
+          Server Error. Try later
         </Box>
       )}
 

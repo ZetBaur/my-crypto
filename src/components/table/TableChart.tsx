@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { Box, CircularProgress } from '@mui/material';
 import { ResponsiveContainer, YAxis, AreaChart, Area } from 'recharts';
 import {
@@ -14,17 +14,19 @@ interface IProps {
   coin: string;
   directionsDay: any;
   setDirectionsDay: (arg0: any) => void;
-  directionsHour: any;
-  setDirectionsHour: (arg0: any) => void;
+  // directionsHour: any;
+  // setDirectionsHour: (arg0: any) => void;
 }
 
 const TableChart = (props: IProps) => {
+  console.log('TableChart');
+
   const {
     coin,
     directionsDay,
     setDirectionsDay,
-    directionsHour,
-    setDirectionsHour,
+    // directionsHour,
+    // setDirectionsHour,
   } = props;
 
   const [prices, setPrices] = useState<{ date: number; price: number }[]>();
@@ -63,7 +65,7 @@ const TableChart = (props: IProps) => {
           ? 'up'
           : 'down';
 
-      console.log('d', { [coin]: d });
+      // console.log('d', { [coin]: d });
 
       setDirectionsDay({ ...directionsDay, [coin]: d });
 
@@ -133,4 +135,5 @@ const TableChart = (props: IProps) => {
   }
 };
 
-export default TableChart;
+// export default TableChart;
+export default memo(TableChart);

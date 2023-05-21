@@ -59,6 +59,11 @@ const TableChart = (props: IProps) => {
           ? 'up'
           : 'down';
 
+      console.log(
+        dayHistoryData?.history[0].rate -
+          dayHistoryData?.history[dayHistoryData.history?.length - 1].rate
+      );
+
       setDirectionsDay({ ...directionsDay, [coin]: d });
 
       const arr = tableChartData?.history?.map((el: IHistory) => {

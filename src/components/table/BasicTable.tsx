@@ -13,10 +13,7 @@ import { coins } from '../../data/coins';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 
-import {
-  useLazyFetchCoinsListQuery,
-  useLazyFetchCoinsSingleHistoryQuery,
-} from '../../store/features/coins/liveCoinWatchApi';
+import { useLazyFetchCoinsListQuery } from '../../store/features/coins/liveCoinWatchApi';
 
 import {
   Box,
@@ -33,8 +30,6 @@ import {
   removeFromPortfolio,
   setCode,
 } from '../../store/features/coins/coinsSlice';
-import { getDate } from '../../helpers/getDate';
-import moment from 'moment';
 
 const headCells = [
   { text: 'Portfolio', type: '' },
@@ -222,7 +217,7 @@ const BasicTable = () => {
                       '&:last-child td, &:last-child th': { border: 0 },
                     }}
                   >
-                    <TableCell component='th' scope='row'>
+                    <TableCell component='th' scope='row' align='center'>
                       <Tooltip
                         title={
                           iconColor(el) === 'black'
@@ -318,8 +313,6 @@ const BasicTable = () => {
                         coin={el.code}
                         directionsDay={directionsDay}
                         setDirectionsDay={setDirectionsDay}
-                        // directionsHour={directionsHour}
-                        // setDirectionsHour={setDirectionsHour}
                       />
                     </TableCell>
                   </TableRow>

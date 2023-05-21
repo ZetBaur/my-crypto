@@ -44,7 +44,7 @@ const PriceTooltip = ({
   label: string;
 }) => {
   if (payload && payload.length) {
-    const v = parseInt(payload[0].value).toLocaleString('fi-FI');
+    const v = parseFloat(payload[0].value).toLocaleString('fi-FI');
 
     return (
       <Box

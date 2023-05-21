@@ -1,12 +1,9 @@
 import { memo, useEffect, useState } from 'react';
 import { Box, CircularProgress } from '@mui/material';
 import { ResponsiveContainer, YAxis, AreaChart, Area } from 'recharts';
-import {
-  useLazyFetchCoinsSingleHistoryQuery,
-  useFetchCoinsSingleHistoryQuery,
-} from '../../store/features/coins/liveCoinWatchApi';
+import { useLazyFetchCoinsSingleHistoryQuery } from '../../store/features/coins/liveCoinWatchApi';
 import moment from 'moment';
-import { ICoinsSingleHistory, IHistory } from '../../model/liveCoinWatchTypes';
+import { IHistory } from '../../model/liveCoinWatchTypes';
 import { getDate } from '../../helpers/getDate';
 import { useAppSelector } from '../../helpers/reduxHook';
 
@@ -14,48 +11,45 @@ interface IProps {
   coin: string;
   directionsDay: any;
   setDirectionsDay: (arg0: any) => void;
-  // directionsHour: any;
-  // setDirectionsHour: (arg0: any) => void;
 }
 
 const TableChart = (props: IProps) => {
-  console.log('TableChart');
-
-  const {
-    coin,
-    directionsDay,
-    setDirectionsDay,
-    // directionsHour,
-    // setDirectionsHour,
-  } = props;
+  const { coin, directionsDay, setDirectionsDay } = props;
 
   const [prices, setPrices] = useState<{ date: number; price: number }[]>();
 
   const currency = useAppSelector((state) => state.coins.currency);
 
-  const {
-    isError: isTableChartHistoryError,
-    isFetching: isTableChartHistoryFetching,
-    data: tableChartData,
-  } = useFetchCoinsSingleHistoryQuery({
-    currency,
-    code: coin,
-    start: getDate(7, 'days'),
-    end: Date.parse(moment().format('LL')),
-    meta: true,
-  });
+  const [
+    fetchTableChartHistory,
+    {
+      isError: isTableChartHistoryError,
+      isFetching: isTableChartHistoryFetching,
+      data: tableChartData,
+    },
+  ] = useLazyFetchCoinsSingleHistoryQuery();
 
-  const {
-    isError: isDayHistoryError,
-    isFetching: isDayHistoryFetching,
-    data: dayHistoryData,
-  } = useFetchCoinsSingleHistoryQuery({
-    currency,
-    code: coin,
-    start: getDate(1, 'days'),
-    end: Date.parse(moment().format('LL')),
-    meta: false,
-  });
+  const [
+    fetchDayChartHistory,
+    {
+      isError: isDayHistoryError,
+      isFetching: isDayHistoryFetching,
+      data: dayHistoryData,
+    },
+  ] = useLazyFetchCoinsSingleHistoryQuery();
+
+  useEffect(() => {
+    const body = {
+      currency,
+      code: coin,
+      start: getDate(7, 'days'),
+      end: Date.parse(moment().format('LL')),
+      meta: true,
+    };
+
+    fetchTableChartHistory(body);
+    fetchDayChartHistory({ ...body, start: getDate(1, 'days') });
+  }, []);
 
   useEffect(() => {
     if (dayHistoryData?.history?.length && tableChartData) {
@@ -64,8 +58,6 @@ const TableChart = (props: IProps) => {
         dayHistoryData?.history[dayHistoryData.history?.length - 1].rate
           ? 'up'
           : 'down';
-
-      // console.log('d', { [coin]: d });
 
       setDirectionsDay({ ...directionsDay, [coin]: d });
 
@@ -135,5 +127,4 @@ const TableChart = (props: IProps) => {
   }
 };
 
-// export default TableChart;
-export default memo(TableChart);
+export default TableChart;

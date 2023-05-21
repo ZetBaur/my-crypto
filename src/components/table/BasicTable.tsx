@@ -10,6 +10,8 @@ import StarIcon from '@mui/icons-material/Star';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import TableChart from './TableChart';
 import { coins } from '../../data/coins';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 
 import {
   useLazyFetchCoinsListQuery,
@@ -52,7 +54,7 @@ const BasicTable = () => {
   const currency = useAppSelector((state) => state.coins.currency);
 
   const [directionsDay, setDirectionsDay] = useState<any>({});
-  const [directionsHour, setDirectionsHour] = useState<any>({});
+  // const [directionsHour, setDirectionsHour] = useState<any>({});
 
   const [
     fetchCoinsList,
@@ -278,7 +280,29 @@ const BasicTable = () => {
                           directionsDay[el.code] === 'up' ? 'green' : 'red',
                       }}
                     >
-                      {el.delta.day}
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          alignItems: 'center',
+                        }}
+                      >
+                        {el.delta.day}
+                        {directionsDay[el.code] === 'down' && (
+                          <ArrowDropDownIcon
+                            sx={{
+                              color: 'red',
+                            }}
+                          />
+                        )}
+
+                        {directionsDay[el.code] === 'up' && (
+                          <ArrowDropUpIcon
+                            sx={{
+                              color: 'green',
+                            }}
+                          />
+                        )}
+                      </Box>
                     </TableCell>
 
                     <TableCell>{formatVolume(el.volume)}</TableCell>

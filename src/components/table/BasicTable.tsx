@@ -66,6 +66,20 @@ const formatPrice = (value: number) => {
   }
 };
 
+const formattedPrice = (price: number) => {
+  if (price) {
+    const isZero = Math.abs(price) < 1;
+
+    return price.toLocaleString('fi-FI', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: isZero ? 5 : 2,
+    });
+  }
+
+  // return price;
+};
+
 const formatVolume = (value: number) => {
   if (!value) return 'NA';
 
@@ -84,7 +98,6 @@ const BasicTable = () => {
   const dispatch = useAppDispatch();
   const portfolio = useAppSelector((state) => state.coins.portfolio);
   const currency = useAppSelector((state) => state.coins.currency);
-
   const [directionsDay, setDirectionsDay] = useState<any>({});
 
   const [
@@ -268,8 +281,7 @@ const BasicTable = () => {
 
                     <TableCell
                       sx={{
-                        color:
-                          directionsDay[el.code] === 'up' ? 'green' : 'red',
+                        color: directionsDay[el.code] > 0 ? 'green' : 'red',
                       }}
                     >
                       <Box
@@ -278,8 +290,8 @@ const BasicTable = () => {
                           alignItems: 'center',
                         }}
                       >
-                        {el.delta.day}
-                        {directionsDay[el.code] === 'down' && (
+                        {formattedPrice(directionsDay[el.code])}
+                        {directionsDay[el.code] < 0 && (
                           <ArrowDropDownIcon
                             sx={{
                               color: 'red',
@@ -287,7 +299,7 @@ const BasicTable = () => {
                           />
                         )}
 
-                        {directionsDay[el.code] === 'up' && (
+                        {directionsDay[el.code] > 0 && (
                           <ArrowDropUpIcon
                             sx={{
                               color: 'green',

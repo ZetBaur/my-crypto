@@ -53,18 +53,24 @@ const TableChart = (props: IProps) => {
 
   useEffect(() => {
     if (dayHistoryData?.history?.length && tableChartData) {
-      const d =
-        dayHistoryData?.history[0].rate <
-        dayHistoryData?.history[dayHistoryData.history?.length - 1].rate
-          ? 'up'
-          : 'down';
-
-      console.log(
+      const priceChange =
         dayHistoryData?.history[0].rate -
-          dayHistoryData?.history[dayHistoryData.history?.length - 1].rate
-      );
+        dayHistoryData?.history[dayHistoryData.history?.length - 1].rate;
 
-      setDirectionsDay({ ...directionsDay, [coin]: d });
+      // console.log(priceChange);
+
+      // const isZero = priceChange < 1;
+
+      // const formattedPriceChange = priceChange.toLocaleString('fi-FI', {
+      //   style: 'currency',
+      //   currency: 'USD',
+      //   minimumFractionDigits: isZero ? 5 : 2,
+      // });
+
+      setDirectionsDay({
+        ...directionsDay,
+        [coin]: priceChange,
+      });
 
       const arr = tableChartData?.history?.map((el: IHistory) => {
         return {

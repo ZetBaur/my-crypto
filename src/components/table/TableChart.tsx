@@ -15,9 +15,7 @@ interface IProps {
 
 const TableChart = (props: IProps) => {
   const { coin, directionsDay, setDirectionsDay } = props;
-
   const [prices, setPrices] = useState<{ date: number; price: number }[]>();
-
   const currency = useAppSelector((state) => state.coins.currency);
 
   const [
@@ -56,16 +54,6 @@ const TableChart = (props: IProps) => {
       const priceChange =
         dayHistoryData?.history[0].rate -
         dayHistoryData?.history[dayHistoryData.history?.length - 1].rate;
-
-      // console.log(priceChange);
-
-      // const isZero = priceChange < 1;
-
-      // const formattedPriceChange = priceChange.toLocaleString('fi-FI', {
-      //   style: 'currency',
-      //   currency: 'USD',
-      //   minimumFractionDigits: isZero ? 5 : 2,
-      // });
 
       setDirectionsDay({
         ...directionsDay,

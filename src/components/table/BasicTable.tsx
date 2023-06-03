@@ -105,7 +105,6 @@ const BasicTable = () => {
     {
       isError: isCoinsListError,
       isFetching: isCoinsListFetching,
-      isSuccess: isCoinsListSuccess,
       data: coinsListData,
     },
   ] = useLazyFetchCoinsListQuery();
@@ -178,161 +177,156 @@ const BasicTable = () => {
         }}
       />
 
-      {!isCoinsListError &&
-        !isCoinsListFetching &&
-        isCoinsListSuccess &&
-        coinsListData && (
-          <TableContainer
-            component={Paper}
-            sx={{
-              marginTop: '0 !important',
-            }}
-          >
-            <Table sx={{ minWidth: 650 }} aria-label='simple table'>
-              <TableHead>
-                <TableRow>
-                  {headCells.map((el) => (
-                    <TableCell
-                      key={el.text}
+      {!isCoinsListError && !isCoinsListFetching && coinsListData && (
+        <TableContainer
+          component={Paper}
+          sx={{
+            marginTop: '0 !important',
+          }}
+        >
+          <Table sx={{ minWidth: 650 }} aria-label='simple table'>
+            <TableHead>
+              <TableRow>
+                {headCells.map((el) => (
+                  <TableCell
+                    key={el.text}
+                    sx={{
+                      color: 'gray',
+                      '& .MuiSvgIcon-root': {
+                        marginLeft: '8px',
+                      },
+                    }}
+                  >
+                    <TableSortLabel
+                      active={el.type !== '' && sort === el.type}
+                      direction='asc'
+                      hideSortIcon={sortedColumns(el)}
+                      IconComponent={FilterListIcon}
+                      onClick={() => handleSort(el)}
                       sx={{
-                        color: 'gray',
-                        '& .MuiSvgIcon-root': {
-                          marginLeft: '8px',
+                        fontSize: '13px',
+                        ':hover': {
+                          color: el.type !== '' ? 'white' : 'gray',
+                          cursor: el.type !== '' ? 'pointer' : 'default',
                         },
                       }}
                     >
-                      <TableSortLabel
-                        active={el.type !== '' && sort === el.type}
-                        direction='asc'
-                        hideSortIcon={sortedColumns(el)}
-                        IconComponent={FilterListIcon}
-                        onClick={() => handleSort(el)}
+                      {el.text}
+                    </TableSortLabel>
+                  </TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+
+            <TableBody>
+              {coinsListData?.map((el) => (
+                <TableRow
+                  key={el.code}
+                  sx={{
+                    '&:last-child td, &:last-child th': { border: 0 },
+                  }}
+                >
+                  <TableCell component='th' scope='row' align='center'>
+                    <Tooltip
+                      title={
+                        iconColor(el) === 'black'
+                          ? 'Add to portfolio'
+                          : 'Coin is added to portfolio'
+                      }
+                      placement='left'
+                    >
+                      <StarIcon
+                        onClick={() => handleIconClick(el)}
                         sx={{
-                          fontSize: '13px',
+                          cursor: 'pointer',
+                          color: () => iconColor(el),
+                        }}
+                      />
+                    </Tooltip>
+                  </TableCell>
+
+                  <TableCell>
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '1rem',
+                      }}
+                    >
+                      <img
+                        width='24'
+                        height='24'
+                        src={el.webp64}
+                        alt={el.name}
+                      />
+                      <Box
+                        sx={{
                           ':hover': {
-                            color: el.type !== '' ? 'white' : 'gray',
-                            cursor: el.type !== '' ? 'pointer' : 'default',
+                            color: 'gray',
+                            cursor: 'pointer',
                           },
                         }}
+                        onClick={() => handleCoinClick(el.code)}
                       >
-                        {el.text}
-                      </TableSortLabel>
-                    </TableCell>
-                  ))}
-                </TableRow>
-              </TableHead>
+                        {el.name}
+                      </Box>
+                    </Box>
+                  </TableCell>
 
-              <TableBody>
-                {coinsListData?.map((el) => (
-                  <TableRow
-                    key={el.code}
+                  <TableCell>{formatPrice(el.rate)}</TableCell>
+
+                  <TableCell
                     sx={{
-                      '&:last-child td, &:last-child th': { border: 0 },
+                      color: directionsDay[el.code] > 0 ? 'green' : 'red',
                     }}
                   >
-                    <TableCell component='th' scope='row' align='center'>
-                      <Tooltip
-                        title={
-                          iconColor(el) === 'black'
-                            ? 'Add to portfolio'
-                            : 'Coin is added to portfolio'
-                        }
-                        placement='left'
-                      >
-                        <StarIcon
-                          onClick={() => handleIconClick(el)}
-                          sx={{
-                            cursor: 'pointer',
-                            color: () => iconColor(el),
-                          }}
-                        />
-                      </Tooltip>
-                    </TableCell>
-
-                    <TableCell>
-                      <Box
-                        sx={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '1rem',
-                        }}
-                      >
-                        <img
-                          width='24'
-                          height='24'
-                          src={el.webp64}
-                          alt={el.name}
-                        />
-                        <Box
-                          sx={{
-                            ':hover': {
-                              color: 'gray',
-                              cursor: 'pointer',
-                            },
-                          }}
-                          onClick={() => handleCoinClick(el.code)}
-                        >
-                          {el.name}
-                        </Box>
-                      </Box>
-                    </TableCell>
-
-                    <TableCell>{formatPrice(el.rate)}</TableCell>
-
-                    <TableCell
+                    <Box
                       sx={{
-                        color: directionsDay[el.code] > 0 ? 'green' : 'red',
+                        display: 'flex',
+                        alignItems: 'center',
                       }}
                     >
-                      <Box
-                        sx={{
-                          display: 'flex',
-                          alignItems: 'center',
-                        }}
-                      >
-                        {formattedPrice(directionsDay[el.code])}
-                        {directionsDay[el.code] < 0 && (
-                          <ArrowDropDownIcon
-                            sx={{
-                              color: 'red',
-                            }}
-                          />
-                        )}
+                      {formattedPrice(directionsDay[el.code])}
+                      {directionsDay[el.code] < 0 && (
+                        <ArrowDropDownIcon
+                          sx={{
+                            color: 'red',
+                          }}
+                        />
+                      )}
 
-                        {directionsDay[el.code] > 0 && (
-                          <ArrowDropUpIcon
-                            sx={{
-                              color: 'green',
-                            }}
-                          />
-                        )}
-                      </Box>
-                    </TableCell>
+                      {directionsDay[el.code] > 0 && (
+                        <ArrowDropUpIcon
+                          sx={{
+                            color: 'green',
+                          }}
+                        />
+                      )}
+                    </Box>
+                  </TableCell>
 
-                    <TableCell>{formatVolume(el.volume)}</TableCell>
+                  <TableCell>{formatVolume(el.volume)}</TableCell>
 
-                    <TableCell>
-                      {el.cap ? formatVolume(el.cap) : 'NA'}
-                    </TableCell>
+                  <TableCell>{el.cap ? formatVolume(el.cap) : 'NA'}</TableCell>
 
-                    <TableCell
-                      sx={{
-                        width: '200px',
-                        height: '100px',
-                      }}
-                    >
-                      <TableChart
-                        coin={el.code}
-                        directionsDay={directionsDay}
-                        setDirectionsDay={setDirectionsDay}
-                      />
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        )}
+                  <TableCell
+                    sx={{
+                      width: '200px',
+                      height: '100px',
+                    }}
+                  >
+                    <TableChart
+                      coin={el.code}
+                      directionsDay={directionsDay}
+                      setDirectionsDay={setDirectionsDay}
+                    />
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      )}
 
       {isCoinsListFetching && (
         <Box

@@ -108,7 +108,6 @@ const Global = () => {
             background: 'black',
             width: '200px',
             height: '200px',
-            // textAlign: 'center',
           }}
         >
           <ResponsiveContainer width='100%' height='100%'>
